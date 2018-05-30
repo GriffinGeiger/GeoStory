@@ -10,6 +10,8 @@ public class Page : MonoBehaviour {
     public Page()
     {
         //create default page
+        //create options bar
+        //create background
         
     }	
 	
@@ -18,11 +20,18 @@ public class Page : MonoBehaviour {
         if(tf == true)
         {
             //loop through elements and make all elements visible
-
+            foreach(PageElement element in elements)
+            {
+                element.enabled = true;
+            }
         }
         else
         {
             //loop through elements and make all invisible
+            foreach (PageElement element in elements)
+            {
+                element.enabled = false;
+            }
         }
     }
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class PageElement : MonoBehaviour {
 
     private int index;
+    private string title { get; set; }
     private Page nextPage { get; set; } //set if the gui element has an action that changes the page
 
     public PageElement()
