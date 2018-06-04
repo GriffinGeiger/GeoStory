@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Page : MonoBehaviour {
 
-    private List<PageElement> elements = new List<PageElement>();
-
+    private List<GameObject> elements = new List<GameObject>();
+    public bool isVisible;
 	
     public Page()
     {
@@ -15,34 +15,34 @@ public class Page : MonoBehaviour {
         
     }	
 	
-    public void isVisible(bool tf)
+    public void setVisible(bool tf)
     {
         if(tf == true)
         {
             //loop through elements and make all elements visible
-            foreach(PageElement element in elements)
+            foreach(GameObject element in elements)
             {
-                element.enabled = true;
+                element.SetActive(true);
             }
+            isVisible = true;
         }
         else
         {
             //loop through elements and make all invisible
-            foreach (PageElement element in elements)
+            foreach (GameObject element in elements)
             {
-                element.enabled = false;
+                element.SetActive(false);
             }
+            isVisible = false;
         }
     }
 
-    public void addPageElement(PageElement element)
+    public void addPageElement(GameObject element)
     {
-        
-        element.setIndex(elements.Count);
         elements.Add(element);
     }
 
-    public void removePageElement(PageElement element)      //Test this later
+    public void removePageElement(GameObject element)      //Test this later
     {
         elements.Remove(element);
     }
