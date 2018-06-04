@@ -11,12 +11,14 @@ public class GameManager : MonoBehaviour {
     public Canvas canvas;
 	void Start ()
     {
-        currentPage = new Page();
+        currentPage = new Page("InitialPage");
+        Debug.Log("Current page is: " + currentPage.name);
         GameObject initialText = GameObject.Instantiate(ScrollArea,canvas.transform);
-        initialText.GetComponent<Text>().text = "DefaultText";
+        initialText.GetComponentInChildren<Text>().text = "DefaultText";
         initialText.SetActive(false);
         currentPage.addPageElement(initialText);
         currentPage.setVisible(true);
+        Debug.Log("Name of currentPage: " + currentPage.name);
 	}
 	
 	

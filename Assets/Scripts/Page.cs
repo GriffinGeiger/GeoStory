@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Page : MonoBehaviour {
+public class Page {
 
     private List<GameObject> elements = new List<GameObject>();
     public bool isVisible;
-	
-    public Page()
+    public string name;
+
+    public Page(string name)
     {
+        this.name = name;
         //create default page
         //create options bar
         //create background

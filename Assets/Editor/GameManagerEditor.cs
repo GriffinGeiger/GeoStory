@@ -17,6 +17,14 @@ public class GameManagerEditor : Editor
             else
                 gm.currentPage.setVisible(false);
         }
+        if(GUILayout.Button("Name of CurrentPage"))
+        {
+            Debug.Log("The currentPage is : " + gm.currentPage.name);
+        }
+        if(GUILayout.Button("# of page elements in current page"))
+        { 
+           Debug.Log(gm.currentPage.getNumberOfPageElements());
+        }
 
     }
 
