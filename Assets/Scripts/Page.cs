@@ -8,7 +8,7 @@ public class Page {
     private List<GameObject> elements = new List<GameObject>();
     private List<Button> buttons = new List<Button>();
     public bool isVisible;
-    public string name;
+    private string name;
 
     
 
@@ -49,14 +49,18 @@ public class Page {
      
 
     }
+
     public void addPageElement(GameObject element, string action)
     {
         Button btn = element.GetComponentInChildren<Button>();
         if (btn != null)
         {
-            btn.onClick.AddListener(delegate { buttonActions(action)});
+            btn.onClick.AddListener(delegate { buttonActions(action); });
             buttons.Add(btn);
         }
+        else
+            //possibly throw an exception saying no button on element but action specified
+            ;
     }
 
     public void removePageElement(GameObject element)      //Test this later
@@ -66,11 +70,27 @@ public class Page {
 
     public void buttonActions(string action)
     {
-
+        if(action.StartsWith(ButtonActionConstants.CHANGE_PAGE("")))
+        {
+            string nextPage = action.Substring(6).Trim();
+            Debug.Log("Button requests:" + nextPage + ": as next page");
+        }
     }
 
     public int getNumberOfPageElements()
     {
         return elements.Count;
+    }
+
+    public string getName()
+    {
+        return name;
+    }
+
+    public void setName(string newName)
+    {
+        //if( name doesn't exist within story)
+        name = newName;
+        //else throw exception telling user to change the name
     }
 }

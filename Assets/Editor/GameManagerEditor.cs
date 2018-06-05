@@ -12,18 +12,18 @@ public class GameManagerEditor : Editor
         GameManager gm = (GameManager) target;
         if (GUILayout.Button("Toggle Current page visibility"))
         {
-            if (gm.currentPage.isVisible == false)
-                gm.currentPage.setVisible(true);
+            if (gm.currentStory.getCurrentPage().isVisible == false)
+                gm.currentStory.getCurrentPage().setVisible(true);
             else
-                gm.currentPage.setVisible(false);
+                gm.currentStory.getCurrentPage().setVisible(false);
         }
         if(GUILayout.Button("Name of CurrentPage"))
         {
-            Debug.Log("The currentPage is : " + gm.currentPage.name);
+            Debug.Log("The currentPage is : " + gm.currentStory.getCurrentPage().getName());
         }
         if(GUILayout.Button("# of page elements in current page"))
         { 
-           Debug.Log(gm.currentPage.getNumberOfPageElements());
+           Debug.Log(gm.currentStory.getCurrentPage().getNumberOfPageElements());
         }
 
     }
