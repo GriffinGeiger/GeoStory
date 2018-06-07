@@ -1,12 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
-public class Story
+
+[Serializable()]
+public class Story : ISerializable
 {
     private Dictionary<string, Page> pages = new Dictionary<string, Page>();
     private Page currentPage;
+    public string name { get; set; } 
 
+    
+    public Story(){}
+
+    //Deserialization constructor
+    public Story(SerializationInfo info, StreamingContext ctxt)
+    {
+        pages = (Dictionary<string, Page>)info.GetValue("pages", typeof(Dictionary<string, Page>));
+        currentPage = (Page)info.GetValue("currentPage", typeof(Page));
+        name = (string)info.GetValue("name", typeof(string));
+    }
 
     public void changePage(Page nextPage)
     {
@@ -36,6 +53,11 @@ public class Story
 
     }
 
+    public Page getPage(string pageName)
+    {
+        return pages[pageName];
+    }
+
     public void removePage(string name)
     {
         pages.Remove(name);
@@ -44,5 +66,12 @@ public class Story
     public bool pageNameExists(string name)
     {
         return pages.ContainsKey(name);
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue("pages", pages);
+        info.AddValue("currentPage", currentPage);
+        info.AddValue("name", name);
     }
 }

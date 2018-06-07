@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable()]
 public class Page {
 
+    
     private List<GameObject> elements = new List<GameObject>();
     private List<Button> buttons = new List<Button>();
     public bool isVisible;
@@ -50,6 +53,7 @@ public class Page {
 
     }
 
+    //Assumes only one button per page element. May need to change this
     public void addPageElement(GameObject element, string action)
     {
         Button btn = element.GetComponentInChildren<Button>();
@@ -91,6 +95,8 @@ public class Page {
     {
         //if( name doesn't exist within story)
         name = newName;
+        //remove then readd to story so name updates in dictionary
         //else throw exception telling user to change the name
+
     }
 }
