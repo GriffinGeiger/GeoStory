@@ -12,6 +12,7 @@ public class GameManagerEditor : Editor
         GameManager gm = (GameManager) target;
         if (GUILayout.Button("Toggle Current page visibility"))
         {
+            Debug.Log("toggling current page visibility. CurrentPage.isVisible = " + gm.currentStory.getCurrentPage().isVisible);
             if (gm.currentStory.getCurrentPage().isVisible == false)
                 gm.currentStory.getCurrentPage().setVisible(true);
             else
@@ -29,6 +30,11 @@ public class GameManagerEditor : Editor
         {
             Debug.Log("Testing XML");
             XMLSerializationManager.saveStory(gm.currentStory);
+        }
+        if (GUILayout.Button("BuildIntro"))
+        {
+            Debug.Log("Building intro story");
+            gm.buildIntro();
         }
     }
 

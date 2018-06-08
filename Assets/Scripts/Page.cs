@@ -26,7 +26,7 @@ public class Page {
 	
     public void setVisible(bool tf)
     {
-        if(tf == true)
+        if (tf == true)
         {
             //loop through elements and make all elements visible
             foreach(GameObject element in elements)
@@ -49,8 +49,6 @@ public class Page {
     public void addPageElement(GameObject element)
     {
         elements.Add(element);
-     
-
     }
 
     //Assumes only one button per page element. May need to change this
@@ -61,10 +59,12 @@ public class Page {
         {
             btn.onClick.AddListener(delegate { buttonActions(action); });
             buttons.Add(btn);
+            elements.Add(element);
         }
         else
-            //possibly throw an exception saying no button on element but action specified
-            ;
+        {
+            throw new MissingComponentException("Action specified but no Button associated with element.");
+        }
     }
 
     public void removePageElement(GameObject element)      //Test this later
@@ -74,6 +74,7 @@ public class Page {
 
     public void buttonActions(string action)
     {
+        Debug.Log("In buttonActions");
         if(action.StartsWith(ButtonActionConstants.CHANGE_PAGE("")))
         {
             string nextPage = action.Substring(6).Trim();
@@ -88,7 +89,8 @@ public class Page {
 
     public GameObject[] getElements()
     {
-        GameObject[] gameObjects = new GameObject[elements.Count - 1];
+        Debug.Log("Count "+ elements.Count);
+        GameObject[] gameObjects = new GameObject[elements.Count];
         elements.CopyTo(gameObjects);
         return gameObjects;
     }

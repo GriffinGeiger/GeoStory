@@ -9,11 +9,12 @@ using System.IO;
 //Builds and serializes the Story object that will be viewed on startup. 
 public class BuildIntroStory : MonoBehaviour {
 
-    public GameObject ScrollArea;
-    public GameObject Background;
+    public static GameObject ScrollArea;
+    public static GameObject Background;
 
-    void Start()
+    public static void buildIntro()
     {
+        Debug.Log("here");
         Story intro = new Story();
         intro.name = "intro";
 
