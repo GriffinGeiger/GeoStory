@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour {
 
@@ -44,17 +45,9 @@ public class GameManager : MonoBehaviour {
         currentStory.getCurrentPage().addPageElement(initialText);
         currentStory.getCurrentPage().addPageElement(initialBackground, ButtonActionConstants.CHANGE_PAGE("testNextPage"));
         */
-        try
-        {
-            Stream stream = File.Open("IntroStory.story", FileMode.Open);
-            BinaryFormatter bf = new BinaryFormatter();
 
-            currentStory = (Story)bf.Deserialize(stream);
-            stream.Close();
-        }
-        catch(ArgumentNullException ane) { Debug.Log("IntroStory.story likely does not exist: " + ane ); }
+        currentStory = new Story();
 
-        currentStory.getCurrentPage().setVisible(true);
 	}
 
 	void Update () {

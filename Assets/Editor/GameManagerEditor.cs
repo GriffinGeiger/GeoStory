@@ -25,7 +25,11 @@ public class GameManagerEditor : Editor
         { 
            Debug.Log(gm.currentStory.getCurrentPage().getNumberOfPageElements());
         }
-
+        if(GUILayout.Button("Test Xml"))
+        {
+            Debug.Log("Testing XML");
+            XMLSerializationManager.saveStory(gm.currentStory);
+        }
     }
 
 }

@@ -13,8 +13,8 @@ public class Page {
     public bool isVisible;
     private string name;
 
-    
 
+    public Page() { }
     public Page(string name)
     {
         this.name = name;
@@ -84,6 +84,13 @@ public class Page {
     public int getNumberOfPageElements()
     {
         return elements.Count;
+    }
+
+    public GameObject[] getElements()
+    {
+        GameObject[] gameObjects = new GameObject[elements.Count - 1];
+        elements.CopyTo(gameObjects);
+        return gameObjects;
     }
 
     public string getName()

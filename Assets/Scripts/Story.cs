@@ -11,7 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class Story : ISerializable
 {
     private Dictionary<string, Page> pages = new Dictionary<string, Page>();
-    private Page currentPage;
+    public Page currentPage;
     public string name { get; set; } 
 
     
@@ -56,6 +56,14 @@ public class Story : ISerializable
     public Page getPage(string pageName)
     {
         return pages[pageName];
+    }
+
+    public Page[] getPages()
+    {
+        Dictionary<string, Page>.ValueCollection valueColl = pages.Values;
+        Page[] pageArray = new Page[pages.Count];
+        valueColl.CopyTo(pageArray,0);
+        return pageArray;
     }
 
     public void removePage(string name)
