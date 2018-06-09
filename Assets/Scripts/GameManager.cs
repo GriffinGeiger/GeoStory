@@ -54,14 +54,14 @@ public class GameManager : MonoBehaviour {
         Story intro = new Story();
         intro.name = "intro";
 
-        Page page1 = new Page("introPage1");
+        Page page1 = new Page("introPage1",intro);
         GameObject bg = GameObject.Instantiate(Background);
         bg.transform.SetParent(canvas.transform);
         bg.GetComponent<RectTransform>().pivot = new Vector3(0, 0, 0);
         bg.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         page1.addPageElement(bg, ButtonActionConstants.CHANGE_PAGE("introPage2"));
 
-        Page page2 = new Page("introPage2");
+        Page page2 = new Page("introPage2",intro);
         GameObject bg2 = GameObject.Instantiate(Background);
         bg2.transform.SetParent(canvas.transform);
         bg2.GetComponent<RectTransform>().pivot = new Vector3(0, 0, 0);

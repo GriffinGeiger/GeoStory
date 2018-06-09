@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [Serializable()]
@@ -10,14 +11,16 @@ public class Page {
     
     private List<GameObject> elements = new List<GameObject>();
     private List<Button> buttons = new List<Button>();
+    private Story storyRef;
     public bool isVisible;
     private string name;
 
 
     public Page() { }
-    public Page(string name)
+    public Page(string name,Story story)
     {
         this.name = name;
+        storyRef = story;
         //create default page
         //create options bar
         //create background
@@ -51,21 +54,27 @@ public class Page {
         elements.Add(element);
     }
 
+
+
     //Assumes only one button per page element. May need to change this
     public void addPageElement(GameObject element, string action)
     {
-        Button btn = element.GetComponentInChildren<Button>();
-       // EventTrigger trigger = element.GetComponent<EventTrigger>(); //Implement eventTrigger to do button stuff.
-        if (btn != null)
+        EventTrigger trigger = element.GetComponent<EventTrigger>(); //Implement eventTrigger to do button stuff.
+        if (trigger != null)
         {
-            btn.onClick.AddListener(delegate { buttonActions(action); });
-            buttons.Add(btn);
-            elements.Add(element);
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick; //this defines the type of clicking this button reacts to. Subject to change
+            entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); }) ;
         }
         else
         {
             throw new MissingComponentException("Action specified but no Button associated with element.");
         }
+    }
+
+    private void OnPointerDownDelegate(PointerEventData data)
+    {
+        throw new NotImplementedException();
     }
 
     public void removePageElement(GameObject element)      //Test this later
