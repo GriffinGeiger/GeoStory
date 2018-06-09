@@ -55,6 +55,7 @@ public class Page {
     public void addPageElement(GameObject element, string action)
     {
         Button btn = element.GetComponentInChildren<Button>();
+       // EventTrigger trigger = element.GetComponent<EventTrigger>(); //Implement eventTrigger to do button stuff.
         if (btn != null)
         {
             btn.onClick.AddListener(delegate { buttonActions(action); });
