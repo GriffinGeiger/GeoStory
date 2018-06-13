@@ -12,7 +12,7 @@ public class BuildIntroStory : MonoBehaviour {
     public static GameObject ScrollArea;
     public static GameObject Background;
 
-    public static void buildIntro()
+    /*public static void buildIntro()
     {
         Debug.Log("here");
         Story intro = new Story();
@@ -44,4 +44,5 @@ public class BuildIntroStory : MonoBehaviour {
 
 
         }
+        */
 }

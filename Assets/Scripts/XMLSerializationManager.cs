@@ -5,6 +5,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using UnityEngine.UI;
+using System;
+using System.Xml.Schema;
+using System.Reflection;
 
 public class XMLSerializationManager : MonoBehaviour {
     public static XMLSerializationManager ins;
@@ -19,17 +22,25 @@ public class XMLSerializationManager : MonoBehaviour {
     public static void saveStory(Story story)
     {
         StoryData storyToSerialize = new StoryData(story);
+        Type[] extraTypes = { typeof(ComponentData) };
+        XmlSerializer ser = new XmlSerializer(typeof(StoryData),extraTypes);
+        FileStream fs = new FileStream(Application.dataPath + "/StreamingAssets/XML/" + storyToSerialize.name + "_data.xml", FileMode.Create);
+        ser.Serialize(fs, storyToSerialize);
+        fs.Close();
 
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class StoryData
 {
     public List<PageData> pages = new List<PageData>();
+    public string name;
+    public StoryData() { }
     public StoryData(Story story)
     {
         Page[] pageArray = story.getPages();
+        name = story.name;
         foreach(Page p in pageArray)
         {
             pages.Add(new PageData(p));
@@ -37,10 +48,11 @@ public class StoryData
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class PageData
 {
     public List<GameObjectData> god = new List<GameObjectData>();
+    public PageData() { }
     public PageData(Page page)
     {
         //get all the game objects and construct game object data for each and put into list
@@ -53,11 +65,12 @@ public class PageData
 
 }
 
-[System.Serializable]
+[Serializable]
 public class GameObjectData
 {
     public List<ComponentData> cd = new List<ComponentData>();
     public List<GameObjectData> god = new List<GameObjectData>();
+    public GameObjectData() { }
     public GameObjectData(GameObject go)
     {
         foreach(Transform t in go.transform)
@@ -84,15 +97,23 @@ public class GameObjectData
         }
     }
 }
-[System.Serializable]
+[Serializable]
+[XmlInclude(typeof(RectTransformData))]
+[XmlInclude(typeof(ButtonData))]
+[XmlInclude(typeof(RawImageData))]
+[XmlInclude(typeof(ImageData))]
+[XmlInclude(typeof(ScrollRectData))]
+[XmlInclude(typeof(ScrollBarData))]
+[XmlInclude(typeof(TextData))]
 public class ComponentData
 {
     public ComponentData()
     {
 
     }
+
 }
-[System.Serializable]
+[Serializable]
 public class RectTransformData : ComponentData
 {
     public Vector2 anchoredPosition;
@@ -104,6 +125,7 @@ public class RectTransformData : ComponentData
     public Rect rect;
     public Vector2 sizeDelta;
 
+    public RectTransformData() { }
     public RectTransformData(RectTransform rect)
     {
         Debug.Log("Copying RectTransformData");
@@ -116,50 +138,76 @@ public class RectTransformData : ComponentData
         this.rect = rect.rect;
         sizeDelta = rect.sizeDelta;
     }
+
+ /*   public override void ReadXml(XmlReader reader)
+    {
+        reader.MoveToContent();
+        anchoredPosition= Vector2.
+    }
+
+    public override void WriteXml(XmlWriter writer)
+    {
+        writer.WriteElementString("anchoredPosition", anchoredPosition.ToString());
+        writer.WriteElementString("anchorMax", anchorMax.ToString());
+        writer.WriteElementString("anchorMin", anchorMin.ToString());
+        writer.WriteElementString("offsetMax", offsetMax.ToString());
+        writer.WriteElementString("offsetMin", offsetMin.ToString());
+        writer.WriteElementString("pivot", pivot.ToString());
+        writer.WriteElementString("rect", rect.ToString());
+        writer.WriteElementString("sizeDelta", sizeDelta.ToString());
+
+    }
+    */
 }
-[System.Serializable]
+[Serializable]
 public class ButtonData : ComponentData
 {
+    public ButtonData() { }
     public ButtonData(Component component)
     {
         Debug.Log("Copying ButtonData");
     }
 }
-[System.Serializable]
+[Serializable]
 public class ImageData : ComponentData
 {
+    public ImageData() { }
     public ImageData(Component component)
     {
         Debug.Log("Copying ImageData");
     }
 }
-[System.Serializable]
+[Serializable]
 public class RawImageData : ComponentData
 {
+    public RawImageData() { }
     public RawImageData(Component component)
     {
         Debug.Log("Copying RawImageData");
     }
 }
-[System.Serializable]
+[Serializable]
 public class ScrollRectData : ComponentData
 {
+    public ScrollRectData() { }
     public ScrollRectData(Component component)
     {
         Debug.Log("Copying ScrollRectData");
     }
 }
-[System.Serializable]
+[Serializable]
 public class ScrollBarData : ComponentData
 {
+    public ScrollBarData() { }
     public ScrollBarData(Component component)
     {
         Debug.Log("Copying ScrollBarData");
     }
 }
-[System.Serializable]
+[Serializable]
 public class TextData : ComponentData
 {
+    public TextData() { }
     public TextData(Component component)
     {
         Debug.Log("Copying TextData");

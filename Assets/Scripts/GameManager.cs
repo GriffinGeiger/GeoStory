@@ -55,23 +55,16 @@ public class GameManager : MonoBehaviour {
         intro.name = "intro";
 
         Page page1 = new Page("introPage1",intro);
-        GameObject bg = GameObject.Instantiate(Background);
-        bg.transform.SetParent(canvas.transform);
-        bg.GetComponent<RectTransform>().pivot = new Vector3(0, 0, 0);
-        bg.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        GameObject bg = GameObject.Instantiate(Background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
         page1.addPageElement(bg, ButtonActionConstants.CHANGE_PAGE("introPage2"));
 
         Page page2 = new Page("introPage2",intro);
-        GameObject bg2 = GameObject.Instantiate(Background);
-        bg2.transform.SetParent(canvas.transform);
-        bg2.GetComponent<RectTransform>().pivot = new Vector3(0, 0, 0);
-        bg2.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        GameObject bg2 = GameObject.Instantiate(Background,canvas.transform);
         page2.addPageElement(bg2);
 
 
-        GameObject pg2Text = GameObject.Instantiate(ScrollArea);
+        GameObject pg2Text = GameObject.Instantiate(ScrollArea,canvas.transform);
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
-        pg2Text.transform.SetParent(canvas.transform);
         page2.addPageElement(pg2Text);
 
         intro.addPage(page1);

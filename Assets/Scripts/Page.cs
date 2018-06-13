@@ -33,7 +33,7 @@ public class Page {
         {
             //loop through elements and make all elements visible
             foreach(GameObject element in elements)
-            {
+            {            
                 element.SetActive(true);
             }
             isVisible = true;
@@ -51,6 +51,7 @@ public class Page {
 
     public void addPageElement(GameObject element)
     {
+        element.SetActive(false);
         elements.Add(element);
     }
 
@@ -64,17 +65,14 @@ public class Page {
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick; //this defines the type of clicking this button reacts to. Subject to change
-            entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); }) ;
+            entry.callback.AddListener((data) => { buttonActions(action); }) ;
+            trigger.triggers.Add(entry); //at this point entry reacts to pointer click and calls buttonActions
+            elements.Add(element);
         }
         else
         {
             throw new MissingComponentException("Action specified but no Button associated with element.");
         }
-    }
-
-    private void OnPointerDownDelegate(PointerEventData data)
-    {
-        throw new NotImplementedException();
     }
 
     public void removePageElement(GameObject element)      //Test this later
@@ -89,6 +87,7 @@ public class Page {
         {
             string nextPage = action.Substring(6).Trim();
             Debug.Log("Button requests:" + nextPage + ": as next page");
+            storyRef.setCurrentPage(nextPage);
         }
     }
 
@@ -99,7 +98,6 @@ public class Page {
 
     public GameObject[] getElements()
     {
-        Debug.Log("Count "+ elements.Count);
         GameObject[] gameObjects = new GameObject[elements.Count];
         elements.CopyTo(gameObjects);
         return gameObjects;

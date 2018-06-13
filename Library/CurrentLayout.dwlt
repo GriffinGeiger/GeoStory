@@ -135,7 +135,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 613}
   m_MaxSize: {x: 18008, y: 18063}
   vertical: 0
-  controlID: 64
+  controlID: 30
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 613}
   m_MaxSize: {x: 10002, y: 18063}
   vertical: 1
-  controlID: 65
+  controlID: 31
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -181,14 +181,14 @@ MonoBehaviour:
     height: 355
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 14}
   - {fileID: 13}
   - {fileID: 16}
   - {fileID: 17}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -341,7 +341,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoom: 0
     m_UniformScale: 1
     m_UpDirection: 1
@@ -397,14 +397,14 @@ MonoBehaviour:
     height: 334
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 271.1692612602324
+  lastFramingTime: 2961.0150090450143
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 375, y: 666.9917, z: 0}
+    m_Target: {x: 45.300827, y: 702.7916, z: 102.5}
     speed: 2
-    m_Value: {x: 375, y: 666.9917, z: 0}
+    m_Value: {x: 45.300827, y: 702.7916, z: 102.5}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -436,9 +436,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 2525.0786
+    m_Target: 2127.2021
     speed: 2
-    m_Value: 2525.0786
+    m_Value: 2127.2021
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 884
+    y: 811
     width: 782
     height: 174
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -556,9 +556,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 1e2c0000
-    m_LastClickedID: 11294
-    m_ExpandedIDs: f0fbffff000000000a2c0000
+    m_SelectedIDs: c4c7f7ff
+    m_LastClickedID: -538684
+    m_ExpandedIDs: c608f8ffcc08f8ffd608f8ff92cff9ff9ccff9ffbcf1f9ffc6f1f9ffd2fef9ffdcfef9ffd235faffdc35faffbefbffffcefbffffe0fbffffe2fbffffe4fbfffff4ffffff00000000082c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -619,20 +619,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts
+    - Assets/Prefabs/PageElements
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Prefabs/PageElements
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Griffin Geiger\Desktop\GeoStory
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 182b0000
-    m_LastClickedID: 11032
-    m_ExpandedIDs: 0000000056290000462b0000522b000000ca9a3bffffff7f
+    m_SelectedIDs: d22a0000
+    m_LastClickedID: 10962
+    m_ExpandedIDs: 000000005a2900004a2b0000562b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -660,7 +660,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000056290000462b0000522b0000
+    m_ExpandedIDs: 000000005a2900004a2b0000562b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -769,9 +769,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1362
+    x: 1361
     y: 92
-    width: 558
+    width: 559
     height: 966
   m_PersistentViewDataDictionary: {fileID: 0}
   m_ObjectsLockedBeforeSerialization: []
