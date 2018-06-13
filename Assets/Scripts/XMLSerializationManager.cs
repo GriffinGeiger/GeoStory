@@ -81,8 +81,6 @@ public class GameObjectData
         {
             if(c as RectTransform != null)
             cd.Add(new RectTransformData((RectTransform) c));
-            if (c as Button != null)
-                cd.Add(new ButtonData(c));
             if (c as Image != null)                                  //Side thought: I might need to serialize/deserialize mask component. If erratic behavior later do that
                 cd.Add(new ImageData(c));
             if (c as RawImage != null)
@@ -99,7 +97,6 @@ public class GameObjectData
 }
 [Serializable]
 [XmlInclude(typeof(RectTransformData))]
-[XmlInclude(typeof(ButtonData))]
 [XmlInclude(typeof(RawImageData))]
 [XmlInclude(typeof(ImageData))]
 [XmlInclude(typeof(ScrollRectData))]
@@ -138,36 +135,8 @@ public class RectTransformData : ComponentData
         this.rect = rect.rect;
         sizeDelta = rect.sizeDelta;
     }
-
- /*   public override void ReadXml(XmlReader reader)
-    {
-        reader.MoveToContent();
-        anchoredPosition= Vector2.
-    }
-
-    public override void WriteXml(XmlWriter writer)
-    {
-        writer.WriteElementString("anchoredPosition", anchoredPosition.ToString());
-        writer.WriteElementString("anchorMax", anchorMax.ToString());
-        writer.WriteElementString("anchorMin", anchorMin.ToString());
-        writer.WriteElementString("offsetMax", offsetMax.ToString());
-        writer.WriteElementString("offsetMin", offsetMin.ToString());
-        writer.WriteElementString("pivot", pivot.ToString());
-        writer.WriteElementString("rect", rect.ToString());
-        writer.WriteElementString("sizeDelta", sizeDelta.ToString());
-
-    }
-    */
 }
-[Serializable]
-public class ButtonData : ComponentData
-{
-    public ButtonData() { }
-    public ButtonData(Component component)
-    {
-        Debug.Log("Copying ButtonData");
-    }
-}
+
 [Serializable]
 public class ImageData : ComponentData
 {
