@@ -26,10 +26,14 @@ public class GameManagerEditor : Editor
         { 
            Debug.Log(gm.currentStory.getCurrentPage().getNumberOfPageElements());
         }
-        if(GUILayout.Button("Test Xml"))
+        if(GUILayout.Button("Save Story to XML"))
         {
             Debug.Log("Testing XML");
             XMLSerializationManager.saveStory(gm.currentStory);
+        }
+        if(GUILayout.Button("Load introStory from XML"))
+        {
+            XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
         }
         if (GUILayout.Button("BuildIntro"))
         {

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <StoryData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <name>intro</name>
   <pages>
     <PageData>
+      <name>introPage1</name>
       <god>
         <GameObjectData>
+          <name>BackgroundImage(Clone)</name>
           <cd>
             <ComponentData xsi:type="RectTransformData">
               <anchoredPosition>
@@ -104,8 +107,10 @@
       </god>
     </PageData>
     <PageData>
+      <name>introPage2</name>
       <god>
         <GameObjectData>
+          <name>BackgroundImage(Clone)</name>
           <cd>
             <ComponentData xsi:type="RectTransformData">
               <anchoredPosition>
@@ -204,6 +209,7 @@
           <god />
         </GameObjectData>
         <GameObjectData>
+          <name>ScrollArea(Clone)</name>
           <cd>
             <ComponentData xsi:type="RectTransformData">
               <anchoredPosition>
@@ -287,6 +293,7 @@
           </cd>
           <god>
             <GameObjectData>
+              <name>TextBox</name>
               <cd>
                 <ComponentData xsi:type="RectTransformData">
                   <anchoredPosition>
@@ -348,10 +355,36 @@
                     <y>1422.9</y>
                   </sizeDelta>
                 </ComponentData>
-                <ComponentData xsi:type="ScrollRectData" />
+                <ComponentData xsi:type="ScrollRectData">
+                  <decelerationRate>0.135</decelerationRate>
+                  <elasticity>0.1</elasticity>
+                  <flexibleHeight>-1</flexibleHeight>
+                  <flexibleWidth>-1</flexibleWidth>
+                  <inertia>true</inertia>
+                  <layoutPriority>-1</layoutPriority>
+                  <minHeight>-1</minHeight>
+                  <minWidth>-1</minWidth>
+                  <movementType>Elastic</movementType>
+                  <normalizedPosition>
+                    <x>1</x>
+                    <y>1</y>
+                  </normalizedPosition>
+                  <preferredHeight>-1</preferredHeight>
+                  <preferredWidth>-1</preferredWidth>
+                  <scrollSensitivity>1</scrollSensitivity>
+                  <velocity>
+                    <x>0</x>
+                    <y>0</y>
+                  </velocity>
+                  <vertical>true</vertical>
+                  <verticalNormalizedPosition>1</verticalNormalizedPosition>
+                  <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
+                  <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
+                </ComponentData>
               </cd>
               <god>
                 <GameObjectData>
+                  <name>Scrollbar</name>
                   <cd>
                     <ComponentData xsi:type="RectTransformData">
                       <anchoredPosition>
@@ -432,10 +465,77 @@
                       <preserveAspect>false</preserveAspect>
                       <type>Sliced</type>
                     </ComponentData>
-                    <ComponentData xsi:type="ScrollBarData" />
+                    <ComponentData xsi:type="ScrollBarData">
+                      <direction>BottomToTop</direction>
+                      <handleRect>
+                        <anchoredPosition>
+                          <x>0</x>
+                          <y>0</y>
+                        </anchoredPosition>
+                        <anchorMax>
+                          <x>1</x>
+                          <y>1</y>
+                        </anchorMax>
+                        <anchorMin>
+                          <x>0</x>
+                          <y>0.8071298</y>
+                        </anchorMin>
+                        <offsetMax>
+                          <x>10</x>
+                          <y>10</y>
+                        </offsetMax>
+                        <offsetMin>
+                          <x>-10</x>
+                          <y>-10</y>
+                        </offsetMin>
+                        <pivot>
+                          <x>0.5</x>
+                          <y>0.5</y>
+                        </pivot>
+                        <rect>
+                          <x>-45.9</x>
+                          <y>-140.640625</y>
+                          <position>
+                            <x>-45.9</x>
+                            <y>-140.640625</y>
+                          </position>
+                          <center>
+                            <x>0</x>
+                            <y>0</y>
+                          </center>
+                          <min>
+                            <x>-45.9</x>
+                            <y>-140.640625</y>
+                          </min>
+                          <max>
+                            <x>45.9</x>
+                            <y>140.640625</y>
+                          </max>
+                          <width>91.8</width>
+                          <height>281.28125</height>
+                          <size>
+                            <x>91.8</x>
+                            <y>281.28125</y>
+                          </size>
+                          <xMin>-45.9</xMin>
+                          <yMin>-140.640625</yMin>
+                          <xMax>45.9</xMax>
+                          <yMax>140.640625</yMax>
+                        </rect>
+                        <sizeDelta>
+                          <x>20</x>
+                          <y>20</y>
+                        </sizeDelta>
+                      </handleRect>
+                      <numberOfSteps>0</numberOfSteps>
+                      <onValueChanged />
+                      <size>0.192870215</size>
+                      <value>1</value>
+                    </ComponentData>
                   </cd>
                   <god>
                     <GameObjectData>
+                      <name>Sliding Area</name>
                       <cd>
                         <ComponentData xsi:type="RectTransformData">
                           <anchoredPosition>
@@ -500,6 +600,7 @@
                       </cd>
                       <god>
                         <GameObjectData>
+                          <name>Handle</name>
                           <cd>
                             <ComponentData xsi:type="RectTransformData">
                               <anchoredPosition>
@@ -588,6 +689,7 @@
                   </god>
                 </GameObjectData>
                 <GameObjectData>
+                  <name>Text</name>
                   <cd>
                     <ComponentData xsi:type="RectTransformData">
                       <anchoredPosition>
@@ -649,7 +751,27 @@
                         <y>7377.5</y>
                       </sizeDelta>
                     </ComponentData>
-                    <ComponentData xsi:type="TextData" />
+                    <ComponentData xsi:type="TextData">
+                      <alignByGeometry>false</alignByGeometry>
+                      <alignment>UpperLeft</alignment>
+                      <flexibleHeight>-1</flexibleHeight>
+                      <flexibleWidth>-1</flexibleWidth>
+                      <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
+                      <fontSize>100</fontSize>
+                      <fontStyle>Normal</fontStyle>
+                      <layoutPriority>0</layoutPriority>
+                      <lineSpacing>1</lineSpacing>
+                      <minHeight>0</minHeight>
+                      <minWidth>0</minWidth>
+                      <pixelsPerUnit>0.9375</pixelsPerUnit>
+                      <preferredHeight>689.06665</preferredHeight>
+                      <preferredWidth>829.866638</preferredWidth>
+                      <resizeTextForBestFit>true</resizeTextForBestFit>
+                      <resizeTextMaxSize>300</resizeTextMaxSize>
+                      <resizeTextMinSize>0</resizeTextMinSize>
+                      <supportRichText>true</supportRichText>
+                      <text>Welcome to Geostory</text>
+                    </ComponentData>
                   </cd>
                   <god />
                 </GameObjectData>
@@ -660,5 +782,4 @@
       </god>
     </PageData>
   </pages>
-  <name>intro</name>
 </StoryData>

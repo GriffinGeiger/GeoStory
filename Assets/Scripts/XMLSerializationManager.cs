@@ -27,15 +27,103 @@ public class XMLSerializationManager : MonoBehaviour {
         FileStream fs = new FileStream(Application.dataPath + "/StreamingAssets/XML/" + storyToSerialize.name + "_data.xml", FileMode.Create);
         ser.Serialize(fs, storyToSerialize);
         fs.Close();
+    }
 
+    public static Story loadStory(string xmlPath)
+    {
+        Stream reader = new FileStream(xmlPath, FileMode.Open);
+        XmlSerializer ser = new XmlSerializer(typeof(StoryData));
+
+        StoryData sd = (StoryData) ser.Deserialize(reader);
+        reader.Close();
+        Debug.Log("StoryData deserialized. \n" +
+            "pages Count: " + sd.pages.Count
+            + "\n should be introPage1:" + sd.pages[0].name);
+        StoryData storyData = new StoryData();
+        XmlDocument xmlDoc = new XmlDocument();
+        /*  try
+          {
+              xmlDoc.Load(xmlPath);
+          }
+          catch(Exception e)
+          {
+              Debug.Log("The file could not be read. " + e.Message);
+          }
+
+          foreach(XmlNode node in xmlDoc.SelectNodes("StoryData/pages/PageData"))
+          {
+              Debug.Log(node.SelectSingleNode("name").InnerText);
+              PageData page = new PageData();
+              foreach(GameObjectData god in deserializeGameObjectData(node))  //takes the array of GameObjectData and puts it in the god list of pagedata
+              {
+                  page.god.Add(god);
+              }
+          }
+          */
+        //storyData.convertToStory();
+
+        return new Story();
+        
+    }
+
+    private static GameObjectData[] deserializeGameObjectData(XmlNode node)
+    {
+        List<GameObjectData> godList = new List<GameObjectData>();
+        foreach(XmlNode node1 in node.SelectNodes("god/GameObjectData"))
+        {
+            GameObjectData gameObject = new GameObjectData();
+           
+            //fill gameObject with info from gameObject
+            gameObject.name = node1.SelectSingleNode("name").InnerText;
+            foreach(XmlNode xNode in node1.SelectNodes("cd/ComponentData"))
+            {
+                    Debug.Log("Attributes of ComponentData: " + xNode.Attributes["xsi:type"].Value);
+                switch (xNode.Attributes["xsi:type"].Value)
+                {
+                    case "RectTransformData":
+                        RectTransformData rtd = new RectTransformData();
+                        rtd.fillFromXml(xNode);
+                        break;
+                    case "ImageData":
+                        ImageData id = new ImageData();
+                        id.fillFromXml(xNode);
+                        break;
+                    case "RawImageData":
+                        RawImageData rid = new RawImageData();
+                        rid.fillFromXml(xNode);
+                        break;
+                    case "ScrollRectData":
+                        ScrollRectData srd = new ScrollRectData();
+                        srd.fillFromXml(xNode);
+                        break;
+                    case "ScrollBarData":
+                        ScrollBarData sbd = new ScrollBarData();
+                        sbd.fillFromXml(xNode);
+                        break;
+                    case "TextData":
+                        TextData td = new TextData();
+                        td.fillFromXml(xNode);
+                        break;
+                }
+            }
+            ////////////////////////////////////////////////////////////
+            foreach (GameObjectData god in deserializeGameObjectData(node1)) //takes the array of GameObjectData and puts it in the god list of this GameObjectdata
+            {                                                               //Calls recursively to fill all the GameObjectData god lists that you are putting into this one    
+                gameObject.god.Add(god);
+            }
+        }
+
+        GameObjectData[] godArray = new GameObjectData[godList.Count];
+        godList.CopyTo(godArray);
+        return godArray;
     }
 }
 
 [Serializable]
 public class StoryData
 {
-    public List<PageData> pages = new List<PageData>();
     public string name;
+    public List<PageData> pages = new List<PageData>();
     public StoryData() { }
     public StoryData(Story story)
     {
@@ -51,10 +139,12 @@ public class StoryData
 [Serializable]
 public class PageData
 {
+    public string name;
     public List<GameObjectData> god = new List<GameObjectData>();
     public PageData() { }
     public PageData(Page page)
     {
+        name = page.getName();
         //get all the game objects and construct game object data for each and put into list
         GameObject[] elements = page.getElements();
         foreach(GameObject go in elements)
@@ -68,11 +158,14 @@ public class PageData
 [Serializable]
 public class GameObjectData
 {
+    public string name;
     public List<ComponentData> cd = new List<ComponentData>();
     public List<GameObjectData> god = new List<GameObjectData>();
     public GameObjectData() { }
     public GameObjectData(GameObject go)
     {
+        name = go.name;
+
         foreach(Transform t in go.transform)
         {
             god.Add(new GameObjectData(t.gameObject));
@@ -125,7 +218,6 @@ public class RectTransformData : ComponentData
     public RectTransformData() { }
     public RectTransformData(RectTransform rect)
     {
-        Debug.Log("Copying RectTransformData");
         anchoredPosition = rect.anchoredPosition;
         anchorMax = rect.anchorMax;
         anchorMin = rect.anchorMin;
@@ -134,6 +226,15 @@ public class RectTransformData : ComponentData
         pivot = rect.pivot;
         this.rect = rect.rect;
         sizeDelta = rect.sizeDelta;
+    }
+
+    public void fillFromXml(XmlNode node)
+    {
+        Debug.Log("here");
+        TextReader reader = new StringReader(node.SelectSingleNode("rect").InnerXml);
+        XmlSerializer ser = new XmlSerializer(typeof(Rect));
+        rect = (Rect) ser.Deserialize(reader);
+        Debug.Log("position: " + rect.position);
     }
 }
 
@@ -187,6 +288,11 @@ public class ImageData : ComponentData
         preserveAspect = image.preserveAspect;
         type = image.type;
     }
+
+    public void fillFromXml(XmlNode node)
+    {
+
+    }
 }
 [Serializable]
 public class RawImageData : ComponentData
@@ -202,16 +308,67 @@ public class RawImageData : ComponentData
         Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
         uvRect = image.uvRect;
     }
+
+    public void fillFromXml(XmlNode node)
+    {
+
+    }
 }
 [Serializable]
 public class ScrollRectData : ComponentData
 {
-    
+    //public RectTransform content;     //get a reference to the text rectTransform that is a child of this while deserializing.
+    public float decelerationRate;      //Could probably just have a default value to reduce xml filesize
+    public float elasticity;
+    public float flexibleHeight;
+    public float flexibleWidth;
+    //public bool horizontal;  //going to be false
+    // public float horizontalNormalizedPosition;
+    //all three horizontal scrollbar fields are omitted because not using horizontal scrolling
+    public bool inertia;
+    public int layoutPriority;
+    public float minHeight;
+    public float minWidth;
+    public UnityEngine.UI.ScrollRect.MovementType movementType;
+    public Vector2 normalizedPosition;
+    //onValueChanged I don't believe needs to be set
+    public float preferredHeight;
+    public float preferredWidth;
+    public float scrollSensitivity;
+    public Vector2 velocity;
+    public bool vertical;
+    public float verticalNormalizedPosition;
+    //public verticalScrollbar //get reference to verticalScrollbar that is child of this when deserializing
+    public float verticalScrollbarSpacing;
+    public UnityEngine.UI.ScrollRect.ScrollbarVisibility verticalScrollbarVisibility;
+    //I didn't use a viewport
+
+
     public ScrollRectData() { }
-    public ScrollRectData(ScrollRect scrollRect)
+    public ScrollRectData(ScrollRect sr)
     {
-        
-        Debug.Log("Copying ScrollRectData");
+        decelerationRate = sr.decelerationRate;
+        elasticity = sr.elasticity;
+        flexibleHeight = sr.flexibleHeight;
+        flexibleWidth = sr.flexibleWidth;
+        inertia = sr.inertia;
+        layoutPriority = sr.layoutPriority;
+        minHeight = sr.minHeight;
+        minWidth = sr.minWidth;
+        movementType = sr.movementType;
+        normalizedPosition = sr.normalizedPosition;
+        preferredHeight = sr.preferredHeight;
+        preferredWidth = sr.preferredWidth;
+        scrollSensitivity = sr.scrollSensitivity;
+        velocity = sr.velocity;
+        vertical = sr.vertical;
+        verticalNormalizedPosition = sr.verticalNormalizedPosition;
+        verticalScrollbarSpacing = sr.verticalScrollbarSpacing;
+        verticalScrollbarVisibility = sr.verticalScrollbarVisibility;
+    }
+    public void fillFromXml(XmlNode node)
+    {
+
     }
 }
 [Serializable]
@@ -234,23 +391,27 @@ public class ScrollBarData : ComponentData
         size = sb.size;
         value = sb.value;
     }
+    public void fillFromXml(XmlNode node)
+    {
+
+    }
 }
 [Serializable]
 public class TextData : ComponentData
 {
     public bool alignByGeometry;
     public TextAnchor alignment;
-    public TextGenerator cachedTextGenerator;
-    public TextGenerator cachedTextGeneratorForLayout;
+    //public TextGenerator cachedTextGenerator;         //create new TextGenerators later. I believe all settings like font are here
+    //public TextGenerator cachedTextGeneratorForLayout;
     public float flexibleHeight;
     public float flexibleWidth;
-    public Font font;
+    public string fontPath;         //When deserializing make sure missing fonts/images are handled
     public int fontSize;
     public FontStyle fontStyle;
-    public HorizontalWrapMode horizontalOverflow;
+    //public HorizontalWrapMode horizontalOverflow;  //Text will always Wrap horizontally. Initialize as such.
     public int layoutPriority;
     public float lineSpacing;
-    public Texture mainTexture;
+    //public Texture mainTexture;  //probably keep this default since I never changed it before
     public float minHeight;
     public float minWidth;
     public float pixelsPerUnit;
@@ -261,29 +422,21 @@ public class TextData : ComponentData
     public int resizeTextMinSize;
     public bool supportRichText;
     public string text;
-    public VerticalWrapMode verticalOverflow;
-
-
-
-
+    //public VerticalWrapMode verticalOverflow;  //Text will always
 
     public TextData() { }
     public TextData(Text text)
     {
-        Debug.Log("Copying TextData");
         alignByGeometry = text.alignByGeometry;
         alignment = text.alignment;
-        cachedTextGenerator = text.cachedTextGenerator;
-        cachedTextGeneratorForLayout = text.cachedTextGeneratorForLayout;
         flexibleHeight = text.flexibleHeight;
         flexibleWidth = text.flexibleWidth;
-        font = text.font;
+        Debug.Log("FontPath: " + UnityEditor.AssetDatabase.GetAssetPath(text.font));
+        fontPath = UnityEditor.AssetDatabase.GetAssetPath(text.font);
         fontSize = text.fontSize;
         fontStyle = text.fontStyle;
-        horizontalOverflow = text.horizontalOverflow;
         layoutPriority = text.layoutPriority;
         lineSpacing = text.lineSpacing;
-        mainTexture = text.mainTexture;
         minHeight = text.minHeight;
         minWidth = text.minWidth;
         pixelsPerUnit = text.pixelsPerUnit;
@@ -294,7 +447,9 @@ public class TextData : ComponentData
         resizeTextMinSize = text.resizeTextMinSize;
         supportRichText = text.supportRichText;
         this.text = text.text;
-        verticalOverflow = text.verticalOverflow;
+    }
+    public void fillFromXml(XmlNode node)
+    {
 
     }
 }
