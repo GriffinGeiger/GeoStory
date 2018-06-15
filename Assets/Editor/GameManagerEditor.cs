@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
+using System.Reflection;
 
 [CustomEditor(typeof(GameManager))]
 public class GameManagerEditor : Editor
@@ -40,6 +42,28 @@ public class GameManagerEditor : Editor
             Debug.Log("Building intro story");
             gm.buildIntro();
         }
+        if(GUILayout.Button("Debug serialization"))
+        {
+            gm.buildIntro();
+            StoryData input = XMLSerializationManager.saveStory(gm.currentStory);
+            StoryData output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
+            Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
+        }
     }
+    private string checkout(StoryData sd)
+    {
+        string outputString = "";
+        foreach (PageData pd in sd.pages)
+        {
+            RawImageData rtd = (RawImageData)pd.god[0].cd[1];
+            try
+            {
+                outputString += rtd.sourceImagePath + " ";
 
+            }
+            catch (Exception e) { }
+        }
+        return outputString;
+    }
 }
+

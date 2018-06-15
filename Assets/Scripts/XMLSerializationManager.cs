@@ -19,7 +19,7 @@ public class XMLSerializationManager : MonoBehaviour {
 
    
 
-    public static void saveStory(Story story)
+    public static StoryData saveStory(Story story)
     {
         StoryData storyToSerialize = new StoryData(story);
         Type[] extraTypes = { typeof(ComponentData) };
@@ -27,18 +27,22 @@ public class XMLSerializationManager : MonoBehaviour {
         FileStream fs = new FileStream(Application.dataPath + "/StreamingAssets/XML/" + storyToSerialize.name + "_data.xml", FileMode.Create);
         ser.Serialize(fs, storyToSerialize);
         fs.Close();
+        return storyToSerialize;
     }
 
-    public static Story loadStory(string xmlPath)
+    public static StoryData loadStory(string xmlPath)
     {
         Stream reader = new FileStream(xmlPath, FileMode.Open);
         XmlSerializer ser = new XmlSerializer(typeof(StoryData));
 
         StoryData sd = (StoryData) ser.Deserialize(reader);
         reader.Close();
+
+        RectTransformData rtd = (RectTransformData) sd.pages[0].god[0].cd[0];
         Debug.Log("StoryData deserialized. \n" +
             "pages Count: " + sd.pages.Count
-            + "\n should be introPage1:" + sd.pages[0].name);
+            + "\n should be introPage1:" + sd.pages[0].name
+            + "\n rectTransform info: " + rtd.anchoredPosition);
         StoryData storyData = new StoryData();
         XmlDocument xmlDoc = new XmlDocument();
         /*  try
@@ -62,7 +66,7 @@ public class XMLSerializationManager : MonoBehaviour {
           */
         //storyData.convertToStory();
 
-        return new Story();
+        return sd;
         
     }
 
@@ -236,6 +240,7 @@ public class RectTransformData : ComponentData
         rect = (Rect) ser.Deserialize(reader);
         Debug.Log("position: " + rect.position);
     }
+
 }
 
 [Serializable]
