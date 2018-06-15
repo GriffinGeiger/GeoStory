@@ -65,7 +65,39 @@
                 <y>1422.9</y>
               </sizeDelta>
             </ComponentData>
-            <ComponentData xsi:type="RawImageData" />
+            <ComponentData xsi:type="RawImageData">
+              <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
+              <uvRect>
+                <x>0</x>
+                <y>0</y>
+                <position>
+                  <x>0</x>
+                  <y>0</y>
+                </position>
+                <center>
+                  <x>0.5</x>
+                  <y>0.5</y>
+                </center>
+                <min>
+                  <x>0</x>
+                  <y>0</y>
+                </min>
+                <max>
+                  <x>1</x>
+                  <y>1</y>
+                </max>
+                <width>1</width>
+                <height>1</height>
+                <size>
+                  <x>1</x>
+                  <y>1</y>
+                </size>
+                <xMin>0</xMin>
+                <yMin>0</yMin>
+                <xMax>1</xMax>
+                <yMax>1</yMax>
+              </uvRect>
+            </ComponentData>
           </cd>
           <god />
         </GameObjectData>
@@ -135,7 +167,39 @@
                 <y>1422.9</y>
               </sizeDelta>
             </ComponentData>
-            <ComponentData xsi:type="RawImageData" />
+            <ComponentData xsi:type="RawImageData">
+              <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
+              <uvRect>
+                <x>0</x>
+                <y>0</y>
+                <position>
+                  <x>0</x>
+                  <y>0</y>
+                </position>
+                <center>
+                  <x>0.5</x>
+                  <y>0.5</y>
+                </center>
+                <min>
+                  <x>0</x>
+                  <y>0</y>
+                </min>
+                <max>
+                  <x>1</x>
+                  <y>1</y>
+                </max>
+                <width>1</width>
+                <height>1</height>
+                <size>
+                  <x>1</x>
+                  <y>1</y>
+                </size>
+                <xMin>0</xMin>
+                <yMin>0</yMin>
+                <xMax>1</xMax>
+                <yMax>1</yMax>
+              </uvRect>
+            </ComponentData>
           </cd>
           <god />
         </GameObjectData>
@@ -201,7 +265,25 @@
                 <y>0</y>
               </sizeDelta>
             </ComponentData>
-            <ComponentData xsi:type="ImageData" />
+            <ComponentData xsi:type="ImageData">
+              <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+              <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+              <fillAmount>1</fillAmount>
+              <fillCenter>true</fillCenter>
+              <fillClockwise>true</fillClockwise>
+              <fillMethod>Radial360</fillMethod>
+              <fillOrigin>0</fillOrigin>
+              <flexibleHeight>-1</flexibleHeight>
+              <flexibleWidth>-1</flexibleWidth>
+              <hasBorder>true</hasBorder>
+              <layoutPriority>0</layoutPriority>
+              <minHeight>0</minHeight>
+              <minWidth>0</minWidth>
+              <preferredHeight>10</preferredHeight>
+              <preferredWidth>10</preferredWidth>
+              <preserveAspect>false</preserveAspect>
+              <type>Sliced</type>
+            </ComponentData>
           </cd>
           <god>
             <GameObjectData>
@@ -331,7 +413,25 @@
                         <y>1374.7</y>
                       </sizeDelta>
                     </ComponentData>
-                    <ComponentData xsi:type="ImageData" />
+                    <ComponentData xsi:type="ImageData">
+                      <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+                      <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+                      <fillAmount>1</fillAmount>
+                      <fillCenter>true</fillCenter>
+                      <fillClockwise>true</fillClockwise>
+                      <fillMethod>Radial360</fillMethod>
+                      <fillOrigin>0</fillOrigin>
+                      <flexibleHeight>-1</flexibleHeight>
+                      <flexibleWidth>-1</flexibleWidth>
+                      <hasBorder>true</hasBorder>
+                      <layoutPriority>0</layoutPriority>
+                      <minHeight>0</minHeight>
+                      <minWidth>0</minWidth>
+                      <preferredHeight>10</preferredHeight>
+                      <preferredWidth>10</preferredWidth>
+                      <preserveAspect>false</preserveAspect>
+                      <type>Sliced</type>
+                    </ComponentData>
                     <ComponentData xsi:type="ScrollBarData" />
                   </cd>
                   <god>
@@ -461,7 +561,25 @@
                                 <y>20</y>
                               </sizeDelta>
                             </ComponentData>
-                            <ComponentData xsi:type="ImageData" />
+                            <ComponentData xsi:type="ImageData">
+                              <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+                              <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+                              <fillAmount>1</fillAmount>
+                              <fillCenter>true</fillCenter>
+                              <fillClockwise>true</fillClockwise>
+                              <fillMethod>Radial360</fillMethod>
+                              <fillOrigin>0</fillOrigin>
+                              <flexibleHeight>-1</flexibleHeight>
+                              <flexibleWidth>-1</flexibleWidth>
+                              <hasBorder>true</hasBorder>
+                              <layoutPriority>0</layoutPriority>
+                              <minHeight>0</minHeight>
+                              <minWidth>0</minWidth>
+                              <preferredHeight>10</preferredHeight>
+                              <preferredWidth>10</preferredWidth>
+                              <preserveAspect>false</preserveAspect>
+                              <type>Sliced</type>
+                            </ComponentData>
                           </cd>
                           <god />
                         </GameObjectData>

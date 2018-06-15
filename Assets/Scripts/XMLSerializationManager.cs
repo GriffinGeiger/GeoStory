@@ -79,18 +79,18 @@ public class GameObjectData
         }
         foreach (Component c in go.GetComponents<Component>())
         {
-            if(c as RectTransform != null)
-            cd.Add(new RectTransformData((RectTransform) c));
+            if (c as RectTransform != null)
+                cd.Add(new RectTransformData((RectTransform)c));
             if (c as Image != null)                                  //Side thought: I might need to serialize/deserialize mask component. If erratic behavior later do that
-                cd.Add(new ImageData(c));
+                cd.Add(new ImageData((Image)c));
             if (c as RawImage != null)
-                cd.Add(new RawImageData(c));
+                cd.Add(new RawImageData((RawImage)c));
             if (c as ScrollRect != null)
-                cd.Add(new ScrollRectData(c));
+                cd.Add(new ScrollRectData((ScrollRect)c));
             if (c as Scrollbar != null)
-                cd.Add(new ScrollBarData(c));
+                cd.Add(new ScrollBarData((Scrollbar)c));
             if (c as Text != null)
-                cd.Add(new TextData(c));
+                cd.Add(new TextData((Text) c));
 
         }
     }
@@ -140,45 +140,161 @@ public class RectTransformData : ComponentData
 [Serializable]
 public class ImageData : ComponentData
 {
+    public string sourceImagePath;
+    
+    public float alphaHitTestMinimumThreshold;
+    public float fillAmount;
+    public bool fillCenter;
+    public bool fillClockwise;
+    public UnityEngine.UI.Image.FillMethod fillMethod;
+    public int fillOrigin;
+    public float flexibleHeight;
+    public float flexibleWidth;
+    public bool hasBorder;
+    public int layoutPriority;
+    //Not saving material because not using them
+    public float minHeight;
+    public float minWidth;
+    //figure out override sprite if needed
+    public float preferredHeight;
+    public float preferredWidth;
+    public bool preserveAspect;
+    public UnityEngine.UI.Image.Type type;
+
+
     public ImageData() { }
-    public ImageData(Component component)
+    public ImageData(Image image)
     {
-        Debug.Log("Copying ImageData");
+        sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
+        Debug.Log("Path of image:" + sourceImagePath);
+
+        alphaHitTestMinimumThreshold = image.alphaHitTestMinimumThreshold;
+        fillAmount = image.fillAmount;
+        fillCenter= image.fillCenter;
+        fillClockwise = image.fillClockwise;
+        fillMethod= image.fillMethod;
+        fillOrigin = image.fillOrigin;
+        flexibleHeight = image.flexibleHeight;
+        flexibleWidth = image.flexibleWidth;
+        hasBorder = image.hasBorder;
+        layoutPriority = image.layoutPriority;
+        
+        minHeight = image.minHeight;
+        minWidth = image.minWidth;
+        //figure out override sprite if needed
+        preferredHeight = image.preferredHeight;
+        preferredWidth = image.preferredWidth;
+        preserveAspect = image.preserveAspect;
+        type = image.type;
     }
 }
 [Serializable]
 public class RawImageData : ComponentData
 {
+    public string sourceImagePath;
+    public Rect uvRect;
+
     public RawImageData() { }
-    public RawImageData(Component component)
+    public RawImageData(RawImage image)
     {
-        Debug.Log("Copying RawImageData");
+        
+        sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.texture);
+        Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
+        uvRect = image.uvRect;
     }
 }
 [Serializable]
 public class ScrollRectData : ComponentData
 {
+    
     public ScrollRectData() { }
-    public ScrollRectData(Component component)
+    public ScrollRectData(ScrollRect scrollRect)
     {
+        
         Debug.Log("Copying ScrollRectData");
     }
 }
 [Serializable]
 public class ScrollBarData : ComponentData
 {
+    public UnityEngine.UI.Scrollbar.Direction direction;
+    public RectTransformData handleRect;
+    public int numberOfSteps;
+    public UnityEngine.UI.Scrollbar.ScrollEvent onValueChanged;
+    public float size;
+    public float value;
+
     public ScrollBarData() { }
-    public ScrollBarData(Component component)
+    public ScrollBarData(Scrollbar sb)
     {
-        Debug.Log("Copying ScrollBarData");
+        direction = sb.direction;
+        handleRect = new RectTransformData(sb.handleRect);
+        numberOfSteps = sb.numberOfSteps;
+        onValueChanged = sb.onValueChanged;
+        size = sb.size;
+        value = sb.value;
     }
 }
 [Serializable]
 public class TextData : ComponentData
 {
+    public bool alignByGeometry;
+    public TextAnchor alignment;
+    public TextGenerator cachedTextGenerator;
+    public TextGenerator cachedTextGeneratorForLayout;
+    public float flexibleHeight;
+    public float flexibleWidth;
+    public Font font;
+    public int fontSize;
+    public FontStyle fontStyle;
+    public HorizontalWrapMode horizontalOverflow;
+    public int layoutPriority;
+    public float lineSpacing;
+    public Texture mainTexture;
+    public float minHeight;
+    public float minWidth;
+    public float pixelsPerUnit;
+    public float preferredHeight;
+    public float preferredWidth;
+    public bool resizeTextForBestFit;
+    public int resizeTextMaxSize;
+    public int resizeTextMinSize;
+    public bool supportRichText;
+    public string text;
+    public VerticalWrapMode verticalOverflow;
+
+
+
+
+
     public TextData() { }
-    public TextData(Component component)
+    public TextData(Text text)
     {
         Debug.Log("Copying TextData");
+        alignByGeometry = text.alignByGeometry;
+        alignment = text.alignment;
+        cachedTextGenerator = text.cachedTextGenerator;
+        cachedTextGeneratorForLayout = text.cachedTextGeneratorForLayout;
+        flexibleHeight = text.flexibleHeight;
+        flexibleWidth = text.flexibleWidth;
+        font = text.font;
+        fontSize = text.fontSize;
+        fontStyle = text.fontStyle;
+        horizontalOverflow = text.horizontalOverflow;
+        layoutPriority = text.layoutPriority;
+        lineSpacing = text.lineSpacing;
+        mainTexture = text.mainTexture;
+        minHeight = text.minHeight;
+        minWidth = text.minWidth;
+        pixelsPerUnit = text.pixelsPerUnit;
+        preferredHeight = text.preferredHeight;
+        preferredWidth = text.preferredWidth;
+        resizeTextForBestFit = text.resizeTextForBestFit;
+        resizeTextMaxSize = text.resizeTextMaxSize;
+        resizeTextMinSize = text.resizeTextMinSize;
+        supportRichText = text.supportRichText;
+        this.text = text.text;
+        verticalOverflow = text.verticalOverflow;
+
     }
 }
