@@ -53,16 +53,15 @@ public class GameManagerEditor : Editor
     private string checkout(StoryData sd)
     {
         string outputString = "";
-        foreach (PageData pd in sd.pages)
-        {
-            RawImageData rtd = (RawImageData)pd.god[0].cd[1];
+        
+            TextData rtd = (TextData) sd.pages[1].god[1].god[0].god[1].cd[1];
             try
             {
-                outputString += rtd.sourceImagePath + " ";
+                outputString +=  rtd.text + " ";
 
             }
             catch (Exception e) { }
-        }
+        
         return outputString;
     }
 }

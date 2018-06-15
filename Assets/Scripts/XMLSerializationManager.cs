@@ -17,8 +17,6 @@ public class XMLSerializationManager : MonoBehaviour {
         ins = this;
     }
 
-   
-
     public static StoryData saveStory(Story story)
     {
         StoryData storyToSerialize = new StoryData(story);
@@ -30,96 +28,13 @@ public class XMLSerializationManager : MonoBehaviour {
         return storyToSerialize;
     }
 
-    public static StoryData loadStory(string xmlPath)
+    public static Story loadStory(string xmlPath)  //currently returns storyDAta but needs to return story when done testing
     {
         Stream reader = new FileStream(xmlPath, FileMode.Open);
         XmlSerializer ser = new XmlSerializer(typeof(StoryData));
-
         StoryData sd = (StoryData) ser.Deserialize(reader);
         reader.Close();
-
-        RectTransformData rtd = (RectTransformData) sd.pages[0].god[0].cd[0];
-        Debug.Log("StoryData deserialized. \n" +
-            "pages Count: " + sd.pages.Count
-            + "\n should be introPage1:" + sd.pages[0].name
-            + "\n rectTransform info: " + rtd.anchoredPosition);
-        StoryData storyData = new StoryData();
-        XmlDocument xmlDoc = new XmlDocument();
-        /*  try
-          {
-              xmlDoc.Load(xmlPath);
-          }
-          catch(Exception e)
-          {
-              Debug.Log("The file could not be read. " + e.Message);
-          }
-
-          foreach(XmlNode node in xmlDoc.SelectNodes("StoryData/pages/PageData"))
-          {
-              Debug.Log(node.SelectSingleNode("name").InnerText);
-              PageData page = new PageData();
-              foreach(GameObjectData god in deserializeGameObjectData(node))  //takes the array of GameObjectData and puts it in the god list of pagedata
-              {
-                  page.god.Add(god);
-              }
-          }
-          */
-        //storyData.convertToStory();
-
-        return sd;
-        
-    }
-
-    private static GameObjectData[] deserializeGameObjectData(XmlNode node)
-    {
-        List<GameObjectData> godList = new List<GameObjectData>();
-        foreach(XmlNode node1 in node.SelectNodes("god/GameObjectData"))
-        {
-            GameObjectData gameObject = new GameObjectData();
-           
-            //fill gameObject with info from gameObject
-            gameObject.name = node1.SelectSingleNode("name").InnerText;
-            foreach(XmlNode xNode in node1.SelectNodes("cd/ComponentData"))
-            {
-                    Debug.Log("Attributes of ComponentData: " + xNode.Attributes["xsi:type"].Value);
-                switch (xNode.Attributes["xsi:type"].Value)
-                {
-                    case "RectTransformData":
-                        RectTransformData rtd = new RectTransformData();
-                        rtd.fillFromXml(xNode);
-                        break;
-                    case "ImageData":
-                        ImageData id = new ImageData();
-                        id.fillFromXml(xNode);
-                        break;
-                    case "RawImageData":
-                        RawImageData rid = new RawImageData();
-                        rid.fillFromXml(xNode);
-                        break;
-                    case "ScrollRectData":
-                        ScrollRectData srd = new ScrollRectData();
-                        srd.fillFromXml(xNode);
-                        break;
-                    case "ScrollBarData":
-                        ScrollBarData sbd = new ScrollBarData();
-                        sbd.fillFromXml(xNode);
-                        break;
-                    case "TextData":
-                        TextData td = new TextData();
-                        td.fillFromXml(xNode);
-                        break;
-                }
-            }
-            ////////////////////////////////////////////////////////////
-            foreach (GameObjectData god in deserializeGameObjectData(node1)) //takes the array of GameObjectData and puts it in the god list of this GameObjectdata
-            {                                                               //Calls recursively to fill all the GameObjectData god lists that you are putting into this one    
-                gameObject.god.Add(god);
-            }
-        }
-
-        GameObjectData[] godArray = new GameObjectData[godList.Count];
-        godList.CopyTo(godArray);
-        return godArray;
+        return sd.toStory();
     }
 }
 
@@ -138,6 +53,21 @@ public class StoryData
             pages.Add(new PageData(p));
         }
     }
+
+    public Story toStory()
+    {
+        Story story = new Story();
+        story.name = name;
+        //currentPage?
+
+        foreach(PageData pd in pages)
+        {
+            Page page = pd.toPage();
+            story.addPage(page);
+        }
+
+        return story;
+    }
 }
 
 [Serializable]
@@ -155,6 +85,18 @@ public class PageData
         {
             god.Add(new GameObjectData(go));
         }
+    }
+    public Page toPage()
+    {
+        Page page = new Page();
+        page.setName(name);
+        //fill page
+        foreach(GameObjectData data in god)
+        {
+            data.toGameObject();
+            //instantiate, setVisible(false), and set as child to canvas
+        }
+        return page;
     }
 
 }
@@ -190,6 +132,23 @@ public class GameObjectData
                 cd.Add(new TextData((Text) c));
 
         }
+    }
+    public GameObject toGameObject()
+    {
+        GameObject go = new GameObject();
+        foreach(ComponentData c in cd)
+        {
+            if(c as RectTransformData != null)
+            {
+
+            }
+        }
+        foreach (GameObjectData data in god)
+        {
+            data.toGameObject();
+            //instantiate, setVisible(false), and set as child to this go
+        }
+        return go;
     }
 }
 [Serializable]
