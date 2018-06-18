@@ -62,8 +62,7 @@ public class StoryData
 
         foreach(PageData pd in pages)
         {
-            Page page = pd.toPage();
-            story.addPage(page);
+            story.addPage(pd.toPage()); //creates a new Page and adds it to list of pages
         }
 
         return story;
@@ -127,7 +126,7 @@ public class GameObjectData
             if (c as ScrollRect != null)
                 cd.Add(new ScrollRectData((ScrollRect)c));
             if (c as Scrollbar != null)
-                cd.Add(new ScrollBarData((Scrollbar)c));
+                cd.Add(new ScrollbarData((Scrollbar)c));
             if (c as Text != null)
                 cd.Add(new TextData((Text) c));
 
@@ -140,13 +139,33 @@ public class GameObjectData
         {
             if(c as RectTransformData != null)
             {
-
+                ((RectTransformData)c).toRectTransform(go);
+            }
+            if(c as ImageData != null)
+            {
+                ((ImageData)c).toImage(go); //Creates Image of c and applies it to go
+            }
+            if (c as RawImageData != null)
+            {
+                ((RawImageData)c).toRawImage(go);
+            }
+            if (c as ScrollRectData != null)
+            {
+                ((ScrollRectData)c).toScrollRect(go);
+            }
+            if (c as ScrollbarData != null)
+            {
+                ((ScrollbarData)c).toScrollbar(go);
+            }
+            if (c as TextData != null)
+            {
+                ((TextData)c).toText(go);
             }
         }
         foreach (GameObjectData data in god)
         {
-            data.toGameObject();
-            //instantiate, setVisible(false), and set as child to this go
+            //instantiate and set as child to this go
+            data.toGameObject().GetComponent<RectTransform>().SetParent(go.GetComponent<RectTransform>());
         }
         return go;
     }
@@ -156,7 +175,7 @@ public class GameObjectData
 [XmlInclude(typeof(RawImageData))]
 [XmlInclude(typeof(ImageData))]
 [XmlInclude(typeof(ScrollRectData))]
-[XmlInclude(typeof(ScrollBarData))]
+[XmlInclude(typeof(ScrollbarData))]
 [XmlInclude(typeof(TextData))]
 public class ComponentData
 {
@@ -175,7 +194,6 @@ public class RectTransformData : ComponentData
     public Vector2 offsetMax;
     public Vector2 offsetMin;
     public Vector2 pivot;
-    public Rect rect;
     public Vector2 sizeDelta;
 
     public RectTransformData() { }
@@ -187,19 +205,21 @@ public class RectTransformData : ComponentData
         offsetMax = rect.offsetMax;
         offsetMin = rect.offsetMin;
         pivot = rect.pivot;
-        this.rect = rect.rect;
         sizeDelta = rect.sizeDelta;
     }
-
-    public void fillFromXml(XmlNode node)
+    //Creates a rect transform using the fields in this RectTransformData and applies it to a parent. While not necessary to specify a parent this 
+    //is to keep a consistent style with the other components, since Unity gui elements need a parent to initialize
+    public void toRectTransform(GameObject parent)
     {
-        Debug.Log("here");
-        TextReader reader = new StringReader(node.SelectSingleNode("rect").InnerXml);
-        XmlSerializer ser = new XmlSerializer(typeof(Rect));
-        rect = (Rect) ser.Deserialize(reader);
-        Debug.Log("position: " + rect.position);
+        RectTransform rc = parent.AddComponent<RectTransform>();
+        rc.anchoredPosition = anchoredPosition;
+        rc.anchorMax = anchorMax;
+        rc.anchorMin = anchorMin;
+        rc.offsetMax = offsetMax;
+        rc.offsetMin = offsetMin;
+        rc.pivot = pivot;
+        rc.sizeDelta = sizeDelta;
     }
-
 }
 
 [Serializable]
@@ -213,16 +233,6 @@ public class ImageData : ComponentData
     public bool fillClockwise;
     public UnityEngine.UI.Image.FillMethod fillMethod;
     public int fillOrigin;
-    public float flexibleHeight;
-    public float flexibleWidth;
-    public bool hasBorder;
-    public int layoutPriority;
-    //Not saving material because not using them
-    public float minHeight;
-    public float minWidth;
-    //figure out override sprite if needed
-    public float preferredHeight;
-    public float preferredWidth;
     public bool preserveAspect;
     public UnityEngine.UI.Image.Type type;
 
@@ -239,23 +249,32 @@ public class ImageData : ComponentData
         fillClockwise = image.fillClockwise;
         fillMethod= image.fillMethod;
         fillOrigin = image.fillOrigin;
-        flexibleHeight = image.flexibleHeight;
-        flexibleWidth = image.flexibleWidth;
-        hasBorder = image.hasBorder;
-        layoutPriority = image.layoutPriority;
-        
-        minHeight = image.minHeight;
-        minWidth = image.minWidth;
-        //figure out override sprite if needed
-        preferredHeight = image.preferredHeight;
-        preferredWidth = image.preferredWidth;
+
         preserveAspect = image.preserveAspect;
         type = image.type;
     }
 
-    public void fillFromXml(XmlNode node)
+    public void toImage(GameObject parent)
     {
+        Image image = parent.AddComponent<Image>();
+        //Fill the image fields
+        //sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
+        
+        image.sprite =(Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, image.sprite.GetType());
+        if(image.sprite == null)
+        {
+            Debug.Log("Image file not found at: " + sourceImagePath);
+            //set a default picture in its place
+        }
 
+        image.alphaHitTestMinimumThreshold = alphaHitTestMinimumThreshold;
+        image.fillAmount =      fillAmount;
+        image.fillCenter =      fillCenter;
+        image.fillClockwise =   fillClockwise;
+        image.fillMethod =      fillMethod;
+        image.fillOrigin =      fillOrigin;
+        image.preserveAspect =  preserveAspect;
+        image.type =            image.type;
     }
 }
 [Serializable]
@@ -267,17 +286,17 @@ public class RawImageData : ComponentData
     public RawImageData() { }
     public RawImageData(RawImage image)
     {
-        
         sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.texture);
         Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
         uvRect = image.uvRect;
     }
 
-    public void fillFromXml(XmlNode node)
+    public void toRawImage(GameObject parent)
     {
 
     }
 }
+
 [Serializable]
 public class ScrollRectData : ComponentData
 {
@@ -330,13 +349,13 @@ public class ScrollRectData : ComponentData
         verticalScrollbarSpacing = sr.verticalScrollbarSpacing;
         verticalScrollbarVisibility = sr.verticalScrollbarVisibility;
     }
-    public void fillFromXml(XmlNode node)
+    public void toScrollRect(GameObject parent)
     {
 
     }
 }
 [Serializable]
-public class ScrollBarData : ComponentData
+public class ScrollbarData : ComponentData
 {
     public UnityEngine.UI.Scrollbar.Direction direction;
     public RectTransformData handleRect;
@@ -345,8 +364,8 @@ public class ScrollBarData : ComponentData
     public float size;
     public float value;
 
-    public ScrollBarData() { }
-    public ScrollBarData(Scrollbar sb)
+    public ScrollbarData() { }
+    public ScrollbarData(Scrollbar sb)
     {
         direction = sb.direction;
         handleRect = new RectTransformData(sb.handleRect);
@@ -355,7 +374,7 @@ public class ScrollBarData : ComponentData
         size = sb.size;
         value = sb.value;
     }
-    public void fillFromXml(XmlNode node)
+    public void toScrollbar(GameObject parent)
     {
 
     }
@@ -412,7 +431,7 @@ public class TextData : ComponentData
         supportRichText = text.supportRichText;
         this.text = text.text;
     }
-    public void fillFromXml(XmlNode node)
+    public void toText(GameObject parent)
     {
 
     }

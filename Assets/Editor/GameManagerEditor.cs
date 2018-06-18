@@ -46,8 +46,8 @@ public class GameManagerEditor : Editor
         {
             gm.buildIntro();
             StoryData input = XMLSerializationManager.saveStory(gm.currentStory);
-            StoryData output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
-            Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
+            Story output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
+           // Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
         }
     }
     private string checkout(StoryData sd)
