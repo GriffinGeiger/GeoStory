@@ -8,16 +8,11 @@ using UnityEngine.UI;
 using System;
 using System.Xml.Schema;
 using System.Reflection;
+using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class XMLSerializationManager : MonoBehaviour {
-    public static XMLSerializationManager ins;
-    
-
-    private void Awake()
-    {
-        ins = this;
-    }
-
+ 
     public static StoryData saveStory(Story story)
     {
         StoryData storyToSerialize = new StoryData(story);
@@ -36,6 +31,15 @@ public class XMLSerializationManager : MonoBehaviour {
         StoryData sd = (StoryData) ser.Deserialize(reader);
         reader.Close();
         return sd.toStory(canvas);
+    }
+    public static void copyComponent(Component original, Component copy)
+    {
+        Type type = original.GetType();
+        FieldInfo[] fields = type.GetFields();
+        foreach(FieldInfo field in fields)
+        {
+            field.SetValue(copy, field.GetValue(original));
+        }
     }
 }
 
@@ -63,7 +67,7 @@ public class StoryData
 
         foreach(PageData pd in pages)
         {
-            story.addPage(pd.toPage(canvas)); //creates a new Page and adds it to list of pages
+            story.addPage(pd.toPage(canvas,story)); //creates a new Page and adds it to list of pages
         }
 
         return story;
@@ -74,35 +78,179 @@ public class StoryData
 public class PageData
 {
     public string name;
-    public List<GameObjectData> god = new List<GameObjectData>();
+    public List<PrefabData> pfd = new List<PrefabData>();
     public PageData() { }
     public PageData(Page page)
     {
         name = page.getName();
-        //get all the game objects and construct game object data for each and put into list
-        GameObject[] elements = page.getElements();
-        foreach(GameObject go in elements)
+        foreach(GameObject element in page.getElements())
         {
-            god.Add(new GameObjectData(go));
+            //determine the prefab this game element belongs to (this game object is the highest parent of the prefab)
+            string prefabType = element.GetComponent<PrefabInfo>().prefabType;
+            if(prefabType == "BackgroundImage")
+            {
+                pfd.Add(new BackgroundData(element));
+            }
+            else if(prefabType == "ScrollArea")
+            {
+                pfd.Add(new ScrollAreaData(element));
+            }
+            else
+            {
+                Debug.Log("Prefab type does not match known prefabs");
+            }
         }
     }
-    public Page toPage(Canvas canvas)
+    public Page toPage(Canvas canvas,Story story)
     {
-        Page page = new Page();
-        page.setName(name);
+        Page page = new Page(name,story);
         //fill page
-        foreach(GameObjectData data in god)
+        foreach(PrefabData data in pfd)
         {
-            //instantiate and set as child to canvas
-
-                data.toGameObject().GetComponent<RectTransform>().SetParent(canvas.transform);
-
+            GameObject element = data.toPrefab(canvas);
+            string buttonAction = element.GetComponent<PrefabInfo>().buttonAction;
+            if (buttonAction != null && buttonAction != "")
+                page.addPageElement(element, buttonAction);
+            else
+                page.addPageElement(element);
         }
         return page;
     }
 
 }
 
+[Serializable]
+[XmlInclude(typeof(BackgroundData))]
+[XmlInclude(typeof(ScrollAreaData))]
+public abstract class PrefabData
+{ 
+    public PrefabData()
+    {
+
+    }
+    public abstract GameObject toPrefab(Canvas canvas);
+}
+
+[Serializable]
+public class BackgroundData : PrefabData
+{
+    public RectTransformData rtd;
+    public RawImageData rawImage;
+    public string action;
+
+    public BackgroundData(){}
+    public BackgroundData(GameObject background)
+    {
+        rtd = new RectTransformData(background.GetComponent<RectTransform>());
+        rawImage = new RawImageData(background.GetComponent<RawImage>());
+        action = background.GetComponent<PrefabInfo>().buttonAction;
+    }
+
+    public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
+    {
+        GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);
+        rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
+        rawImage.copyToRawImage(bg.GetComponent<RawImage>());
+        bg.GetComponent<PrefabInfo>().buttonAction = action;
+        return bg;
+    }
+}
+
+[Serializable]
+public class ScrollAreaData : PrefabData
+{
+    //ScrollArea fields
+    public RectTransformData rtd_SA;
+    public ImageData image_SA;
+    public string action;
+
+    //TextBox fields
+    public RectTransformData rtd_TB;
+    public ScrollRectData srd_TB;
+
+    //Scrollbar fields
+    public RectTransformData rtd_SB;
+    public ImageData image_SB;
+    public ScrollbarData sb_SB;
+
+    //Sliding Area fields
+    public RectTransformData rtd_SlA;
+
+    //Handle fields
+    public RectTransformData rtd_H;
+    public ImageData image_H;
+
+    //Text fields
+    public RectTransformData rtd_T;
+    public TextData text_T;
+
+
+    public ScrollAreaData() { }
+    public ScrollAreaData(GameObject scrollArea)
+    {
+        Debug.Log("Filling ScrollAreaData");
+        //SA fields
+        rtd_SA = new RectTransformData(scrollArea.GetComponent<RectTransform>());
+        image_SA = new ImageData(scrollArea.GetComponent<Image>());
+        action = scrollArea.GetComponent<PrefabInfo>().buttonAction;
+
+        //TB fields
+        GameObject textBox = scrollArea.transform.GetChild(0).gameObject;
+        rtd_TB = new RectTransformData(textBox.GetComponent<RectTransform>());
+        srd_TB = new ScrollRectData(textBox.GetComponent<ScrollRect>());
+
+        //SB fields
+        GameObject scrollbar = textBox.transform.GetChild(0).gameObject;
+        rtd_SB = new RectTransformData(scrollbar.GetComponent<RectTransform>());
+        image_SB = new ImageData(scrollbar.GetComponent<Image>());
+        sb_SB = new ScrollbarData(scrollbar.GetComponent<Scrollbar>());
+
+        //SlA fields
+        GameObject slidingArea = scrollbar.transform.GetChild(0).gameObject;
+        rtd_SlA = new RectTransformData(slidingArea.GetComponent<RectTransform>());
+
+        //Handle fields
+        GameObject handle = slidingArea.transform.GetChild(0).gameObject;
+        rtd_H = new RectTransformData(handle.GetComponent<RectTransform>());
+        image_H = new ImageData(handle.GetComponent<Image>());
+
+        //TextFields
+        GameObject text = textBox.transform.GetChild(1).gameObject;
+        rtd_T = new RectTransformData(text.GetComponent<RectTransform>());
+        text_T = new TextData(text.GetComponent<Text>()); 
+    }
+    public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
+    {
+        GameObject sa = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/ScrollArea.prefab"), canvas.transform);
+        rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
+        image_SA.copyToImage(sa.GetComponent<Image>());
+        sa.GetComponent<PrefabInfo>().buttonAction = action;
+
+        GameObject tb = sa.transform.GetChild(0).gameObject;
+        rtd_TB.copyToRectTransform(tb.GetComponent<RectTransform>());
+        srd_TB.copyToScrollRect(tb.GetComponent<ScrollRect>());
+
+        GameObject sb = tb.transform.GetChild(0).gameObject;
+        rtd_SB.copyToRectTransform(sb.GetComponent<RectTransform>());
+        image_SB.copyToImage(sb.GetComponent<Image>());
+        sb_SB.copyToScrollbar(sb.GetComponent<Scrollbar>());
+
+        GameObject sla = sb.transform.GetChild(0).gameObject;
+        rtd_SlA.copyToRectTransform(sla.GetComponent<RectTransform>());
+
+        GameObject h = sla.transform.GetChild(0).gameObject;
+        rtd_H.copyToRectTransform(h.GetComponent<RectTransform>());
+        image_H.copyToImage(h.GetComponent<Image>());
+
+        GameObject t = tb.transform.GetChild(1).gameObject;
+        rtd_T.copyToRectTransform(t.GetComponent<RectTransform>());
+        text_T.copyToText(t.GetComponent<Text>());
+
+        return sa;
+    }
+}
+
+/*
 [Serializable]
 public class GameObjectData
 {
@@ -173,6 +321,7 @@ public class GameObjectData
         return go;
     }
 }
+*/
 [Serializable]
 [XmlInclude(typeof(RectTransformData))]
 [XmlInclude(typeof(RawImageData))]
@@ -213,9 +362,10 @@ public class RectTransformData : ComponentData
     //Creates a rect transform using the fields in this RectTransformData and applies it to a parent. While not necessary to specify a parent this 
     //is to keep a consistent style with the other components, since Unity gui elements need a parent to initialize
 
-    public void toRectTransform(GameObject parent)
+    public void copyToRectTransform(RectTransform target)
     {
-        RectTransform rc = parent.AddComponent<RectTransform>();
+        GameObject gameObject = new GameObject();
+        RectTransform rc = gameObject.AddComponent<RectTransform>();
         rc.anchoredPosition = anchoredPosition;
         rc.anchorMax = anchorMax;
         rc.anchorMin = anchorMin;
@@ -223,7 +373,8 @@ public class RectTransformData : ComponentData
         rc.offsetMin = offsetMin;
         rc.pivot = pivot;
         rc.sizeDelta = sizeDelta;
-
+        XMLSerializationManager.copyComponent(rc, target);
+        GameObject.Destroy(gameObject);
     }
 }
 
@@ -259,12 +410,11 @@ public class ImageData : ComponentData
         type = image.type;
     }
 
-    public void toImage(GameObject parent)
+    public void copyToImage(Image target)
     {
-        Image image = parent.AddComponent<Image>();
-        //Fill the image fields
-        //sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
-        
+        GameObject gameObject = new GameObject();
+        Image image = gameObject.AddComponent<Image>();
+     
         image.sprite =(Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, typeof(Sprite));
         if(image.sprite == null)
         {
@@ -280,6 +430,9 @@ public class ImageData : ComponentData
         image.fillOrigin =      fillOrigin;
         image.preserveAspect =  preserveAspect;
         image.type =            image.type;
+
+        XMLSerializationManager.copyComponent(image, target);
+        GameObject.Destroy(gameObject);
     }
 }
 
@@ -297,10 +450,10 @@ public class RawImageData : ComponentData
         uvRect = image.uvRect;
     }
 
-    public void toRawImage(GameObject parent)
+    public void copyToRawImage(RawImage target)
     {
-        RawImage image = parent.AddComponent<RawImage>();
-        Debug.Log("Source image path: " + sourceImagePath);
+        GameObject gameObject = new GameObject();
+        RawImage image = gameObject.AddComponent<RawImage>();
         image.texture = (Texture) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, typeof(Texture));
         if (image.texture == null)
         {
@@ -309,6 +462,8 @@ public class RawImageData : ComponentData
         }
 
         image.uvRect = uvRect;
+        XMLSerializationManager.copyComponent(image, target);
+        GameObject.Destroy(gameObject);
     }
 }
 
@@ -350,9 +505,10 @@ public class ScrollRectData : ComponentData
         verticalScrollbarSpacing = sr.verticalScrollbarSpacing;
         verticalScrollbarVisibility = sr.verticalScrollbarVisibility;
     }
-    public void toScrollRect(GameObject parent)                 //Scroll rect stuff is all kinds of screwed because it needs references to the other gameobjects
+    public void copyToScrollRect(ScrollRect target)                 //Scroll rect stuff is all kinds of screwed because it needs references to the other gameobjects
     {
-        ScrollRect rect = parent.AddComponent<ScrollRect>();
+        GameObject gameObject = new GameObject();
+        ScrollRect rect = gameObject.AddComponent<ScrollRect>();
         //rect.normalizedPosition = normalizedPosition;
         rect.decelerationRate = decelerationRate;
         rect.elasticity = elasticity;
@@ -366,6 +522,8 @@ public class ScrollRectData : ComponentData
         rect.verticalScrollbarSpacing = verticalScrollbarSpacing;
         rect.verticalScrollbarVisibility = verticalScrollbarVisibility;
 
+        XMLSerializationManager.copyComponent(rect, target);
+        GameObject.Destroy(gameObject);
     }
 }
 [Serializable]
@@ -388,15 +546,19 @@ public class ScrollbarData : ComponentData
         size = sb.size;
         value = sb.value;
     }
-    public void toScrollbar(GameObject parent)
+    public void copyToScrollbar(Scrollbar target)
     {
-        Scrollbar sb = parent.AddComponent<Scrollbar>();
+        GameObject gameObject = new GameObject();
+        Scrollbar sb = gameObject.AddComponent<Scrollbar>();
         sb.direction = direction;
         //sb.handleRect = handleRect.toRectTransform(null);   //Needs to get the rect transform of the Handle after its instantiated
         sb.numberOfSteps = numberOfSteps;
         sb.onValueChanged = onValueChanged;
         sb.size = size;
         sb.value = value;
+
+        XMLSerializationManager.copyComponent(sb, target);
+        GameObject.Destroy(gameObject);
     }
 }
 [Serializable]
@@ -435,9 +597,10 @@ public class TextData : ComponentData
         supportRichText = text.supportRichText;
         this.text = text.text;
     }
-    public void toText(GameObject parent)
+    public void copyToText(Text target)
     {
-        Text t = parent.AddComponent<Text>();
+        GameObject gameObject = new GameObject();
+        Text t = gameObject.AddComponent<Text>();
         t.alignByGeometry = alignByGeometry;
         t.alignment = alignment;
         t.font = UnityEditor.AssetDatabase.LoadAssetAtPath<Font>(fontPath);
@@ -455,5 +618,9 @@ public class TextData : ComponentData
         t.resizeTextMinSize = resizeTextMinSize;
         t.supportRichText = supportRichText;
         t.text = text;
+
+        XMLSerializationManager.copyComponent(t, target);
+        GameObject.Destroy(gameObject);
     }
 }
+

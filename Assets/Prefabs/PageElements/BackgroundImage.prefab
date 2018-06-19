@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222915634010590700}
   - component: {fileID: 114223248180428894}
   - component: {fileID: 114121065712481276}
+  - component: {fileID: 114784820504543742}
   m_Layer: 5
   m_Name: BackgroundImage
   m_TagString: Untagged
@@ -68,6 +69,19 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &114784820504543742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193753452822602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabType: BackgroundImage
+  buttonAction: 
 --- !u!222 &222915634010590700
 CanvasRenderer:
   m_ObjectHideFlags: 1

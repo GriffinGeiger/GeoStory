@@ -61,6 +61,7 @@ public class Page {
     public void addPageElement(GameObject element, string action)
     {
         EventTrigger trigger = element.GetComponent<EventTrigger>(); //Implement eventTrigger to do button stuff.
+        element.GetComponent<PrefabInfo>().buttonAction = action;
         if (trigger != null)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -71,7 +72,7 @@ public class Page {
         }
         else
         {
-            throw new MissingComponentException("Action specified but no Button associated with element.");
+            throw new MissingComponentException("Action specified but no EventTrigger associated with element.");
         }
     }
 

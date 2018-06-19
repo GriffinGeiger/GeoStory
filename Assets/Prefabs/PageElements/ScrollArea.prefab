@@ -71,7 +71,6 @@ GameObject:
   - component: {fileID: 224910087922447344}
   - component: {fileID: 222202346367895456}
   - component: {fileID: 114167630005652002}
-  - component: {fileID: 132104830157781984}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -106,13 +105,14 @@ GameObject:
   - component: {fileID: 222378980461139190}
   - component: {fileID: 114329757213061810}
   - component: {fileID: 114564496281247878}
+  - component: {fileID: 114974462693693214}
   m_Layer: 5
   m_Name: ScrollArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &114167630005652002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,6 +295,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114974462693693214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699131702613014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabType: ScrollArea
+  buttonAction: 
 --- !u!114 &114999824733672040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,29 +335,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!132 &132104830157781984
-GUIText:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1454321691928950}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Text: 
-  m_Anchor: 0
-  m_Alignment: 0
-  m_PixelOffset: {x: 0, y: 0}
-  m_LineSpacing: 1
-  m_TabSize: 4
-  m_Font: {fileID: 12800000, guid: 3af6cd26e588be84e9ecd1d76b4b8636, type: 3}
-  m_Material: {fileID: 0}
-  m_FontSize: 0
-  m_FontStyle: 0
-  m_Color:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_PixelCorrect: 1
-  m_RichText: 1
 --- !u!222 &222110596251198258
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -401,8 +391,8 @@ RectTransform:
   m_Father: {fileID: 224190534640929266}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.8071298}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

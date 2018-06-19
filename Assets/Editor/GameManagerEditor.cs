@@ -51,19 +51,6 @@ public class GameManagerEditor : Editor
            // Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
         }
     }
-    private string checkout(StoryData sd)
-    {
-        string outputString = "";
-        
-            TextData rtd = (TextData) sd.pages[1].god[1].god[0].god[1].cd[1];
-            try
-            {
-                outputString +=  rtd.text + " ";
-
-            }
-            catch (Exception e) { }
-        
-        return outputString;
-    }
+ 
 }
 
