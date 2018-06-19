@@ -33,36 +33,6 @@
                 <x>0.5</x>
                 <y>0.5</y>
               </pivot>
-              <rect>
-                <x>-400</x>
-                <y>-711.45</y>
-                <position>
-                  <x>-400</x>
-                  <y>-711.45</y>
-                </position>
-                <center>
-                  <x>0</x>
-                  <y>0</y>
-                </center>
-                <min>
-                  <x>-400</x>
-                  <y>-711.45</y>
-                </min>
-                <max>
-                  <x>400</x>
-                  <y>711.45</y>
-                </max>
-                <width>800</width>
-                <height>1422.9</height>
-                <size>
-                  <x>800</x>
-                  <y>1422.9</y>
-                </size>
-                <xMin>-400</xMin>
-                <yMin>-711.45</yMin>
-                <xMax>400</xMax>
-                <yMax>711.45</yMax>
-              </rect>
               <sizeDelta>
                 <x>800</x>
                 <y>1422.9</y>
@@ -137,36 +107,6 @@
                 <x>0.5</x>
                 <y>0.5</y>
               </pivot>
-              <rect>
-                <x>-400</x>
-                <y>-711.45</y>
-                <position>
-                  <x>-400</x>
-                  <y>-711.45</y>
-                </position>
-                <center>
-                  <x>0</x>
-                  <y>0</y>
-                </center>
-                <min>
-                  <x>-400</x>
-                  <y>-711.45</y>
-                </min>
-                <max>
-                  <x>400</x>
-                  <y>711.45</y>
-                </max>
-                <width>800</width>
-                <height>1422.9</height>
-                <size>
-                  <x>800</x>
-                  <y>1422.9</y>
-                </size>
-                <xMin>-400</xMin>
-                <yMin>-711.45</yMin>
-                <xMax>400</xMax>
-                <yMax>711.45</yMax>
-              </rect>
               <sizeDelta>
                 <x>800</x>
                 <y>1422.9</y>
@@ -236,36 +176,6 @@
                 <x>0.5</x>
                 <y>0.5</y>
               </pivot>
-              <rect>
-                <x>-400</x>
-                <y>-711.4667</y>
-                <position>
-                  <x>-400</x>
-                  <y>-711.4667</y>
-                </position>
-                <center>
-                  <x>0</x>
-                  <y>0</y>
-                </center>
-                <min>
-                  <x>-400</x>
-                  <y>-711.4667</y>
-                </min>
-                <max>
-                  <x>400</x>
-                  <y>711.4667</y>
-                </max>
-                <width>800</width>
-                <height>1422.93335</height>
-                <size>
-                  <x>800</x>
-                  <y>1422.93335</y>
-                </size>
-                <xMin>-400</xMin>
-                <yMin>-711.4667</yMin>
-                <xMax>400</xMax>
-                <yMax>711.4667</yMax>
-              </rect>
               <sizeDelta>
                 <x>0</x>
                 <y>0</y>
@@ -279,14 +189,6 @@
               <fillClockwise>true</fillClockwise>
               <fillMethod>Radial360</fillMethod>
               <fillOrigin>0</fillOrigin>
-              <flexibleHeight>-1</flexibleHeight>
-              <flexibleWidth>-1</flexibleWidth>
-              <hasBorder>true</hasBorder>
-              <layoutPriority>0</layoutPriority>
-              <minHeight>0</minHeight>
-              <minWidth>0</minWidth>
-              <preferredHeight>10</preferredHeight>
-              <preferredWidth>10</preferredWidth>
               <preserveAspect>false</preserveAspect>
               <type>Sliced</type>
             </ComponentData>
@@ -320,36 +222,6 @@
                     <x>0.5</x>
                     <y>0.5</y>
                   </pivot>
-                  <rect>
-                    <x>-400</x>
-                    <y>-711.45</y>
-                    <position>
-                      <x>-400</x>
-                      <y>-711.45</y>
-                    </position>
-                    <center>
-                      <x>0</x>
-                      <y>0</y>
-                    </center>
-                    <min>
-                      <x>-400</x>
-                      <y>-711.45</y>
-                    </min>
-                    <max>
-                      <x>400</x>
-                      <y>711.45</y>
-                    </max>
-                    <width>800</width>
-                    <height>1422.9</height>
-                    <size>
-                      <x>800</x>
-                      <y>1422.9</y>
-                    </size>
-                    <xMin>-400</xMin>
-                    <yMin>-711.45</yMin>
-                    <xMax>400</xMax>
-                    <yMax>711.45</yMax>
-                  </rect>
                   <sizeDelta>
                     <x>800</x>
                     <y>1422.9</y>
@@ -358,26 +230,19 @@
                 <ComponentData xsi:type="ScrollRectData">
                   <decelerationRate>0.135</decelerationRate>
                   <elasticity>0.1</elasticity>
-                  <flexibleHeight>-1</flexibleHeight>
-                  <flexibleWidth>-1</flexibleWidth>
                   <inertia>true</inertia>
-                  <layoutPriority>-1</layoutPriority>
-                  <minHeight>-1</minHeight>
-                  <minWidth>-1</minWidth>
                   <movementType>Elastic</movementType>
                   <normalizedPosition>
                     <x>1</x>
-                    <y>1</y>
+                    <y>0.5696365</y>
                   </normalizedPosition>
-                  <preferredHeight>-1</preferredHeight>
-                  <preferredWidth>-1</preferredWidth>
                   <scrollSensitivity>1</scrollSensitivity>
                   <velocity>
                     <x>0</x>
-                    <y>0</y>
+                    <y>11.443058</y>
                   </velocity>
                   <vertical>true</vertical>
-                  <verticalNormalizedPosition>1</verticalNormalizedPosition>
+                  <verticalNormalizedPosition>0.5696365</verticalNormalizedPosition>
                   <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
                   <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
                 </ComponentData>
@@ -411,36 +276,6 @@
                         <x>0.5</x>
                         <y>0.5</y>
                       </pivot>
-                      <rect>
-                        <x>-45.9</x>
-                        <y>-687.35</y>
-                        <position>
-                          <x>-45.9</x>
-                          <y>-687.35</y>
-                        </position>
-                        <center>
-                          <x>0</x>
-                          <y>0</y>
-                        </center>
-                        <min>
-                          <x>-45.9</x>
-                          <y>-687.35</y>
-                        </min>
-                        <max>
-                          <x>45.9</x>
-                          <y>687.35</y>
-                        </max>
-                        <width>91.8</width>
-                        <height>1374.7</height>
-                        <size>
-                          <x>91.8</x>
-                          <y>1374.7</y>
-                        </size>
-                        <xMin>-45.9</xMin>
-                        <yMin>-687.35</yMin>
-                        <xMax>45.9</xMax>
-                        <yMax>687.35</yMax>
-                      </rect>
                       <sizeDelta>
                         <x>91.8</x>
                         <y>1374.7</y>
@@ -454,18 +289,10 @@
                       <fillClockwise>true</fillClockwise>
                       <fillMethod>Radial360</fillMethod>
                       <fillOrigin>0</fillOrigin>
-                      <flexibleHeight>-1</flexibleHeight>
-                      <flexibleWidth>-1</flexibleWidth>
-                      <hasBorder>true</hasBorder>
-                      <layoutPriority>0</layoutPriority>
-                      <minHeight>0</minHeight>
-                      <minWidth>0</minWidth>
-                      <preferredHeight>10</preferredHeight>
-                      <preferredWidth>10</preferredWidth>
                       <preserveAspect>false</preserveAspect>
                       <type>Sliced</type>
                     </ComponentData>
-                    <ComponentData xsi:type="ScrollBarData">
+                    <ComponentData xsi:type="ScrollbarData">
                       <direction>BottomToTop</direction>
                       <handleRect>
                         <anchoredPosition>
@@ -474,11 +301,11 @@
                         </anchoredPosition>
                         <anchorMax>
                           <x>1</x>
-                          <y>1</y>
+                          <y>0.6526408</y>
                         </anchorMax>
                         <anchorMin>
                           <x>0</x>
-                          <y>0.8071298</y>
+                          <y>0.4597706</y>
                         </anchorMin>
                         <offsetMax>
                           <x>10</x>
@@ -492,36 +319,6 @@
                           <x>0.5</x>
                           <y>0.5</y>
                         </pivot>
-                        <rect>
-                          <x>-45.9</x>
-                          <y>-140.640625</y>
-                          <position>
-                            <x>-45.9</x>
-                            <y>-140.640625</y>
-                          </position>
-                          <center>
-                            <x>0</x>
-                            <y>0</y>
-                          </center>
-                          <min>
-                            <x>-45.9</x>
-                            <y>-140.640625</y>
-                          </min>
-                          <max>
-                            <x>45.9</x>
-                            <y>140.640625</y>
-                          </max>
-                          <width>91.8</width>
-                          <height>281.28125</height>
-                          <size>
-                            <x>91.8</x>
-                            <y>281.28125</y>
-                          </size>
-                          <xMin>-45.9</xMin>
-                          <yMin>-140.640625</yMin>
-                          <xMax>45.9</xMax>
-                          <yMax>140.640625</yMax>
-                        </rect>
                         <sizeDelta>
                           <x>20</x>
                           <y>20</y>
@@ -529,8 +326,8 @@
                       </handleRect>
                       <numberOfSteps>0</numberOfSteps>
                       <onValueChanged />
-                      <size>0.192870215</size>
-                      <value>1</value>
+                      <size>0.192870229</size>
+                      <value>0.5696365</value>
                     </ComponentData>
                   </cd>
                   <god>
@@ -562,36 +359,6 @@
                             <x>0.5</x>
                             <y>0.5</y>
                           </pivot>
-                          <rect>
-                            <x>-35.9</x>
-                            <y>-677.35</y>
-                            <position>
-                              <x>-35.9</x>
-                              <y>-677.35</y>
-                            </position>
-                            <center>
-                              <x>0</x>
-                              <y>0</y>
-                            </center>
-                            <min>
-                              <x>-35.9</x>
-                              <y>-677.35</y>
-                            </min>
-                            <max>
-                              <x>35.9</x>
-                              <y>677.35</y>
-                            </max>
-                            <width>71.8</width>
-                            <height>1354.7</height>
-                            <size>
-                              <x>71.8</x>
-                              <y>1354.7</y>
-                            </size>
-                            <xMin>-35.9</xMin>
-                            <yMin>-677.35</yMin>
-                            <xMax>35.9</xMax>
-                            <yMax>677.35</yMax>
-                          </rect>
                           <sizeDelta>
                             <x>-20</x>
                             <y>-20</y>
@@ -609,11 +376,11 @@
                               </anchoredPosition>
                               <anchorMax>
                                 <x>1</x>
-                                <y>1</y>
+                                <y>0.6526408</y>
                               </anchorMax>
                               <anchorMin>
                                 <x>0</x>
-                                <y>0.8071298</y>
+                                <y>0.4597706</y>
                               </anchorMin>
                               <offsetMax>
                                 <x>10</x>
@@ -627,36 +394,6 @@
                                 <x>0.5</x>
                                 <y>0.5</y>
                               </pivot>
-                              <rect>
-                                <x>-45.9</x>
-                                <y>-140.640625</y>
-                                <position>
-                                  <x>-45.9</x>
-                                  <y>-140.640625</y>
-                                </position>
-                                <center>
-                                  <x>0</x>
-                                  <y>0</y>
-                                </center>
-                                <min>
-                                  <x>-45.9</x>
-                                  <y>-140.640625</y>
-                                </min>
-                                <max>
-                                  <x>45.9</x>
-                                  <y>140.640625</y>
-                                </max>
-                                <width>91.8</width>
-                                <height>281.28125</height>
-                                <size>
-                                  <x>91.8</x>
-                                  <y>281.28125</y>
-                                </size>
-                                <xMin>-45.9</xMin>
-                                <yMin>-140.640625</yMin>
-                                <xMax>45.9</xMax>
-                                <yMax>140.640625</yMax>
-                              </rect>
                               <sizeDelta>
                                 <x>20</x>
                                 <y>20</y>
@@ -670,14 +407,6 @@
                               <fillClockwise>true</fillClockwise>
                               <fillMethod>Radial360</fillMethod>
                               <fillOrigin>0</fillOrigin>
-                              <flexibleHeight>-1</flexibleHeight>
-                              <flexibleWidth>-1</flexibleWidth>
-                              <hasBorder>true</hasBorder>
-                              <layoutPriority>0</layoutPriority>
-                              <minHeight>0</minHeight>
-                              <minWidth>0</minWidth>
-                              <preferredHeight>10</preferredHeight>
-                              <preferredWidth>10</preferredWidth>
                               <preserveAspect>false</preserveAspect>
                               <type>Sliced</type>
                             </ComponentData>
@@ -694,7 +423,7 @@
                     <ComponentData xsi:type="RectTransformData">
                       <anchoredPosition>
                         <x>-40.125</x>
-                        <y>-2977.3</y>
+                        <y>-414.657471</y>
                       </anchoredPosition>
                       <anchorMax>
                         <x>0.5</x>
@@ -706,46 +435,16 @@
                       </anchorMin>
                       <offsetMax>
                         <x>295.2</x>
-                        <y>711.449951</y>
+                        <y>3274.09253</y>
                       </offsetMax>
                       <offsetMin>
                         <x>-375.45</x>
-                        <y>-6666.05</y>
+                        <y>-4103.407</y>
                       </offsetMin>
                       <pivot>
                         <x>0.5</x>
                         <y>0.5</y>
                       </pivot>
-                      <rect>
-                        <x>-335.325</x>
-                        <y>-3688.75</y>
-                        <position>
-                          <x>-335.325</x>
-                          <y>-3688.75</y>
-                        </position>
-                        <center>
-                          <x>0</x>
-                          <y>0</y>
-                        </center>
-                        <min>
-                          <x>-335.325</x>
-                          <y>-3688.75</y>
-                        </min>
-                        <max>
-                          <x>335.325</x>
-                          <y>3688.75</y>
-                        </max>
-                        <width>670.65</width>
-                        <height>7377.5</height>
-                        <size>
-                          <x>670.65</x>
-                          <y>7377.5</y>
-                        </size>
-                        <xMin>-335.325</xMin>
-                        <yMin>-3688.75</yMin>
-                        <xMax>335.325</xMax>
-                        <yMax>3688.75</yMax>
-                      </rect>
                       <sizeDelta>
                         <x>670.65</x>
                         <y>7377.5</y>
@@ -754,18 +453,10 @@
                     <ComponentData xsi:type="TextData">
                       <alignByGeometry>false</alignByGeometry>
                       <alignment>UpperLeft</alignment>
-                      <flexibleHeight>-1</flexibleHeight>
-                      <flexibleWidth>-1</flexibleWidth>
                       <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
                       <fontSize>100</fontSize>
                       <fontStyle>Normal</fontStyle>
-                      <layoutPriority>0</layoutPriority>
                       <lineSpacing>1</lineSpacing>
-                      <minHeight>0</minHeight>
-                      <minWidth>0</minWidth>
-                      <pixelsPerUnit>0.9375</pixelsPerUnit>
-                      <preferredHeight>689.06665</preferredHeight>
-                      <preferredWidth>829.866638</preferredWidth>
                       <resizeTextForBestFit>true</resizeTextForBestFit>
                       <resizeTextMaxSize>300</resizeTextMaxSize>
                       <resizeTextMinSize>0</resizeTextMinSize>

@@ -33,9 +33,10 @@ public class GameManagerEditor : Editor
             Debug.Log("Testing XML");
             XMLSerializationManager.saveStory(gm.currentStory);
         }
-        if(GUILayout.Button("Load introStory from XML"))
+        if(GUILayout.Button("Load IntroStory from XML"))
         {
-            XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
+            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
+            gm.currentStory.setCurrentPage("introPage1");
         }
         if (GUILayout.Button("BuildIntro"))
         {

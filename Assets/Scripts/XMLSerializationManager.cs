@@ -11,6 +11,7 @@ using System.Reflection;
 
 public class XMLSerializationManager : MonoBehaviour {
     public static XMLSerializationManager ins;
+    
 
     private void Awake()
     {
@@ -92,8 +93,14 @@ public class PageData
         //fill page
         foreach(GameObjectData data in god)
         {
-            data.toGameObject();
-            //instantiate, setVisible(false), and set as child to canvas
+            //instantiate and set as child to canvas
+            try
+            {
+                GameManager gm =(GameManager) GameObject.FindObjectOfType(typeof(GameManager));
+                data.toGameObject().GetComponent<RectTransform>().SetParent(gm.canvas.transform);
+            }
+            catch(NullReferenceException nre) { Debug.Log("GameManager not found in hierarchy. " + nre); }
+          
         }
         return page;
     }
@@ -209,6 +216,20 @@ public class RectTransformData : ComponentData
     }
     //Creates a rect transform using the fields in this RectTransformData and applies it to a parent. While not necessary to specify a parent this 
     //is to keep a consistent style with the other components, since Unity gui elements need a parent to initialize
+    public RectTransform toRectTransform()
+    {
+        RectTransform rc = new RectTransform();
+        Debug.Log("AnchoredPosition" + anchoredPosition);
+        rc.anchoredPosition = anchoredPosition;
+        Debug.Log("here");
+        rc.anchorMax = anchorMax;
+        rc.anchorMin = anchorMin;
+        rc.offsetMax = offsetMax;
+        rc.offsetMin = offsetMin;
+        rc.pivot = pivot;
+        rc.sizeDelta = sizeDelta;
+        return rc;
+    }
     public void toRectTransform(GameObject parent)
     {
         RectTransform rc = parent.AddComponent<RectTransform>();
@@ -219,6 +240,7 @@ public class RectTransformData : ComponentData
         rc.offsetMin = offsetMin;
         rc.pivot = pivot;
         rc.sizeDelta = sizeDelta;
+
     }
 }
 
@@ -260,7 +282,7 @@ public class ImageData : ComponentData
         //Fill the image fields
         //sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
         
-        image.sprite =(Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, image.sprite.GetType());
+        image.sprite =(Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, typeof(Sprite));
         if(image.sprite == null)
         {
             Debug.Log("Image file not found at: " + sourceImagePath);
@@ -293,7 +315,16 @@ public class RawImageData : ComponentData
 
     public void toRawImage(GameObject parent)
     {
+        RawImage image = parent.AddComponent<RawImage>();
+        Debug.Log("Source image path: " + sourceImagePath);
+        image.texture = (Texture) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, typeof(Texture));
+        if (image.texture == null)
+        {
+            Debug.Log("Image file not found at: " + sourceImagePath);
+            //set a default picture in its place
+        }
 
+        image.uvRect = uvRect;
     }
 }
 
@@ -303,20 +334,13 @@ public class ScrollRectData : ComponentData
     //public RectTransform content;     //get a reference to the text rectTransform that is a child of this while deserializing.
     public float decelerationRate;      //Could probably just have a default value to reduce xml filesize
     public float elasticity;
-    public float flexibleHeight;
-    public float flexibleWidth;
     //public bool horizontal;  //going to be false
     // public float horizontalNormalizedPosition;
     //all three horizontal scrollbar fields are omitted because not using horizontal scrolling
     public bool inertia;
-    public int layoutPriority;
-    public float minHeight;
-    public float minWidth;
     public UnityEngine.UI.ScrollRect.MovementType movementType;
     public Vector2 normalizedPosition;
     //onValueChanged I don't believe needs to be set
-    public float preferredHeight;
-    public float preferredWidth;
     public float scrollSensitivity;
     public Vector2 velocity;
     public bool vertical;
@@ -332,16 +356,9 @@ public class ScrollRectData : ComponentData
     {
         decelerationRate = sr.decelerationRate;
         elasticity = sr.elasticity;
-        flexibleHeight = sr.flexibleHeight;
-        flexibleWidth = sr.flexibleWidth;
         inertia = sr.inertia;
-        layoutPriority = sr.layoutPriority;
-        minHeight = sr.minHeight;
-        minWidth = sr.minWidth;
         movementType = sr.movementType;
         normalizedPosition = sr.normalizedPosition;
-        preferredHeight = sr.preferredHeight;
-        preferredWidth = sr.preferredWidth;
         scrollSensitivity = sr.scrollSensitivity;
         velocity = sr.velocity;
         vertical = sr.vertical;
@@ -351,6 +368,19 @@ public class ScrollRectData : ComponentData
     }
     public void toScrollRect(GameObject parent)
     {
+        ScrollRect rect = parent.AddComponent<ScrollRect>();
+        rect.normalizedPosition = normalizedPosition;
+        rect.decelerationRate = decelerationRate;
+        rect.elasticity = elasticity;
+        rect.inertia = inertia;
+        rect.movementType = movementType;
+        
+        rect.scrollSensitivity = scrollSensitivity;
+        rect.velocity = velocity;
+        rect.vertical = vertical;
+        rect.verticalNormalizedPosition = verticalNormalizedPosition;
+        rect.verticalScrollbarSpacing = verticalScrollbarSpacing;
+        rect.verticalScrollbarVisibility = verticalScrollbarVisibility;
 
     }
 }
@@ -376,7 +406,13 @@ public class ScrollbarData : ComponentData
     }
     public void toScrollbar(GameObject parent)
     {
-
+        Scrollbar sb = parent.AddComponent<Scrollbar>();
+        sb.direction = direction;
+        sb.handleRect = handleRect.toRectTransform();
+        sb.numberOfSteps = numberOfSteps;
+        sb.onValueChanged = onValueChanged;
+        sb.size = size;
+        sb.value = value;
     }
 }
 [Serializable]
@@ -386,20 +422,12 @@ public class TextData : ComponentData
     public TextAnchor alignment;
     //public TextGenerator cachedTextGenerator;         //create new TextGenerators later. I believe all settings like font are here
     //public TextGenerator cachedTextGeneratorForLayout;
-    public float flexibleHeight;
-    public float flexibleWidth;
     public string fontPath;         //When deserializing make sure missing fonts/images are handled
     public int fontSize;
     public FontStyle fontStyle;
     //public HorizontalWrapMode horizontalOverflow;  //Text will always Wrap horizontally. Initialize as such.
-    public int layoutPriority;
     public float lineSpacing;
     //public Texture mainTexture;  //probably keep this default since I never changed it before
-    public float minHeight;
-    public float minWidth;
-    public float pixelsPerUnit;
-    public float preferredHeight;
-    public float preferredWidth;
     public bool resizeTextForBestFit;
     public int resizeTextMaxSize;
     public int resizeTextMinSize;
@@ -412,19 +440,11 @@ public class TextData : ComponentData
     {
         alignByGeometry = text.alignByGeometry;
         alignment = text.alignment;
-        flexibleHeight = text.flexibleHeight;
-        flexibleWidth = text.flexibleWidth;
         Debug.Log("FontPath: " + UnityEditor.AssetDatabase.GetAssetPath(text.font));
         fontPath = UnityEditor.AssetDatabase.GetAssetPath(text.font);
         fontSize = text.fontSize;
         fontStyle = text.fontStyle;
-        layoutPriority = text.layoutPriority;
         lineSpacing = text.lineSpacing;
-        minHeight = text.minHeight;
-        minWidth = text.minWidth;
-        pixelsPerUnit = text.pixelsPerUnit;
-        preferredHeight = text.preferredHeight;
-        preferredWidth = text.preferredWidth;
         resizeTextForBestFit = text.resizeTextForBestFit;
         resizeTextMaxSize = text.resizeTextMaxSize;
         resizeTextMinSize = text.resizeTextMinSize;
@@ -433,6 +453,23 @@ public class TextData : ComponentData
     }
     public void toText(GameObject parent)
     {
+        Text t = parent.AddComponent<Text>();
+        t.alignByGeometry = alignByGeometry;
+        t.alignment = alignment;
+        t.font = UnityEditor.AssetDatabase.LoadAssetAtPath<Font>(fontPath);
+        if(t.font == null)
+        {
+            Debug.Log("Font not found");
+            //set default font
+        }
 
+        t.fontSize = fontSize;
+        t.fontStyle = fontStyle;
+        t.lineSpacing = lineSpacing;
+        t.resizeTextForBestFit = resizeTextForBestFit;
+        t.resizeTextMaxSize = resizeTextMaxSize;
+        t.resizeTextMinSize = resizeTextMinSize;
+        t.supportRichText = supportRichText;
+        t.text = text;
     }
 }
