@@ -29,13 +29,13 @@ public class XMLSerializationManager : MonoBehaviour {
         return storyToSerialize;
     }
 
-    public static Story loadStory(string xmlPath)  //currently returns storyDAta but needs to return story when done testing
+    public static Story loadStory(string xmlPath,Canvas canvas)  //currently returns storyDAta but needs to return story when done testing
     {
         Stream reader = new FileStream(xmlPath, FileMode.Open);
         XmlSerializer ser = new XmlSerializer(typeof(StoryData));
         StoryData sd = (StoryData) ser.Deserialize(reader);
         reader.Close();
-        return sd.toStory();
+        return sd.toStory(canvas);
     }
 }
 
@@ -55,7 +55,7 @@ public class StoryData
         }
     }
 
-    public Story toStory()
+    public Story toStory(Canvas canvas)
     {
         Story story = new Story();
         story.name = name;
@@ -63,7 +63,7 @@ public class StoryData
 
         foreach(PageData pd in pages)
         {
-            story.addPage(pd.toPage()); //creates a new Page and adds it to list of pages
+            story.addPage(pd.toPage(canvas)); //creates a new Page and adds it to list of pages
         }
 
         return story;
@@ -86,7 +86,7 @@ public class PageData
             god.Add(new GameObjectData(go));
         }
     }
-    public Page toPage()
+    public Page toPage(Canvas canvas)
     {
         Page page = new Page();
         page.setName(name);
@@ -94,13 +94,9 @@ public class PageData
         foreach(GameObjectData data in god)
         {
             //instantiate and set as child to canvas
-            try
-            {
-                GameManager gm =(GameManager) GameObject.FindObjectOfType(typeof(GameManager));
-                data.toGameObject().GetComponent<RectTransform>().SetParent(gm.canvas.transform);
-            }
-            catch(NullReferenceException nre) { Debug.Log("GameManager not found in hierarchy. " + nre); }
-          
+
+                data.toGameObject().GetComponent<RectTransform>().SetParent(canvas.transform);
+
         }
         return page;
     }
@@ -141,7 +137,7 @@ public class GameObjectData
     }
     public GameObject toGameObject()
     {
-        GameObject go = new GameObject();
+        GameObject go = new GameObject(name);
         foreach(ComponentData c in cd)
         {
             if(c as RectTransformData != null)
@@ -216,20 +212,7 @@ public class RectTransformData : ComponentData
     }
     //Creates a rect transform using the fields in this RectTransformData and applies it to a parent. While not necessary to specify a parent this 
     //is to keep a consistent style with the other components, since Unity gui elements need a parent to initialize
-    public RectTransform toRectTransform()
-    {
-        RectTransform rc = new RectTransform();
-        Debug.Log("AnchoredPosition" + anchoredPosition);
-        rc.anchoredPosition = anchoredPosition;
-        Debug.Log("here");
-        rc.anchorMax = anchorMax;
-        rc.anchorMin = anchorMin;
-        rc.offsetMax = offsetMax;
-        rc.offsetMin = offsetMin;
-        rc.pivot = pivot;
-        rc.sizeDelta = sizeDelta;
-        return rc;
-    }
+
     public void toRectTransform(GameObject parent)
     {
         RectTransform rc = parent.AddComponent<RectTransform>();
@@ -299,6 +282,7 @@ public class ImageData : ComponentData
         image.type =            image.type;
     }
 }
+
 [Serializable]
 public class RawImageData : ComponentData
 {
@@ -366,10 +350,10 @@ public class ScrollRectData : ComponentData
         verticalScrollbarSpacing = sr.verticalScrollbarSpacing;
         verticalScrollbarVisibility = sr.verticalScrollbarVisibility;
     }
-    public void toScrollRect(GameObject parent)
+    public void toScrollRect(GameObject parent)                 //Scroll rect stuff is all kinds of screwed because it needs references to the other gameobjects
     {
         ScrollRect rect = parent.AddComponent<ScrollRect>();
-        rect.normalizedPosition = normalizedPosition;
+        //rect.normalizedPosition = normalizedPosition;
         rect.decelerationRate = decelerationRate;
         rect.elasticity = elasticity;
         rect.inertia = inertia;
@@ -378,7 +362,7 @@ public class ScrollRectData : ComponentData
         rect.scrollSensitivity = scrollSensitivity;
         rect.velocity = velocity;
         rect.vertical = vertical;
-        rect.verticalNormalizedPosition = verticalNormalizedPosition;
+       // rect.verticalNormalizedPosition = verticalNormalizedPosition;
         rect.verticalScrollbarSpacing = verticalScrollbarSpacing;
         rect.verticalScrollbarVisibility = verticalScrollbarVisibility;
 
@@ -408,7 +392,7 @@ public class ScrollbarData : ComponentData
     {
         Scrollbar sb = parent.AddComponent<Scrollbar>();
         sb.direction = direction;
-        sb.handleRect = handleRect.toRectTransform();
+        //sb.handleRect = handleRect.toRectTransform(null);   //Needs to get the rect transform of the Handle after its instantiated
         sb.numberOfSteps = numberOfSteps;
         sb.onValueChanged = onValueChanged;
         sb.size = size;

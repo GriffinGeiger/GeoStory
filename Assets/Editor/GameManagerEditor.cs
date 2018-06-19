@@ -35,7 +35,7 @@ public class GameManagerEditor : Editor
         }
         if(GUILayout.Button("Load IntroStory from XML"))
         {
-            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
+            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml",gm.canvas);
             gm.currentStory.setCurrentPage("introPage1");
         }
         if (GUILayout.Button("BuildIntro"))
@@ -47,7 +47,7 @@ public class GameManagerEditor : Editor
         {
             gm.buildIntro();
             StoryData input = XMLSerializationManager.saveStory(gm.currentStory);
-            Story output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
+            Story output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml",gm.canvas);
            // Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
         }
     }
