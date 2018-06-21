@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour {
     public Canvas canvas;
     public GameObject ScrollArea;
     public GameObject Background;
-    
+    public RectTransform testTransform; //Delete this when done with testing
+
+
 
     public static bool created = false;
 

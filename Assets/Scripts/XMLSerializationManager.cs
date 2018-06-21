@@ -146,6 +146,12 @@ public class BackgroundData : PrefabData
         action = background.GetComponent<PrefabInfo>().buttonAction;
     }
 
+    /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
+     * This means the rectTransform scale must be (1,1,1) and offset min and max are (0,0)
+     * 
+     * Side side note: when the player edits a rect transform they will be dragging the anchor points and the corners of the transform will be dragged to them,
+     * not the other way around
+     */
     public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
     {
         GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);

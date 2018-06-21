@@ -8,6 +8,7 @@ using System.Reflection;
 [CustomEditor(typeof(GameManager))]
 public class GameManagerEditor : Editor
 {
+    
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -49,6 +50,20 @@ public class GameManagerEditor : Editor
             StoryData input = XMLSerializationManager.saveStory(gm.currentStory);
             Story output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml",gm.canvas);
            // Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
+        }
+        if(GUILayout.Button("Print corners"))
+        {
+            Vector3[] corners = new Vector3[4];
+            gm.testTransform.GetWorldCorners(corners);
+            foreach(Vector3 corner in corners)
+            {
+                Debug.Log("Corner: " + corner);
+            }
+            Debug.Log("Anchor Max: " + gm.testTransform.anchorMax + " Anchor Min: " + gm.testTransform.anchorMin);
+            
+            gm.testTransform.offsetMin = new Vector2(0, 0);
+            gm.testTransform.offsetMax = new Vector2(0, 0);
+            Debug.Log("OffsetMin: " + gm.testTransform.offsetMin);
         }
     }
  
