@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour {
 
@@ -25,8 +30,7 @@ public class GameManager : MonoBehaviour {
     }
     void Start ()
     {
-       
-        currentStory = new Story();
+        /*currentStory = new Story();
         
         currentStory.addPage(new Page("initialPage"));
         currentStory.setCurrentPage("initialPage");
@@ -40,10 +44,42 @@ public class GameManager : MonoBehaviour {
 
         currentStory.getCurrentPage().addPageElement(initialText);
         currentStory.getCurrentPage().addPageElement(initialBackground, ButtonActionConstants.CHANGE_PAGE("testNextPage"));
+        */
+
+        currentStory = new Story();
 
 	}
+    public void buildIntro()
+    {
+        Story intro = new Story();
+        intro.name = "intro";
 
-	void Update () {
+        Page page1 = new Page("introPage1",intro);
+        GameObject bg = GameObject.Instantiate(Background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        page1.addPageElement(bg, ButtonActionConstants.CHANGE_PAGE("introPage2"));
+
+        Page page2 = new Page("introPage2",intro);
+        GameObject bg2 = GameObject.Instantiate(Background,canvas.transform);
+        page2.addPageElement(bg2);
+
+
+        GameObject pg2Text = GameObject.Instantiate(ScrollArea,canvas.transform);
+        pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
+        page2.addPageElement(pg2Text);
+
+        intro.addPage(page1);
+        intro.addPage(page2);
+
+        intro.setCurrentPage("introPage1");
+        currentStory = intro;
+        
+        
+
+      //  XMLSerializationManager.saveStory(intro);
+
+    }
+
+    void Update () {
 		
 	}
 }
