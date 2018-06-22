@@ -95,6 +95,10 @@ public class PageData
             {
                 pfd.Add(new ScrollAreaData(element));
             }
+            else if(prefabType == "Button")
+            {
+                pfd.Add(new ButtonData(element));
+            }
             else
             {
                 Debug.Log("Prefab type does not match known prefabs");
@@ -122,6 +126,7 @@ public class PageData
 [Serializable]
 [XmlInclude(typeof(BackgroundData))]
 [XmlInclude(typeof(ScrollAreaData))]
+[XmlInclude(typeof(ButtonData))]
 public abstract class PrefabData
 { 
     public PrefabData()
@@ -256,78 +261,35 @@ public class ScrollAreaData : PrefabData
     }
 }
 
-/*
 [Serializable]
-public class GameObjectData
+public class ButtonData : PrefabData
 {
-    public string name;
-    public List<ComponentData> cd = new List<ComponentData>();
-    public List<GameObjectData> god = new List<GameObjectData>();
-    public GameObjectData() { }
-    public GameObjectData(GameObject go)
+    public RectTransformData rtd;
+    public ImageData image;
+    public EventTriggerData etd;
+    public string action;
+
+
+    public ButtonData() { }
+    public ButtonData(GameObject button)
     {
-        name = go.name;
-
-        foreach(Transform t in go.transform)
-        {
-            god.Add(new GameObjectData(t.gameObject));
-        }
-        foreach (Component c in go.GetComponents<Component>())
-        {
-            if (c as RectTransform != null)
-                cd.Add(new RectTransformData((RectTransform)c));
-            if (c as Image != null)                                  //Side thought: I might need to serialize/deserialize mask component. If erratic behavior later do that
-                cd.Add(new ImageData((Image)c));
-            if (c as RawImage != null)
-                cd.Add(new RawImageData((RawImage)c));
-            if (c as ScrollRect != null)
-                cd.Add(new ScrollRectData((ScrollRect)c));
-            if (c as Scrollbar != null)
-                cd.Add(new ScrollbarData((Scrollbar)c));
-            if (c as Text != null)
-                cd.Add(new TextData((Text) c));
-
-        }
+        rtd = new RectTransformData(button.GetComponent<RectTransform>());
+        image = new ImageData(button.GetComponent<Image>());
+        etd = new EventTriggerData(button.GetComponent<EventTrigger>());
+        action = button.GetComponent<PrefabInfo>().buttonAction;
     }
-    public GameObject toGameObject()
+    public override GameObject toPrefab(Canvas canvas)
     {
-        GameObject go = new GameObject(name);
-        foreach(ComponentData c in cd)
-        {
-            if(c as RectTransformData != null)
-            {
-                ((RectTransformData)c).toRectTransform(go);
-            }
-            if(c as ImageData != null)
-            {
-                ((ImageData)c).toImage(go); //Creates Image of c and applies it to go
-            }
-            if (c as RawImageData != null)
-            {
-                ((RawImageData)c).toRawImage(go);
-            }
-            if (c as ScrollRectData != null)
-            {
-                ((ScrollRectData)c).toScrollRect(go);
-            }
-            if (c as ScrollbarData != null)
-            {
-                ((ScrollbarData)c).toScrollbar(go);
-            }
-            if (c as TextData != null)
-            {
-                ((TextData)c).toText(go);
-            }
-        }
-        foreach (GameObjectData data in god)
-        {
-            //instantiate and set as child to this go
-            data.toGameObject().GetComponent<RectTransform>().SetParent(go.GetComponent<RectTransform>());
-        }
-        return go;
+        GameObject trigger = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/Button.prefab"), canvas.transform);
+        rtd.copyToRectTransform(trigger.GetComponent<RectTransform>());
+        image.copyToImage(trigger.GetComponent<Image>());
+        etd.copyToEventTrigger(trigger.GetComponent<EventTrigger>());
+        trigger.GetComponent<PrefabInfo>().buttonAction = action;
+        return trigger;
     }
 }
-*/
+
+
 [Serializable]
 [XmlInclude(typeof(RectTransformData))]
 [XmlInclude(typeof(RawImageData))]
@@ -335,6 +297,7 @@ public class GameObjectData
 [XmlInclude(typeof(ScrollRectData))]
 [XmlInclude(typeof(ScrollbarData))]
 [XmlInclude(typeof(TextData))]
+[XmlInclude(typeof(EventTriggerData))]
 public class ComponentData
 {
     public ComponentData()
@@ -397,6 +360,7 @@ public class ImageData : ComponentData
     public int fillOrigin;
     public bool preserveAspect;
     public UnityEngine.UI.Image.Type type;
+    public Color color;
 
 
     public ImageData() { }
@@ -411,9 +375,9 @@ public class ImageData : ComponentData
         fillClockwise = image.fillClockwise;
         fillMethod= image.fillMethod;
         fillOrigin = image.fillOrigin;
-
         preserveAspect = image.preserveAspect;
         type = image.type;
+        color = image.color;
     }
 
     public void copyToImage(Image target)
@@ -435,8 +399,8 @@ public class ImageData : ComponentData
         image.fillMethod =      fillMethod;
         image.fillOrigin =      fillOrigin;
         image.preserveAspect =  preserveAspect;
-        image.type =            image.type;
-
+        image.type =            type;
+        image.color =           color;
         XMLSerializationManager.copyComponent(image, target);
         GameObject.Destroy(gameObject);
     }
@@ -630,3 +594,21 @@ public class TextData : ComponentData
     }
 }
 
+[Serializable]
+public class EventTriggerData : ComponentData
+{
+    public List<EventTrigger.Entry> triggers;
+
+    public EventTriggerData() { }
+    public EventTriggerData(EventTrigger trigger)
+    {
+        triggers = trigger.triggers;
+    }
+    public void copyToEventTrigger(EventTrigger target)
+    {
+        GameObject gameObject = new GameObject();
+        EventTrigger trigger = gameObject.AddComponent<EventTrigger>();
+        trigger.triggers = triggers;
+        GameObject.Destroy(gameObject);
+    }
+}

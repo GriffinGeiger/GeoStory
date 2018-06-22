@@ -14,8 +14,9 @@ public class GameManager : MonoBehaviour {
     
     public Story currentStory;
     public Canvas canvas;
-    public GameObject ScrollArea;
-    public GameObject Background;
+    public GameObject scrollArea;
+    public GameObject background;
+    public GameObject button;
     public RectTransform testTransform; //Delete this when done with testing
 
 
@@ -32,24 +33,7 @@ public class GameManager : MonoBehaviour {
     }
     void Start ()
     {
-        /*currentStory = new Story();
-        
-        currentStory.addPage(new Page("initialPage"));
-        currentStory.setCurrentPage("initialPage");
-        
-        Debug.Log("Current page is: " + currentStory.getCurrentPage().getName());
-
-        GameObject initialText = GameObject.Instantiate(ScrollArea,canvas.transform);
-        GameObject initialBackground = GameObject.Instantiate(Background, canvas.transform);
-        initialBackground.transform.SetAsFirstSibling();
-        initialText.GetComponentInChildren<Text>().text = "DefaultText";
-
-        currentStory.getCurrentPage().addPageElement(initialText);
-        currentStory.getCurrentPage().addPageElement(initialBackground, ButtonActionConstants.CHANGE_PAGE("testNextPage"));
-        */
-
         currentStory = new Story();
-
 	}
     public void buildIntro()
     {
@@ -57,15 +41,18 @@ public class GameManager : MonoBehaviour {
         intro.name = "intro";
 
         Page page1 = new Page("introPage1",intro);
-        GameObject bg = GameObject.Instantiate(Background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
         page1.addPageElement(bg, ButtonActionConstants.CHANGE_PAGE("introPage2"));
 
         Page page2 = new Page("introPage2",intro);
-        GameObject bg2 = GameObject.Instantiate(Background,canvas.transform);
+        GameObject bg2 = GameObject.Instantiate(background,canvas.transform);
         page2.addPageElement(bg2);
 
+        GameObject pg1Button = GameObject.Instantiate(button, canvas.transform);
+        pg1Button.GetComponentInChildren<Text>().text = "Nothing to press here";
+        page1.addPageElement(pg1Button);
 
-        GameObject pg2Text = GameObject.Instantiate(ScrollArea,canvas.transform);
+        GameObject pg2Text = GameObject.Instantiate(scrollArea,canvas.transform);
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
         page2.addPageElement(pg2Text);
 
