@@ -496,6 +496,7 @@ public class ScrollRectData : ComponentData
         GameObject.Destroy(gameObject);
     }
 }
+
 [Serializable]
 public class ScrollbarData : ComponentData
 {
@@ -531,6 +532,7 @@ public class ScrollbarData : ComponentData
         GameObject.Destroy(gameObject);
     }
 }
+
 [Serializable]
 public class TextData : ComponentData
 {
