@@ -65,6 +65,20 @@ public class GameManagerEditor : Editor
             gm.testTransform.offsetMax = new Vector2(0, 0);
             Debug.Log("OffsetMin: " + gm.testTransform.offsetMin);
         }
+        if(GUILayout.Button("Build PageNodeGraphic from test page"))
+        {
+            gm.buildIntro();
+            gm.currentStory.setCurrentPage("introPage2");
+            gm.currentStory.currentPage.setVisible(false);
+            foreach(Page page in gm.currentStory.getPages())
+            {
+                GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic.prefab"), gm.scrollContent);
+                PageNodeGraphicManager pngm = go.GetComponent<PageNodeGraphicManager>();
+                pngm.addBodyPanels(page);
+            }
+            
+
+        }
     }
  
 }

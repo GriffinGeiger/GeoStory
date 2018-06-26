@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
     public GameObject background;
     public GameObject button;
     public RectTransform testTransform; //Delete this when done with testing
-
+    public RectTransform scrollContent;
 
 
     public static bool created = false;
@@ -51,6 +51,10 @@ public class GameManager : MonoBehaviour {
         GameObject pg1Button = GameObject.Instantiate(button, canvas.transform);
         pg1Button.GetComponentInChildren<Text>().text = "Nothing to press here";
         page1.addPageElement(pg1Button);
+
+        GameObject pg2Button = GameObject.Instantiate(button, canvas.transform);
+        pg2Button.GetComponentInChildren<Text>().text = "Nothing to press here";
+        page2.addPageElement(pg2Button);
 
         GameObject pg2Text = GameObject.Instantiate(scrollArea,canvas.transform);
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
