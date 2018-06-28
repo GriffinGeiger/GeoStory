@@ -6,7 +6,8 @@ public class PinchZoom : MonoBehaviour
 {
     public float zoomSpeed = .5f;
     public RectTransform t;
-
+    public float maxZoomIn = 4f;
+    public float maxZoomOut = .5f;
     void Update()
     {
         float scrollWheelTest = Input.GetAxis("Mouse ScrollWheel");
@@ -28,13 +29,13 @@ public class PinchZoom : MonoBehaviour
         else if (!Mathf.Approximately(scrollWheelTest,0.0f))
         {
             t.localScale += new Vector3(zoomSpeed * scrollWheelTest, zoomSpeed * scrollWheelTest, 0);
-            if(t.localScale.y < .1f)
+            if(t.localScale.y < maxZoomOut)
             {
-                t.localScale = new Vector3(.1f, .1f, 0);
+                t.localScale = new Vector3(maxZoomOut, maxZoomOut, 0);
             }
-            else if(t.localScale.x > .5f)
+            else if(t.localScale.x > maxZoomIn)
             {
-                t.localScale = new Vector3(.5f, .5f, 0);
+                t.localScale = new Vector3(maxZoomIn, maxZoomIn, 0);
             }
         }
     }
