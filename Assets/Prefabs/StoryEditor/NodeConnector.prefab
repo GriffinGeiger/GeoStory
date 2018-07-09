@@ -68,6 +68,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  scrollArea: {fileID: 0}
+  scrollSpeed: 0
+  fastScrollSpeed: 0
 --- !u!222 &222164552795381972
 CanvasRenderer:
   m_ObjectHideFlags: 1

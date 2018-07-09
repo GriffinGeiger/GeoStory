@@ -869,6 +869,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  scrollArea: {fileID: 0}
+  scrollSpeed: 0
+  fastScrollSpeed: 0
 --- !u!114 &114699602299596960
 MonoBehaviour:
   m_ObjectHideFlags: 1
