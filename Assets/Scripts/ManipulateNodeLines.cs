@@ -7,6 +7,11 @@ using UnityEngine.EventSystems;
 public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler {
 
     GameObject curve;
+    Camera cam;
+    void Awake()
+    {
+        cam = Camera.main;
+    }
     public new void OnBeginDrag(PointerEventData data)
     {
         curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform);
@@ -15,6 +20,6 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public new void OnDrag(PointerEventData data)
     {
        
-        curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position, this.transform.position);
+        curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position,cam.ScreenToWorldPoint(data.position));
     }
 }
