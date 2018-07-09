@@ -11,6 +11,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public RectTransform scrollArea;
     Camera cam;
     public float scrollSpeed;
+    public float fastScrollSpeed;
     Vector3 pointerPosition;
     public static bool dragging;
 
@@ -18,31 +19,46 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     {
         cam = Camera.main;
         scrollArea = GetComponentInParent<ScrollRect>().content;
-        scrollSpeed = .05f;
+        scrollSpeed = .02f;
+        fastScrollSpeed = .05f;
         dragging = false;
     }
     void Update()
     {
-        Debug.Log("Dragging: " + dragging);
 
         if (dragging)
         {
+            Vector3 addedPosition = new Vector3();
             if (pointerPosition.x >= .8f * cam.pixelWidth)
             {
-                scrollArea.position = scrollArea.position - new Vector3(scrollSpeed, 0, 0);
+                if(pointerPosition.x>= .9f * cam.pixelWidth)
+                    addedPosition +=  new Vector3(-fastScrollSpeed, 0, 0);
+                else
+                    addedPosition +=  new Vector3(-scrollSpeed, 0, 0);
             }
-            if(pointerPosition.x <= .2f * cam.pixelWidth )
+            if (pointerPosition.x <= .2f * cam.pixelWidth)
             {
-                scrollArea.position = scrollArea.position + new Vector3(scrollSpeed, 0, 0);
+                if (pointerPosition.x <= .1f * cam.pixelWidth)
+                    addedPosition += new Vector3(fastScrollSpeed, 0, 0);
+                else
+                    addedPosition += new Vector3(scrollSpeed, 0, 0);
             }
-            if(pointerPosition.y >= .8f * cam.pixelHeight)
+            if (pointerPosition.y >= .8f * cam.pixelHeight)
             {
-                scrollArea.position = scrollArea.position - new Vector3(0, scrollSpeed, 0);
+                if (pointerPosition.y >= .9f * cam.pixelHeight)
+                    addedPosition += new Vector3(0,-fastScrollSpeed, 0);
+                else
+                    addedPosition += new Vector3(0, -scrollSpeed, 0);
             }
             if (pointerPosition.y <= .2f * cam.pixelHeight)
             {
-                scrollArea.position = scrollArea.position + new Vector3(0, scrollSpeed, 0);
+                if (pointerPosition.y <= .1f * cam.pixelHeight)
+                    addedPosition +=  new Vector3(0, fastScrollSpeed, 0);
+                else
+                    addedPosition += new Vector3(0, scrollSpeed, 0);
             }
+            scrollArea.position += addedPosition;
+            curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position, cam.ScreenToWorldPoint(pointerPosition + addedPosition) );
         }
     }
     public new void OnBeginDrag(PointerEventData data)
