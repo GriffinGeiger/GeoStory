@@ -11,7 +11,7 @@ public class Page {
     
     private List<GameObject> elements = new List<GameObject>();
     private List<Button> buttons = new List<Button>();
-    private Story storyRef;
+    public Story storyRef;
     public bool isVisible;
     private string name;
 

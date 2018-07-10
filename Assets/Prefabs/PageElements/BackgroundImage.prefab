@@ -21,16 +21,16 @@ GameObject:
   - component: {fileID: 224033065148552698}
   - component: {fileID: 222915634010590700}
   - component: {fileID: 114223248180428894}
-  - component: {fileID: 114121065712481276}
   - component: {fileID: 114784820504543742}
+  - component: {fileID: 114090843781461898}
   m_Layer: 5
   m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &114121065712481276
+  m_IsActive: 1
+--- !u!114 &114090843781461898
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -38,11 +38,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1193753452822602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 218780cdce843614ab422caa3b21f860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  page:
+    storyRef:
+      currentPage:
+        storyRef:
+          currentPage:
+            storyRef:
+              currentPage:
+                isVisible: 0
+            isVisible: 0
+        isVisible: 0
+    isVisible: 0
+  connectedPage:
+    storyRef:
+      currentPage:
+        storyRef:
+          currentPage:
+            storyRef:
+              currentPage:
+                isVisible: 0
+            isVisible: 0
+        isVisible: 0
+    isVisible: 0
+  connectedElement: {fileID: 0}
+  action: 
 --- !u!114 &114223248180428894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +127,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0.0005493164}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0.00048828125}
   m_SizeDelta: {x: 0, y: 0.00097656}
   m_Pivot: {x: 0.5, y: 0.5}

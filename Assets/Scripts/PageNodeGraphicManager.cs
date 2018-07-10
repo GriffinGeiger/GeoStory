@@ -6,13 +6,13 @@ using UnityEditor;
 
 public class PageNodeGraphicManager : MonoBehaviour {
 
-    
+    public Page page; //the page this graphic is associated with
     public GameObject headerPrefab;
     public GameObject actionBodyPrefab; //Prefab to use if this node will have an action associated with it and no picture
     public GameObject thumbnailActionBodyPrefab; //Prefab to use if this node has an action and a picture associated with it
     public GameObject footerPrefab;
     public Vector2 lowestAnchorPoint = new Vector2(1,1); //the lowest anchor point from previous node part that the next anchor point will latch onto
-
+    public List<GameObject> nodeParts;
     public void Awake()
     {
         headerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeHeader.prefab");
@@ -22,7 +22,8 @@ public class PageNodeGraphicManager : MonoBehaviour {
     }
     public void addBodyPanels(Page content)
     {
-        List<GameObject> nodeParts = new List<GameObject>();
+        page = content;
+        nodeParts = new List<GameObject>();
         GameObject header = GameObject.Instantiate(headerPrefab, this.transform);
         header.GetComponentInChildren<Text>().text = content.getName();
         nodeParts.Add(header);
@@ -37,6 +38,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
              {
                  body = GameObject.Instantiate(thumbnailActionBodyPrefab, this.transform);
                  body.GetComponentInChildren<RawImage>().texture = element.GetComponent<RawImage>().texture;
+                 
                  Debug.Log("If wrong image shows up then the problem is in PageNodeGraphicManager");
              }
              else if (prefabType == "ScrollArea" || prefabType == "Button")
@@ -47,7 +49,8 @@ public class PageNodeGraphicManager : MonoBehaviour {
              {
                  throw new System.ArgumentException("Prefab type does not match known prefabs");
              }
-             
+
+             body.GetComponent<AssociatedElementReference>().associatedElement = element;
              RectTransform transform = body.GetComponent<RectTransform>();
              heightOfRect += transform.rect.height;
              nodeParts.Add(body);
@@ -86,5 +89,42 @@ public class PageNodeGraphicManager : MonoBehaviour {
         transform.offsetMin = Vector2.zero;
         lowestAnchorPoint = transform.anchorMin + new Vector2(1,0);
         Debug.Log("After moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);
+    }
+    //Takes the info currently applied in the graphic and adds it to the Page this graphic is associated with
+    public void assignChanges()
+    {
+        foreach(GameObject go in nodeParts)
+        {
+            string prefabType = go.GetComponent<PrefabInfo>().prefabType;
+            if(prefabType == "NodeHeader")
+            {
+
+            }
+            else if(prefabType == "NodeBodyImage" || prefabType == "NodeBody" || prefabType == "NodeFooter") //if this is a Node with an associated element
+            {
+                GameObject associatedElement = go.GetComponent<AssociatedElementReference>().associatedElement;
+                string associatedElementPrefabType = associatedElement.GetComponent<PrefabInfo>().prefabType;
+                if(associatedElementPrefabType == "BackgroundImage")
+                {
+                    //Get info from the nodeBodyImage and fill out associated element
+                }
+                else if (associatedElementPrefabType == "ScrollArea")
+                {
+
+                }
+                else if(associatedElementPrefabType == "Button")
+                {
+
+                }
+                else
+                {
+                    Debug.Log("Prefab is not of known type");
+                }
+            }
+            else
+            {
+                Debug.Log("Prefab is not of known type or not a Node part:" + prefabType);
+            }
+        }
     }
 }

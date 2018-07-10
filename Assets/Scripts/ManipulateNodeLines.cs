@@ -64,6 +64,11 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     }
     public new void OnBeginDrag(PointerEventData data)
     {
+        //clear any references to next page or next element since previous curve is replaced so the link has been broken
+        PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
+        peet.connectedElement = null;
+        peet.connectedPage = null;
+        //SIDE NOTE: peet.action will need to be set when the dropdown by when clicked is changed. Dropdown can also be limited to not allow change to page if line is already connected to pageReceiverNode
         if(curve == null)
             curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform);
         curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position, this.transform.position);
