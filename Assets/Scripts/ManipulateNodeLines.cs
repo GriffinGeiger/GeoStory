@@ -7,13 +7,14 @@ using UnityEngine.UI;
 
 public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler ,IPointerUpHandler {
 
-    GameObject curve;
+    public static GameObject lastDraggedCurve;
+    public GameObject curve;
     public RectTransform scrollArea;
     Camera cam;
     public float scrollSpeed;
     public float fastScrollSpeed;
     Vector3 pointerPosition;
-    public static bool dragging;
+    public bool dragging;
 
     void Awake()
     {
@@ -63,8 +64,10 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     }
     public new void OnBeginDrag(PointerEventData data)
     {
-        curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform);
+        if(curve == null)
+            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform);
         curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position, this.transform.position);
+        lastDraggedCurve = curve;
         dragging = true;
     }
     public new void OnDrag(PointerEventData data)
@@ -74,6 +77,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     }
     public new void OnPointerUp(PointerEventData data)
     {
+        Debug.Log("pointerUp");
         dragging = false;
     }
 }
