@@ -72,4 +72,15 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
         point3.position = end - new Vector3(deltaX * pointExtendRatio, 0, 0);
         point4.position = end;
     }
+
+    //If only one endpoint needs to change while the other must remain unchanged specify the point then 0 for start and 1 for end
+    public void setEndpoints(Vector3 point, int i)
+    {
+        if (i == 0)
+            setEndpoints(point, point4.position);
+        else if (i == 1)
+            setEndpoints(point1.position, point);
+        else
+            Debug.LogError("setEndpoints only accepts 0 or 1 as the second argument. Received: " + i);
+    }
 }

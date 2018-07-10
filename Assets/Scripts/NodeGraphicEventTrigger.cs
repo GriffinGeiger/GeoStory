@@ -60,6 +60,7 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
             scrollArea.position += addedPosition;
             Debug.Log("AddedPosition " + addedPosition);
             transform.position -=  addedPosition;
+            moveLinesWithNodeGraphic(addedPosition);
         }
     }
 
@@ -71,14 +72,32 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     }
     public new void OnDrag(PointerEventData data)
     {
-        Debug.Log("dragging" + dragging);
         Vector2 deltaPosition =data.position - pointerPosition;
-        Debug.Log("x scale: " + scrollArea.transform.localScale);
-        transform.anchoredPosition += deltaPosition / scrollArea.transform.localScale;
+        Vector2 offset = deltaPosition / scrollArea.transform.localScale;
+        transform.anchoredPosition += offset;
+        moveLinesWithNodeGraphic(offset);
         pointerPosition = data.position;
     }
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
+    }
+
+    public void moveLinesWithNodeGraphic(Vector3 offset)
+    {
+        ManipulateNodeLines[] nodeLines = GetComponentsInChildren<ManipulateNodeLines>();
+        foreach (ManipulateNodeLines mnl in nodeLines)
+        {
+            if(mnl.curve != null)
+                mnl.curve.setEndpoints(mnl.curve.point1.position + offset, 0);
+        }
+
+        ReceiveNodeLines[] receivedNodeLines = GetComponentsInChildren<ReceiveNodeLines>();
+
+        foreach (ReceiveNodeLines rnl in receivedNodeLines)
+        {
+            if(rnl.curve != null)
+                rnl.curve.setEndpoints(rnl.curve.point4.position + offset, 1);
+        }
     }
 }

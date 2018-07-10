@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ReceiveNodeLines : EventTrigger, IDropHandler {
 
-    BezierCurve4PointRenderer curve;
+    public BezierCurve4PointRenderer curve;
     public new void OnDrop(PointerEventData data)
     {
         Debug.Log("Dropped");

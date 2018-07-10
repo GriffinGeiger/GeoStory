@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler ,IPointerUpHandler {
 
     public static GameObject lastDraggedCurve;
-    public GameObject curve;
+    public BezierCurve4PointRenderer curve;
     public RectTransform scrollArea;
     Camera cam;
     public float scrollSpeed;
@@ -59,7 +59,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
                     addedPosition += new Vector3(0, scrollSpeed, 0);
             }
             scrollArea.position += addedPosition;
-            curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position, cam.ScreenToWorldPoint(pointerPosition + addedPosition) );
+            curve.setEndpoints(this.transform.position, cam.ScreenToWorldPoint(pointerPosition + addedPosition) );
         }
     }
     public new void OnBeginDrag(PointerEventData data)
@@ -70,14 +70,14 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         peet.connectedPage = null;
         //SIDE NOTE: peet.action will need to be set when the dropdown by when clicked is changed. Dropdown can also be limited to not allow change to page if line is already connected to pageReceiverNode
         if(curve == null)
-            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform);
-        curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position, this.transform.position);
-        lastDraggedCurve = curve;
+            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform).GetComponent<BezierCurve4PointRenderer>();
+        curve.setEndpoints(this.transform.position, this.transform.position);
+        lastDraggedCurve = curve.gameObject;
         dragging = true;
     }
     public new void OnDrag(PointerEventData data)
     {
-        curve.GetComponent<BezierCurve4PointRenderer>().setEndpoints(this.transform.position,cam.ScreenToWorldPoint(data.position));
+        curve.setEndpoints(this.transform.position,cam.ScreenToWorldPoint(data.position));
         pointerPosition = data.position;
     }
     public new void OnPointerUp(PointerEventData data)
