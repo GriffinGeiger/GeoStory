@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 224516233803736634}
   - component: {fileID: 222268565098937212}
   - component: {fileID: 114226392323316326}
-  - component: {fileID: 114965685379115216}
   - component: {fileID: 114582724803025994}
+  - component: {fileID: 114097601455494152}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -80,6 +80,32 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Button
+--- !u!114 &114097601455494152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1600031453363010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 218780cdce843614ab422caa3b21f860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+  connectedPage:
+    storyRef:
+      currentPage:
+        storyRef:
+          currentPage:
+            storyRef:
+              currentPage:
+                isVisible: 0
+            isVisible: 0
+        isVisible: 0
+    isVisible: 0
+  connectedElement: {fileID: 0}
+  action: 
 --- !u!114 &114226392323316326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,25 +146,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabType: Button
   buttonAction: 
---- !u!114 &114965685379115216
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1600031453363010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!222 &222268565098937212
 CanvasRenderer:
   m_ObjectHideFlags: 1
