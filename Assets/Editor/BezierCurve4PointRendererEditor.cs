@@ -10,11 +10,11 @@ public class BezierCurve4PointRendererEditor : Editor {
     {
         base.OnInspectorGUI();
         BezierCurve4PointRenderer curve = (BezierCurve4PointRenderer)target;
-        Transform startPoint = curve.point1;
-        Transform endPoint = curve.point4;
+        RectTransform startPoint = curve.point1;
+        RectTransform endPoint = curve.point4;
         if(GUILayout.Button("Update location"))
         {
-            curve.setEndpoints(startPoint.position, endPoint.position);
+            curve.setEndpoints(startPoint.anchoredPosition, endPoint.anchoredPosition);
         }
     }
 }

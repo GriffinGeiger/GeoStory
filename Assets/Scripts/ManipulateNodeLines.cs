@@ -16,12 +16,16 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     Vector3 pointerPosition;
     public bool dragging;
 
+    //Decided to not parent curves under connector it belongs to, instead it will store references to both nodes its connection
+    public Transform contentWindow;
+
     void Awake()
     {
         cam = Camera.main;
         scrollArea = GetComponentInParent<ScrollRect>().content;
         scrollSpeed = .02f;
         fastScrollSpeed = .05f;
+        contentWindow = GetComponentInParent<PinchZoom>().t;  //The pinch zoom script holds reference to the rectTransform
         dragging = false;
     }
     void Update()
@@ -59,7 +63,11 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
                     addedPosition += new Vector3(0, scrollSpeed, 0);
             }
             scrollArea.position += addedPosition;
-            curve.setEndpoints(this.transform.position, cam.ScreenToWorldPoint(pointerPosition + addedPosition) );
+
+            //The curve's anchoredPositions are in the local space of the scroll content window so these points must be translated to world space then scroll content space
+            Vector3 connectionPointInScrollWindowSpace = curve.transform.InverseTransformPoint(transform.TransformPoint(transform.position));
+            Vector3 receivingPointInScrollWindowSpace = curve.transform.InverseTransformPoint(cam.ScreenToWorldPoint(pointerPosition + addedPosition));
+            curve.setEndpoints(connectionPointInScrollWindowSpace, receivingPointInScrollWindowSpace ); //Check
         }
     }
     public new void OnBeginDrag(PointerEventData data)
@@ -70,14 +78,13 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         peet.connectedPage = null;
         //SIDE NOTE: peet.action will need to be set when the dropdown by when clicked is changed. Dropdown can also be limited to not allow change to page if line is already connected to pageReceiverNode
         if(curve == null)
-            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), this.transform).GetComponent<BezierCurve4PointRenderer>();
-        curve.setEndpoints(this.transform.position, this.transform.position);
+            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), contentWindow).GetComponent<BezierCurve4PointRenderer>();
+        curve.originConnector = gameObject; //Give reference to this connector's game object to the curve
         lastDraggedCurve = curve.gameObject;
         dragging = true;
     }
     public new void OnDrag(PointerEventData data)
     {
-        curve.setEndpoints(this.transform.position,cam.ScreenToWorldPoint(data.position));
         pointerPosition = data.position;
     }
     public new void OnPointerUp(PointerEventData data)

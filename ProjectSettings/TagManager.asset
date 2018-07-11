@@ -44,3 +44,6 @@ TagManager:
   - name: NodeLines
     uniqueID: 339291097
     locked: 0
+  - name: NodeGraphics
+    uniqueID: 512935447
+    locked: 0
