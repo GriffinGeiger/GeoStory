@@ -105,7 +105,7 @@ MonoBehaviour:
         isVisible: 0
     isVisible: 0
   connectedElement: {fileID: 0}
-  action: 
+  action: 0
 --- !u!114 &114226392323316326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabType: Button
+  prefabType: 1
   buttonAction: 
 --- !u!222 &222268565098937212
 CanvasRenderer:

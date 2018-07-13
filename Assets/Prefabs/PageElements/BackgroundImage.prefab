@@ -43,17 +43,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
-  page:
-    storyRef:
-      currentPage:
-        storyRef:
-          currentPage:
-            storyRef:
-              currentPage:
-                isVisible: 0
-            isVisible: 0
-        isVisible: 0
-    isVisible: 0
   connectedPage:
     storyRef:
       currentPage:
@@ -66,7 +55,7 @@ MonoBehaviour:
         isVisible: 0
     isVisible: 0
   connectedElement: {fileID: 0}
-  action: 
+  action: 0
 --- !u!114 &114223248180428894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabType: BackgroundImage
+  prefabType: 2
   buttonAction: 
 --- !u!222 &222915634010590700
 CanvasRenderer:

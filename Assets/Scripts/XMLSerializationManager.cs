@@ -86,22 +86,18 @@ public class PageData
         foreach(GameObject element in page.getElements())
         {
             //determine the prefab this game element belongs to (this game object is the highest parent of the prefab)
-            string prefabType = element.GetComponent<PrefabInfo>().prefabType;
-            if(prefabType == "BackgroundImage")
+            PrefabInfo.PrefabType prefabType = element.GetComponent<PrefabInfo>().prefabType;
+            if(prefabType == PrefabInfo.PrefabType.BackgroundImage)
             {
                 pfd.Add(new BackgroundData(element));
             }
-            else if(prefabType == "ScrollArea")
+            else if(prefabType == PrefabInfo.PrefabType.ScrollArea)
             {
                 pfd.Add(new ScrollAreaData(element));
             }
-            else if(prefabType == "Button")
+            else if(prefabType == PrefabInfo.PrefabType.Button)
             {
                 pfd.Add(new ButtonData(element));
-            }
-            else
-            {
-                Debug.Log("Prefab type does not match known prefabs");
             }
         }
     }

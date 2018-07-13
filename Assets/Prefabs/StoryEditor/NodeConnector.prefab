@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222164552795381972}
   - component: {fileID: 114299052268797808}
   - component: {fileID: 114538662051406098}
+  - component: {fileID: 114102932169563352}
   m_Layer: 5
   m_Name: NodeConnector
   m_TagString: Untagged
@@ -29,6 +30,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114102932169563352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1805329918834726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabType: 7
+  buttonAction: 
 --- !u!114 &114299052268797808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,9 +82,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  curve: {fileID: 0}
   scrollArea: {fileID: 0}
   scrollSpeed: 0
   fastScrollSpeed: 0
+  dragging: 0
+  contentWindow: {fileID: 0}
 --- !u!222 &222164552795381972
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -83,15 +100,15 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1805329918834726}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.9197237, y: 0.08720922}
-  m_AnchorMax: {x: 1, y: 0.29362768}
-  m_AnchoredPosition: {x: 0, y: -0.0000019073486}
-  m_SizeDelta: {x: 0, y: -0.0000019073486}
+  m_AnchorMin: {x: 0.92787373, y: 0.51916265}
+  m_AnchorMax: {x: 1, y: 0.611731}
+  m_AnchoredPosition: {x: 0, y: -6.7443027}
+  m_SizeDelta: {x: 0, y: 6.889968}
   m_Pivot: {x: 0.5, y: 0.5}

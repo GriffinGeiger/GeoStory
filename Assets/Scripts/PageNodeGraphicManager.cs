@@ -32,16 +32,16 @@ public class PageNodeGraphicManager : MonoBehaviour {
         
         foreach (GameObject element in content.getElements())
         {
-             string prefabType = element.GetComponent<PrefabInfo>().prefabType;
+             PrefabInfo.PrefabType prefabType = element.GetComponent<PrefabInfo>().prefabType;
              GameObject body;
-             if (prefabType == "BackgroundImage")
+             if (prefabType == PrefabInfo.PrefabType.BackgroundImage)
              {
                  body = GameObject.Instantiate(thumbnailActionBodyPrefab, this.transform);
                  body.GetComponentInChildren<RawImage>().texture = element.GetComponent<RawImage>().texture;
                  
                  Debug.Log("If wrong image shows up then the problem is in PageNodeGraphicManager");
              }
-             else if (prefabType == "ScrollArea" || prefabType == "Button")
+             else if (prefabType == PrefabInfo.PrefabType.ScrollArea || prefabType == PrefabInfo.PrefabType.Button)
              {
                  body = GameObject.Instantiate(actionBodyPrefab, this.transform);
              }
@@ -95,35 +95,27 @@ public class PageNodeGraphicManager : MonoBehaviour {
     {
         foreach(GameObject go in nodeParts)
         {
-            string prefabType = go.GetComponent<PrefabInfo>().prefabType;
-            if(prefabType == "NodeHeader")
+            PrefabInfo.PrefabType prefabType = go.GetComponent<PrefabInfo>().prefabType;
+            if(prefabType == PrefabInfo.PrefabType.NodeHeader)
             {
 
             }
-            else if(prefabType == "NodeBodyImage" || prefabType == "NodeBody" || prefabType == "NodeFooter") //if this is a Node with an associated element
+            else if(prefabType == PrefabInfo.PrefabType.NodeBodyImage || prefabType == PrefabInfo.PrefabType.NodeBody || prefabType == PrefabInfo.PrefabType.NodeFooter) //if this is a Node with an associated element
             {
                 GameObject associatedElement = go.GetComponent<AssociatedElementReference>().associatedElement;
-                string associatedElementPrefabType = associatedElement.GetComponent<PrefabInfo>().prefabType;
-                if(associatedElementPrefabType == "BackgroundImage")
+                PrefabInfo.PrefabType associatedElementPrefabType = associatedElement.GetComponent<PrefabInfo>().prefabType;
+                if(associatedElementPrefabType == PrefabInfo.PrefabType.BackgroundImage)
                 {
                     //Get info from the nodeBodyImage and fill out associated element
                 }
-                else if (associatedElementPrefabType == "ScrollArea")
+                else if (associatedElementPrefabType == PrefabInfo.PrefabType.ScrollArea)
                 {
 
                 }
-                else if(associatedElementPrefabType == "Button")
+                else if(associatedElementPrefabType == PrefabInfo.PrefabType.Button)
                 {
 
                 }
-                else
-                {
-                    Debug.Log("Prefab is not of known type");
-                }
-            }
-            else
-            {
-                Debug.Log("Prefab is not of known type or not a Node part:" + prefabType);
             }
         }
     }

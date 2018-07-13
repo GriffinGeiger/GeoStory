@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabType: NodeFooter
+  prefabType: 6
   buttonAction: 
 --- !u!114 &114900881036456584
 MonoBehaviour:

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DropdownSelectionToAction : MonoBehaviour {
 
+    [HideInInspector]
     public Dropdown myDropdown;
 
     void Start()
@@ -12,31 +13,31 @@ public class DropdownSelectionToAction : MonoBehaviour {
         myDropdown = GetComponent<Dropdown>();
         myDropdown.onValueChanged.AddListener(delegate
         {
-            applyDropdownSelection(myDropdown);
+            GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action =  getDropdownSelection();
         });
-        applyDropdownSelection(myDropdown);
+        GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action = getDropdownSelection();
     }
-    public void applyDropdownSelection(Dropdown target)
+    public PageElementEventTrigger.Action getDropdownSelection()
     {
-        string selectedOption = target.captionText.text;
-        Debug.Log("Selected: " + target.value + " " + target.captionText.text);
-        string associatedElementAction = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action;
-        //Using names instead of indices because the index will change if element is taken out of the dropdown when it's an invalid option
+        string selectedOption = myDropdown.captionText.text;
+        Debug.Log("Selected: " + myDropdown.value + " " + myDropdown.captionText.text);
+        PageElementEventTrigger.Action associatedElementAction;
         switch (selectedOption)
         {
             case "Change to page":
-                associatedElementAction = "CHANGE";
+                associatedElementAction = PageElementEventTrigger.Action.Change;
                 break;
             case "Show element":
-                associatedElementAction = "SHOW";
+                associatedElementAction = PageElementEventTrigger.Action.Show;
                 break;
             case "Hide element":
-                associatedElementAction = "HIDE";
+                associatedElementAction = PageElementEventTrigger.Action.Hide;
                 break;
             default:
                 Debug.Log("Dropdown selection: " + selectedOption + "Is not recognized. Was name changed?");
+                associatedElementAction = PageElementEventTrigger.Action.Change;
                 break;
         }
-
+        return associatedElementAction;
     }
 }

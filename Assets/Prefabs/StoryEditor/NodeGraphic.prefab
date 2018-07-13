@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224492728059818182}
   - component: {fileID: 114065839331452946}
+  - component: {fileID: 114098401211669032}
   m_Layer: 5
   m_Name: NodeGraphic
   m_TagString: Untagged
@@ -38,6 +39,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d191387a4eca19b42b2f82ac047e3f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  page:
+    storyRef:
+      currentPage:
+        storyRef:
+          currentPage:
+            storyRef:
+              currentPage:
+                isVisible: 0
+            isVisible: 0
+        isVisible: 0
+    isVisible: 0
   headerPrefab: {fileID: 1673415437484184, guid: ed35cde5299608d4b9228e04b49fd0a0,
     type: 2}
   actionBodyPrefab: {fileID: 1426810639336008, guid: 1b5ea275039611548a5e2a1c40067a35,
@@ -47,6 +59,25 @@ MonoBehaviour:
   footerPrefab: {fileID: 1073785489752952, guid: 4d44cbf576ec8514f89c4445b6aa1a50,
     type: 2}
   lowestAnchorPoint: {x: 1, y: 1}
+  nodeParts: []
+--- !u!114 &114098401211669032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1334573573080968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d547c6e22eac749947aa2537ad0a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+  fastScrollSpeed: 0
+  scrollSpeed: 0
+  scrollArea: {fileID: 0}
+  prevPointerPosition: {x: 0, y: 0}
+  transform: {fileID: 0}
 --- !u!224 &224492728059818182
 RectTransform:
   m_ObjectHideFlags: 1
@@ -55,7 +86,7 @@ RectTransform:
   m_GameObject: {fileID: 1334573573080968}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.347, y: 3.347, z: 3.347}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

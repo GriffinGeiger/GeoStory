@@ -10,7 +10,6 @@ public class Page {
 
     
     private List<GameObject> elements = new List<GameObject>();
-    private List<Button> buttons = new List<Button>();
     public Story storyRef;
     public bool isVisible;
     private string name;
@@ -113,7 +112,7 @@ public class Page {
     {
         //if( name doesn't exist within story)
         name = newName;
-        //remove then readd to story so name updates in dictionary
+        //remove then read to story so name updates in dictionary
         //else throw exception telling user to change the name
 
     }

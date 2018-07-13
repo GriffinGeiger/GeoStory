@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 222553675471436428}
   - component: {fileID: 114490228429159608}
   - component: {fileID: 114393778896981444}
+  - component: {fileID: 114226337146335250}
   m_Layer: 5
   m_Name: NodeConnectorReceiver
   m_TagString: Untagged
@@ -260,6 +261,7 @@ GameObject:
   - component: {fileID: 222373102272483034}
   - component: {fileID: 114279331092956712}
   - component: {fileID: 114533037090230858}
+  - component: {fileID: 114726799996189914}
   m_Layer: 5
   m_Name: NodeBodyImage
   m_TagString: Untagged
@@ -295,6 +297,7 @@ GameObject:
   - component: {fileID: 222391549926403656}
   - component: {fileID: 114389142563872410}
   - component: {fileID: 114468952415523924}
+  - component: {fileID: 114359033115230576}
   m_Layer: 5
   m_Name: Dropdown
   m_TagString: Untagged
@@ -516,6 +519,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114226337146335250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1598600027355884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabType: 7
+  buttonAction: 
 --- !u!114 &114258729392845120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -648,6 +664,18 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
+--- !u!114 &114359033115230576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1727371529323544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ae484fef17e6942a234e3cd23360c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myDropdown: {fileID: 0}
 --- !u!114 &114389142563872410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -688,6 +716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  curve: {fileID: 0}
 --- !u!114 &114426213677974746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -733,6 +762,7 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
+  contentWindow: {fileID: 0}
 --- !u!114 &114466075498682860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -834,7 +864,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Show element
       m_Image: {fileID: 0}
-    - m_Text: 'Test action #3'
+    - m_Text: Hide element
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -878,7 +908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c725c6d2653cd64893e3b64222d168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabType: NodeBodyImage
+  prefabType: 5
   buttonAction: 
 --- !u!114 &114553165755734626
 MonoBehaviour:
@@ -991,6 +1021,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114726799996189914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1721702054583196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079ec1d188b33ff418121abd26784381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  associatedElement: {fileID: 0}
 --- !u!114 &114826874393725814
 MonoBehaviour:
   m_ObjectHideFlags: 1

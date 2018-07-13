@@ -29,7 +29,6 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
         if (dragging)
         {
             Vector3 addedPosition = new Vector3(0,0,0);
-            Debug.Log("AddedPosition y " + scrollArea.TransformDirection(addedPosition).y);
             if (pointerPosition.x >= .8f * cam.pixelWidth)
             {
                 if (pointerPosition.x >= .9f * cam.pixelWidth)
@@ -59,7 +58,6 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
                     addedPosition += new Vector3(0, scrollSpeed, 0);
             }
             scrollArea.position += addedPosition;
-            Debug.Log("AddedPosition y " + addedPosition);
             transform.position -=  addedPosition;
             moveLinesWithNodeGraphic(-scrollArea.InverseTransformVector(addedPosition));
         }
@@ -67,7 +65,6 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
 
     public new void OnBeginDrag(PointerEventData data)
     {
-        Debug.Log("Dragging the nodeGraphic");
         dragging = true;
         pointerPosition = data.position;
     }
@@ -97,8 +94,8 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
 
         foreach (ReceiveNodeLines rnl in receivedNodeLines)
         {
-            if(rnl.curve != null)
-                rnl.curve.setEndpoints(rnl.curve.point4.anchoredPosition + (Vector2) offset,1);
+            foreach(BezierCurve4PointRenderer curve in rnl.curves)
+                curve.setEndpoints(curve.point4.anchoredPosition + (Vector2) offset,1);
         }
     }
 }

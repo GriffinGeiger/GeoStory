@@ -11,7 +11,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
     public RectTransform point3;
     public RectTransform point4;
     public LineRenderer lineRenderer;
-    public int vertexCount =12;
+    public int vertexCount = 12;
     public float pointExtendRatio = .1f;
     public GameObject originConnector;
     public GameObject receivingConncector;
