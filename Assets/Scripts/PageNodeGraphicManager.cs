@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 
+
 public class PageNodeGraphicManager : MonoBehaviour {
 
     public Page page; //the page this graphic is associated with
@@ -54,11 +55,20 @@ public class PageNodeGraphicManager : MonoBehaviour {
              RectTransform transform = body.GetComponent<RectTransform>();
              heightOfRect += transform.rect.height;
              nodeParts.Add(body);
-             //moveAnchors(transform, lowestAnchorPoint);
-
              body.GetComponentsInChildren<Text>()[1].text = element.name;
-             Debug.Log("If whenClicked changes instead, change the index to 0. Name will need to be determined.");
-             //Determine the current buttonAction and change the dropdown to reflect that
+            //Determine the current buttonAction and change the dropdown to reflect that
+            PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
+
+            Dropdown dropdown = body.GetComponent<Dropdown>();
+            if (dropdown != null)
+            {
+                if (action == PageElementEventTrigger.Action.Change)
+                    dropdown.captionText.text = "Change to page";
+                else if (action == PageElementEventTrigger.Action.Show)
+                    dropdown.captionText.text = "Show element";
+                else if (action == PageElementEventTrigger.Action.Hide)
+                    dropdown.captionText.text = "Hide element";
+            }
          }
          
         GameObject footer = GameObject.Instantiate(footerPrefab, this.transform);
@@ -79,6 +89,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
             moveAnchors(rt, lowestAnchorPoint);
         }
     }
+    //Moves the anchors while preserving size of rectangle to the new max point
     private void moveAnchors(RectTransform transform ,Vector2 newMax)
     {
         Debug.Log("Before moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);

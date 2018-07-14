@@ -41,10 +41,14 @@ public class GameManager : MonoBehaviour {
         intro.name = "intro";
 
         Page page1 = new Page("introPage1",intro);
-        GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
-        page1.addPageElement(bg, ButtonActionConstants.CHANGE_PAGE("introPage2"));
+        Page page2 = new Page("introPage2", intro);
 
-        Page page2 = new Page("introPage2",intro);
+        GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        bg.GetComponent<PageElementEventTrigger>().connectedPage = page2;
+        bg.GetComponent<PageElementEventTrigger>().action = PageElementEventTrigger.Action.Change;
+        page1.addPageElement(bg);
+
+        
         GameObject bg2 = GameObject.Instantiate(background,canvas.transform);
         page2.addPageElement(bg2);
 

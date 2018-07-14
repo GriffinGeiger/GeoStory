@@ -29,7 +29,7 @@ public class Story : ISerializable
     {
         try{
             currentPage.setVisible(false);
-        }catch(System.NullReferenceException nre) {/*do nothing since this just means there was no current page*/}
+        }catch(System.NullReferenceException) {/*do nothing since this just means there was no current page*/}
         currentPage = nextPage;
         currentPage.setVisible(true);
     }

@@ -50,22 +50,21 @@ public class Page {
 
     public void addPageElement(GameObject element)
     {
-        element.SetActive(false);
-        elements.Add(element);
+        addPageElement(element, PageElementEventTrigger.Action.None);
     }
 
 
 
     //Assumes only one button per page element. May need to change this
-    public void addPageElement(GameObject element, string action)
+    public void addPageElement(GameObject element, PageElementEventTrigger.Action action)
     {
-        EventTrigger trigger = element.GetComponent<EventTrigger>(); //Implement eventTrigger to do button stuff.
+        EventTrigger trigger = element.GetComponent<PageElementEventTrigger>(); //Implement eventTrigger to do button stuff.
         element.GetComponent<PrefabInfo>().buttonAction = action;
         if (trigger != null)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick; //this defines the type of clicking this button reacts to. Subject to change
-            entry.callback.AddListener((data) => { buttonActions(action); }) ;
+            entry.callback.AddListener((data) => { buttonActions(element); }) ;
             trigger.triggers.Add(entry); //at this point entry reacts to pointer click and calls buttonActions
             elements.Add(element);
         }
@@ -80,14 +79,23 @@ public class Page {
         elements.Remove(element);
     }
 
-    public void buttonActions(string action)
+    //Triggers when a button is pressed on a Page. 
+    //Needs only the element that the event is called from since PageElementEventTrigger stores the action and connectedPage or connectedElement
+    public void buttonActions(GameObject element)
     {
+        PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
         Debug.Log("In buttonActions");
-        if(action.StartsWith(ButtonActionConstants.CHANGE_PAGE("")))
+        if(action == PageElementEventTrigger.Action.Change)
         {
-            string nextPage = action.Substring(6).Trim();
-            Debug.Log("Button requests:" + nextPage + ": as next page");
-            storyRef.setCurrentPage(nextPage);
+            storyRef.changePage(element.GetComponent<PageElementEventTrigger>().connectedPage);
+        }
+        if(action == PageElementEventTrigger.Action.Show)
+        {
+            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(true);
+        }
+        if(action == PageElementEventTrigger.Action.Hide)
+        {
+            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(false);
         }
     }
 

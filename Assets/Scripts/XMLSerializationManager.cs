@@ -108,8 +108,8 @@ public class PageData
         foreach(PrefabData data in pfd)
         {
             GameObject element = data.toPrefab(canvas);
-            string buttonAction = element.GetComponent<PrefabInfo>().buttonAction;
-            if (buttonAction != null && buttonAction != "")
+            PageElementEventTrigger.Action buttonAction = element.GetComponent<PrefabInfo>().buttonAction;
+            if (buttonAction != PageElementEventTrigger.Action.None)
                 page.addPageElement(element, buttonAction);
             else
                 page.addPageElement(element);
@@ -137,7 +137,7 @@ public class BackgroundData : PrefabData
 {
     public RectTransformData rtd;
     public RawImageData rawImage;
-    public string action;
+    public PageElementEventTrigger.Action action;
 
     public BackgroundData(){}
     public BackgroundData(GameObject background)
@@ -169,7 +169,7 @@ public class ScrollAreaData : PrefabData
     //ScrollArea fields
     public RectTransformData rtd_SA;
     public ImageData image_SA;
-    public string action;
+    public PageElementEventTrigger.Action action;
 
     //TextBox fields
     public RectTransformData rtd_TB;
@@ -263,7 +263,7 @@ public class ButtonData : PrefabData
     public RectTransformData rtd;
     public ImageData image;
     public EventTriggerData etd;
-    public string action;
+    public PageElementEventTrigger.Action action;
 
 
     public ButtonData() { }

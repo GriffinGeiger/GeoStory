@@ -8,7 +8,7 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
     
     public Page connectedPage; //The page the action will change to
     public GameObject connectedElement; //The element that the action will switch to or activate (Will be null if the connected node is a Page)
-    public enum Action { Change, Show, Hide };
+    public enum Action { None, Change, Show, Hide };
     public Action action; //the action that will happen
 
 

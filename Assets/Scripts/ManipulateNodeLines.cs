@@ -92,7 +92,6 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         {
             line.startColor = new Color(0.7253471f, 0.9433962f, 0.9433962f);
             line.endColor = new Color(0.2569865f, 0.75472f, 0.6981435f);
-            Debug.Log("StartColor" + line.startColor);
         }
         else if(selectedFunction == PageElementEventTrigger.Action.Show)
         {
