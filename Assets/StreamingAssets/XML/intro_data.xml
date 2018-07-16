@@ -8,8 +8,8 @@
         <PrefabData xsi:type="BackgroundData">
           <rtd>
             <anchoredPosition>
-              <x>-3.05175781E-05</x>
-              <y>0.0005493164</y>
+              <x>-6.10351563E-05</x>
+              <y>0.00048828125</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -20,12 +20,12 @@
               <y>0</y>
             </anchorMin>
             <offsetMax>
-              <x>-3.05175781E-05</x>
-              <y>0.00103759638</y>
+              <x>-6.10351563E-05</x>
+              <y>0.0009765612</y>
             </offsetMax>
             <offsetMin>
-              <x>-3.05175781E-05</x>
-              <y>6.103641E-05</y>
+              <x>-6.10351563E-05</x>
+              <y>1.25146471E-09</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -69,7 +69,7 @@
               <yMax>1</yMax>
             </uvRect>
           </rawImage>
-          <action>CHANGE introPage2</action>
+          <action>None</action>
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
           <rtd>
@@ -127,9 +127,13 @@
               </Entry>
             </triggers>
           </etd>
-          <action />
+          <action>None</action>
         </PrefabData>
       </pfd>
+      <nodeGraphicLocation>
+        <x>0</x>
+        <y>0</y>
+      </nodeGraphicLocation>
     </PageData>
     <PageData>
       <name>introPage2</name>
@@ -137,8 +141,8 @@
         <PrefabData xsi:type="BackgroundData">
           <rtd>
             <anchoredPosition>
-              <x>-3.05175781E-05</x>
-              <y>0.0005493164</y>
+              <x>-6.10351563E-05</x>
+              <y>0.00048828125</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -149,12 +153,12 @@
               <y>0</y>
             </anchorMin>
             <offsetMax>
-              <x>-3.05175781E-05</x>
-              <y>0.00103759638</y>
+              <x>-6.10351563E-05</x>
+              <y>0.0009765612</y>
             </offsetMax>
             <offsetMin>
-              <x>-3.05175781E-05</x>
-              <y>6.103641E-05</y>
+              <x>-6.10351563E-05</x>
+              <y>1.25146471E-09</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -198,7 +202,65 @@
               <yMax>1</yMax>
             </uvRect>
           </rawImage>
-          <action />
+          <action>None</action>
+        </PrefabData>
+        <PrefabData xsi:type="ButtonData">
+          <rtd>
+            <anchoredPosition>
+              <x>0</x>
+              <y>0</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>0.750333369</x>
+              <y>0.159502268</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0.236000016</x>
+              <y>0.0717511252</y>
+            </anchorMin>
+            <offsetMax>
+              <x>0</x>
+              <y>0</y>
+            </offsetMax>
+            <offsetMin>
+              <x>0</x>
+              <y>0</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0</y>
+            </sizeDelta>
+          </rtd>
+          <image>
+            <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <etd>
+            <triggers>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
+            </triggers>
+          </etd>
+          <action>None</action>
         </PrefabData>
         <PrefabData xsi:type="ScrollAreaData">
           <rtd_SA>
@@ -248,7 +310,7 @@
               <a>0.392</a>
             </color>
           </image_SA>
-          <action />
+          <action>None</action>
           <rtd_TB>
             <anchoredPosition>
               <x>0</x>
@@ -358,7 +420,7 @@
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.898146749</y>
+                <y>0.883764863</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -379,8 +441,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.101853184</size>
-            <value>0.99999994</value>
+            <size>0.116235055</size>
+            <value>1</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -423,7 +485,7 @@
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.898146749</y>
+              <y>0.883764863</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -504,6 +566,10 @@
           </text_T>
         </PrefabData>
       </pfd>
+      <nodeGraphicLocation>
+        <x>0</x>
+        <y>0</y>
+      </nodeGraphicLocation>
     </PageData>
   </pages>
 </StoryData>

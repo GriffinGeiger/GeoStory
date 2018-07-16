@@ -25,6 +25,7 @@ public class PinchZoom : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             t.localScale += new Vector3(deltaMagnitudeDiff * zoomSpeed, deltaMagnitudeDiff * zoomSpeed, 0);
+            //Make it so that theres constraints to how far you can zoom in or out
         }
         else if (!Mathf.Approximately(scrollWheelTest,0.0f))
         {

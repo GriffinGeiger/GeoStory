@@ -75,6 +75,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
         heightOfRect += footer.GetComponent<RectTransform>().rect.height;
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(widthOfRect, heightOfRect);
         nodeParts.Add(footer);
+        this.GetComponent<RectTransform>().anchoredPosition = page.nodeGraphicLocation;
         //moveAnchors(footer.GetComponent<RectTransform>(), lowestAnchorPoint);
 
         foreach(GameObject go in nodeParts)

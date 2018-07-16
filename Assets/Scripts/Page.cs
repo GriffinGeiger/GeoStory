@@ -13,7 +13,7 @@ public class Page {
     public Story storyRef;
     public bool isVisible;
     private string name;
-
+    public Vector2 nodeGraphicLocation;
 
     public Page() { }
     public Page(string name,Story story)

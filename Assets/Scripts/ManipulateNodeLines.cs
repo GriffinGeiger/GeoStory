@@ -113,7 +113,6 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     }
     public new void OnPointerUp(PointerEventData data)
     {
-        Debug.Log("pointerUp");
         dragging = false;
     }
 }

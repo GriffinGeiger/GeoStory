@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour {
         intro.addPage(page1);
         intro.addPage(page2);
 
+        page2.setVisible(false);
         intro.setCurrentPage("introPage1");
         currentStory = intro;
         

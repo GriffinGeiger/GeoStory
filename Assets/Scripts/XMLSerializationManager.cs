@@ -24,7 +24,7 @@ public class XMLSerializationManager : MonoBehaviour {
         return storyToSerialize;
     }
 
-    public static Story loadStory(string xmlPath,Canvas canvas)  //currently returns storyDAta but needs to return story when done testing
+    public static Story loadStory(string xmlPath,Canvas canvas)  
     {
         Stream reader = new FileStream(xmlPath, FileMode.Open);
         XmlSerializer ser = new XmlSerializer(typeof(StoryData));
@@ -79,10 +79,13 @@ public class PageData
 {
     public string name;
     public List<PrefabData> pfd = new List<PrefabData>();
+    public Vector2 nodeGraphicLocation;
+
     public PageData() { }
     public PageData(Page page)
     {
         name = page.getName();
+        nodeGraphicLocation = page.nodeGraphicLocation;
         foreach(GameObject element in page.getElements())
         {
             //determine the prefab this game element belongs to (this game object is the highest parent of the prefab)
@@ -104,6 +107,7 @@ public class PageData
     public Page toPage(Canvas canvas,Story story)
     {
         Page page = new Page(name,story);
+        page.nodeGraphicLocation = nodeGraphicLocation;
         //fill page
         foreach(PrefabData data in pfd)
         {
@@ -114,6 +118,7 @@ public class PageData
             else
                 page.addPageElement(element);
         }
+        page.setVisible(false);
         return page;
     }
 
@@ -138,6 +143,7 @@ public class BackgroundData : PrefabData
     public RectTransformData rtd;
     public RawImageData rawImage;
     public PageElementEventTrigger.Action action;
+    public string connectedPageName; //Need to figure out how to serialize and deserialize the page and element connections
 
     public BackgroundData(){}
     public BackgroundData(GameObject background)
@@ -145,6 +151,7 @@ public class BackgroundData : PrefabData
         rtd = new RectTransformData(background.GetComponent<RectTransform>());
         rawImage = new RawImageData(background.GetComponent<RawImage>());
         action = background.GetComponent<PrefabInfo>().buttonAction;
+        connectedPageName = background.GetComponent<PageElementEventTrigger>().connectedPage.getName();
     }
 
     /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
