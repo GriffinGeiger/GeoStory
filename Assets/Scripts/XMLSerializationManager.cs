@@ -37,11 +37,20 @@ public class XMLSerializationManager : MonoBehaviour {
     public static void copyComponent(Component original, Component copy)
     {
         Type type = original.GetType();
-        FieldInfo[] fields = type.GetFields();
-        foreach(FieldInfo field in fields)
+        PropertyInfo[] properties = type.GetProperties();
+        Debug.Log("FieldLength: " + properties.Length);
+        foreach(PropertyInfo property in properties)
         {
-            field.SetValue(copy, field.GetValue(original));
+            if (!property.CanWrite) continue;
+                property.SetValue(copy, property.GetValue(original, null), null);
         }
+        try
+        {
+            Text t = (Text)copy;
+            Text orig = (Text)original;
+            Debug.Log("Text in copy component: " + t.text + " Text in original: " + orig.text);
+        }
+        catch (Exception) { }
     }
     //Loops through every element in a story and gives it reference to the element/page that it is connected to
     public static void makeActionConnections(Story story)
@@ -318,7 +327,7 @@ public class ButtonData : PrefabData
     public ImageData image;
     public EventTriggerData etd;
     public PageElementEventTrigger.Action action;
-
+    public TextData text;
 
     public ButtonData() { }
     public ButtonData(GameObject button)
@@ -327,6 +336,8 @@ public class ButtonData : PrefabData
         image = new ImageData(button.GetComponent<Image>());
         etd = new EventTriggerData(button.GetComponent<EventTrigger>());
         action = button.GetComponent<PrefabInfo>().buttonAction;
+        Debug.Log("Button text " + button.GetComponentInChildren<Text>().text);
+        text = new TextData(button.GetComponentInChildren<Text>());
     }
     public override GameObject toPrefab(Canvas canvas)
     {
@@ -335,6 +346,8 @@ public class ButtonData : PrefabData
         image.copyToImage(trigger.GetComponent<Image>());
         etd.copyToEventTrigger(trigger.GetComponent<EventTrigger>());
         trigger.GetComponent<PrefabInfo>().buttonAction = action;
+        text.copyToText(trigger.GetComponentInChildren<Text>());
+        Debug.Log("After filled: " + trigger.GetComponentInChildren<Text>().text);
         return trigger;
     }
 }
@@ -438,7 +451,7 @@ public class ImageData : ComponentData
         image.sprite =(Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(sourceImagePath, typeof(Sprite));
         if(image.sprite == null)
         {
-            Debug.Log("Image file not found at: " + sourceImagePath);
+            Debug.LogWarning("Image file not found at: " + sourceImagePath);
             //set a default picture in its place
         }
 
@@ -630,6 +643,7 @@ public class TextData : ComponentData
         {
             Debug.Log("Font not found");
             //set default font
+            //UnityEditor.AssetDatabase.LoadAssetAtPath<Font>(GameManager.defaultFontPath); //Might not need since prefab will have default font
         }
 
         t.fontSize = fontSize;

@@ -130,6 +130,19 @@
             </triggers>
           </etd>
           <action>None</action>
+          <text>
+            <alignByGeometry>false</alignByGeometry>
+            <alignment>MiddleCenter</alignment>
+            <fontPath>Library/unity default resources</fontPath>
+            <fontSize>55</fontSize>
+            <fontStyle>Normal</fontStyle>
+            <lineSpacing>1</lineSpacing>
+            <resizeTextForBestFit>false</resizeTextForBestFit>
+            <resizeTextMaxSize>100</resizeTextMaxSize>
+            <resizeTextMinSize>0</resizeTextMinSize>
+            <supportRichText>true</supportRichText>
+            <text>Nothing to press here</text>
+          </text>
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
@@ -264,6 +277,19 @@
             </triggers>
           </etd>
           <action>None</action>
+          <text>
+            <alignByGeometry>false</alignByGeometry>
+            <alignment>MiddleCenter</alignment>
+            <fontPath>Library/unity default resources</fontPath>
+            <fontSize>55</fontSize>
+            <fontStyle>Normal</fontStyle>
+            <lineSpacing>1</lineSpacing>
+            <resizeTextForBestFit>false</resizeTextForBestFit>
+            <resizeTextMaxSize>100</resizeTextMaxSize>
+            <resizeTextMinSize>0</resizeTextMinSize>
+            <supportRichText>true</supportRichText>
+            <text>Nothing to press here</text>
+          </text>
         </PrefabData>
         <PrefabData xsi:type="ScrollAreaData">
           <rtd_SA>

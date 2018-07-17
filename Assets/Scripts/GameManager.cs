@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public RectTransform testTransform; //Delete this when done with testing
     public RectTransform scrollContent;
 
+    public static string defaultFontPath = "Assets/Fonts/jesaya free.ttf";
 
     public static bool created = false;
 
