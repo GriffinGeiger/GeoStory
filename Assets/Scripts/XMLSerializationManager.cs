@@ -30,7 +30,9 @@ public class XMLSerializationManager : MonoBehaviour {
         XmlSerializer ser = new XmlSerializer(typeof(StoryData));
         StoryData sd = (StoryData) ser.Deserialize(reader);
         reader.Close();
-        return sd.toStory(canvas);
+        Story story = sd.toStory(canvas);
+        makeActionConnections(story);
+        return story;
     }
     public static void copyComponent(Component original, Component copy)
     {
@@ -39,6 +41,26 @@ public class XMLSerializationManager : MonoBehaviour {
         foreach(FieldInfo field in fields)
         {
             field.SetValue(copy, field.GetValue(original));
+        }
+    }
+    //Loops through every element in a story and gives it reference to the element/page that it is connected to
+    public static void makeActionConnections(Story story)
+    {
+        foreach(Page page in story.getPages())
+        {
+            foreach(GameObject element in page.getElements())
+            {
+                PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
+                if(peet.connectedPageName != null && !peet.connectedPageName.Equals(""))
+                {
+                    Debug.Log("connectedPageName: " + peet.connectedPageName + " from " + page + " " + element);
+                    peet.connectedPage = story.getPage(peet.connectedPageName);
+                    if(peet.connectedElementIndex != -1)
+                    {
+                        peet.connectedElement = page.getElements()[peet.connectedElementIndex];
+                    }
+                }
+            }
         }
     }
 }
@@ -144,14 +166,34 @@ public class BackgroundData : PrefabData
     public RawImageData rawImage;
     public PageElementEventTrigger.Action action;
     public string connectedPageName; //Need to figure out how to serialize and deserialize the page and element connections
+    public int connectedElementIndex; //Index of element in the elements List on the connected page
 
     public BackgroundData(){}
     public BackgroundData(GameObject background)
     {
         rtd = new RectTransformData(background.GetComponent<RectTransform>());
         rawImage = new RawImageData(background.GetComponent<RawImage>());
-        action = background.GetComponent<PrefabInfo>().buttonAction;
-        connectedPageName = background.GetComponent<PageElementEventTrigger>().connectedPage.getName();
+        PageElementEventTrigger peet = background.GetComponent<PageElementEventTrigger>();
+        action = peet.action;
+        Debug.Log("Assigning action: " + action);
+        Page connectedPage = peet.connectedPage;
+        if (connectedPage != null)
+        {
+            connectedPageName = connectedPage.getName();
+        }
+        if (peet.connectedElement != null)
+        {
+            GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
+            for (int i = 0; i < connectedPageElements.Length; i++)
+            {
+                if (connectedPageElements[i].Equals(peet.connectedElement))
+                {
+                    connectedElementIndex = i;
+                    break;
+                }
+            }
+            Debug.LogError("There should be a connectedElement but the element did not match anything in elements array");
+        }
     }
 
     /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
@@ -160,12 +202,17 @@ public class BackgroundData : PrefabData
      * Side side note: when the player edits a rect transform they will be dragging the anchor points and the corners of the transform will be dragged to them,
      * not the other way around
      */
-    public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
+    public override GameObject toPrefab(Canvas canvas)         
     {
         GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
         rawImage.copyToRawImage(bg.GetComponent<RawImage>());
         bg.GetComponent<PrefabInfo>().buttonAction = action;
+        PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
+        peet.connectedPageName = connectedPageName;
+        peet.connectedElementIndex = connectedElementIndex;
+        peet.action = action;
+        Debug.Log("Action toPrefab " + peet.action);
         return bg;
     }
 }

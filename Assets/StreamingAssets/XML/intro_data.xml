@@ -69,7 +69,9 @@
               <yMax>1</yMax>
             </uvRect>
           </rawImage>
-          <action>None</action>
+          <action>Change</action>
+          <connectedPageName>introPage2</connectedPageName>
+          <connectedElementIndex>0</connectedElementIndex>
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
           <rtd>
@@ -203,6 +205,7 @@
             </uvRect>
           </rawImage>
           <action>None</action>
+          <connectedElementIndex>0</connectedElementIndex>
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
           <rtd>
@@ -420,7 +423,7 @@
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.883764863</y>
+                <y>0.898146749</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -441,8 +444,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235055</size>
-            <value>1</value>
+            <size>0.101853184</size>
+            <value>0.99999994</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -485,7 +488,7 @@
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.883764863</y>
+              <y>0.898146749</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>

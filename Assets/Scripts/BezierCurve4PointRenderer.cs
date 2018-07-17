@@ -15,6 +15,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
     public float pointExtendRatio = .1f;
     public GameObject originConnector;
     public GameObject receivingConncector;
+    public PageElementEventTrigger.Action action; //The action this line represents
 
     void Update()
     {

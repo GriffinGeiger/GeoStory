@@ -20,8 +20,11 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         if (prefabType == PrefabInfo.PrefabType.NodeConnectorReceiver)
         {
             //Sets the connectedElement in the pageElementEventTrigger of the element where the nodeLine was dragged from to this associated element
-            currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().connectedElement
-                = GetComponentInParent<AssociatedElementReference>().associatedElement;
+            PageElementEventTrigger peet = currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
+            peet.connectedPage = GetComponentInParent<PageNodeGraphicManager>().page;
+            peet.connectedElement = GetComponentInParent<AssociatedElementReference>().associatedElement;
+            //set action
+            peet.action = currentCurve.action; //assign action when dropping rather than when pulling so it is only assigned if dropped on a valid connector
             Debug.Log("Reference to the next element has been given to pageElementEventTrigger");
         }
         else if (prefabType == PrefabInfo.PrefabType.PageNodeConnectorReceiver)

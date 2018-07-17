@@ -7,15 +7,19 @@ using UnityEngine.EventSystems;
 public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
     
     public Page connectedPage; //The page the action will change to
+    public string connectedPageName; //this is needed in deserialization 
     public GameObject connectedElement; //The element that the action will switch to or activate (Will be null if the connected node is a Page)
+    public int connectedElementIndex = -1; //this is needed in deserialization. Default value is -1
     public enum Action { None, Change, Show, Hide };
     public Action action; //the action that will happen
 
 
     public new void OnPointerClick(PointerEventData data)
     {
+        Debug.Log("Action" + action);
         if(action == Action.Change)
         {
+            Debug.Log("Changing page to " + connectedPageName + connectedPage);
             if (connectedPage != null)
                 connectedPage.storyRef.changePage(connectedPage); //connectedPage has a reference to the story. Since both pages have to be on same story it doesn't matter if this page or that one supplies ref
             else

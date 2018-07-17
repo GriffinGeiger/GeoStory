@@ -86,22 +86,25 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         if(curve == null)
             curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), contentWindow).GetComponent<BezierCurve4PointRenderer>();
         //Set line color to coincide with the function it is providing. (find AssociatedElementRef so it searches sibling components and only the parent has AER) 
-        PageElementEventTrigger.Action selectedFunction = GetComponentInParent<AssociatedElementReference>().GetComponentInChildren<DropdownSelectionToAction>().getDropdownSelection();
+        curve.action = GetComponentInParent<AssociatedElementReference>().GetComponentInChildren<DropdownSelectionToAction>().getDropdownSelection();
         LineRenderer line = curve.GetComponent<LineRenderer>();
-        if(selectedFunction == PageElementEventTrigger.Action.Change)
+        switch(curve.action)
         {
-            line.startColor = new Color(0.7253471f, 0.9433962f, 0.9433962f);
-            line.endColor = new Color(0.2569865f, 0.75472f, 0.6981435f);
-        }
-        else if(selectedFunction == PageElementEventTrigger.Action.Show)
-        {
-            line.startColor = new Color(.74f, .98f, .69f);
-            line.endColor = new Color(.20f, .67f, .04f);
-        }
-        else if(selectedFunction == PageElementEventTrigger.Action.Hide)
-        {
-            line.startColor = new Color(0.9811321f, 0.6895692f, 0.6895692f);
-            line.endColor = new Color(0.7921569f, 0, 0);
+            case PageElementEventTrigger.Action.Change:
+                line.startColor = new Color(0.7253471f, 0.9433962f, 0.9433962f);
+                line.endColor = new Color(0.2569865f, 0.75472f, 0.6981435f);
+                break;
+            case PageElementEventTrigger.Action.Show:
+                line.startColor = new Color(.74f, .98f, .69f);
+                line.endColor = new Color(.20f, .67f, .04f);
+                break;
+            case PageElementEventTrigger.Action.Hide:
+                line.startColor = new Color(0.9811321f, 0.6895692f, 0.6895692f);
+                line.endColor = new Color(0.7921569f, 0, 0);
+                break;
+            case PageElementEventTrigger.Action.None:
+                Debug.LogError("Line was drawn but has no action");
+                break;
         }
         curve.originConnector = gameObject; //Give reference to this connector's game object to the curve
         lastDraggedCurve = curve.gameObject;
