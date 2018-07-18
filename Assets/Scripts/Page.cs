@@ -1,20 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[Serializable()]
 public class Page {
 
+    
     private List<GameObject> elements = new List<GameObject>();
-    private List<Button> buttons = new List<Button>();
+    public Story storyRef;
     public bool isVisible;
     private string name;
+    public Vector2 nodeGraphicLocation;
 
-    
-
-    public Page(string name)
+    public Page() { }
+    public Page(string name,Story story)
     {
         this.name = name;
+        storyRef = story;
         //create default page
         //create options bar
         //create background
@@ -23,11 +28,11 @@ public class Page {
 	
     public void setVisible(bool tf)
     {
-        if(tf == true)
+        if (tf == true)
         {
             //loop through elements and make all elements visible
             foreach(GameObject element in elements)
-            {
+            {            
                 element.SetActive(true);
             }
             isVisible = true;
@@ -43,24 +48,22 @@ public class Page {
         }
     }
 
+    //Assumes only one button per page element. May need to change this
     public void addPageElement(GameObject element)
     {
-        elements.Add(element);
-     
-
-    }
-
-    public void addPageElement(GameObject element, string action)
-    {
-        Button btn = element.GetComponentInChildren<Button>();
-        if (btn != null)
+        EventTrigger trigger = element.GetComponent<PageElementEventTrigger>(); //Implement eventTrigger to do button stuff.
+        if (trigger != null)
         {
-            btn.onClick.AddListener(delegate { buttonActions(action); });
-            buttons.Add(btn);
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick; //this defines the type of clicking this button reacts to. Subject to change
+            entry.callback.AddListener((data) => { buttonActions(element); }) ;
+            trigger.triggers.Add(entry); //at this point entry reacts to pointer click and calls buttonActions
+            elements.Add(element);
         }
         else
-            //possibly throw an exception saying no button on element but action specified
-            ;
+        {
+            throw new MissingComponentException("Action specified but no EventTrigger associated with element.");
+        }
     }
 
     public void removePageElement(GameObject element)      //Test this later
@@ -68,18 +71,35 @@ public class Page {
         elements.Remove(element);
     }
 
-    public void buttonActions(string action)
+    //Triggers when a button is pressed on a Page. 
+    //Needs only the element that the event is called from since PageElementEventTrigger stores the action and connectedPage or connectedElement
+    public void buttonActions(GameObject element)
     {
-        if(action.StartsWith(ButtonActionConstants.CHANGE_PAGE("")))
+        PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
+        if(action == PageElementEventTrigger.Action.Change)
         {
-            string nextPage = action.Substring(6).Trim();
-            Debug.Log("Button requests:" + nextPage + ": as next page");
+            storyRef.changePage(element.GetComponent<PageElementEventTrigger>().connectedPage);
+        }
+        if(action == PageElementEventTrigger.Action.Show)
+        {
+            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(true);
+        }
+        if(action == PageElementEventTrigger.Action.Hide)
+        {
+            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(false);
         }
     }
 
     public int getNumberOfPageElements()
     {
         return elements.Count;
+    }
+
+    public GameObject[] getElements()
+    {
+        GameObject[] gameObjects = new GameObject[elements.Count];
+        elements.CopyTo(gameObjects);
+        return gameObjects;
     }
 
     public string getName()
@@ -91,6 +111,8 @@ public class Page {
     {
         //if( name doesn't exist within story)
         name = newName;
+        //remove then read to story so name updates in dictionary
         //else throw exception telling user to change the name
+
     }
 }
