@@ -34,4 +34,11 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
             connectedElement.SetActive(false);
         }
     }
+
+    public void SetConnectedPage(Page page)
+    {
+        connectedPageName = page.getName();
+        connectedPage = page;
+    }
+
 }

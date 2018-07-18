@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using UnityEngine.UI;
 using System;
-using System.Xml.Schema;
 using System.Reflection;
 using UnityEngine.EventSystems;
 using UnityEditor;
@@ -37,12 +34,16 @@ public class XMLSerializationManager : MonoBehaviour {
     public static void copyComponent(Component original, Component copy)
     {
         Type type = original.GetType();
-        PropertyInfo[] properties = type.GetProperties();
+        PropertyInfo[] properties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
         Debug.Log("FieldLength: " + properties.Length);
         foreach(PropertyInfo property in properties)
         {
-            if (!property.CanWrite) continue;
+            try
+            {
+                if (!property.CanWrite) continue;
                 property.SetValue(copy, property.GetValue(original, null), null);
+            }
+            catch (Exception) { }
         }
         try
         {
@@ -71,6 +72,32 @@ public class XMLSerializationManager : MonoBehaviour {
                 }
             }
         }
+    }
+    //gets the pageName and index from a peet and returns them in struct format
+    public struct connectedValues { public string connectedPageName; public int connectedElementIndex; } 
+    public static  connectedValues getConnectedValues(PageElementEventTrigger peet)
+    {
+        connectedValues values = new connectedValues();
+        values.connectedElementIndex = -1; //-1 should be default value 
+        Page connectedPage = peet.connectedPage;
+        if (connectedPage != null)
+        {
+            values.connectedPageName = connectedPage.getName();
+        }
+        if (peet.connectedElement != null)
+        {
+            GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
+            for (int i = 0; i < connectedPageElements.Length; i++)
+            {
+                if (connectedPageElements[i].Equals(peet.connectedElement))
+                {
+                    values.connectedElementIndex = i;
+                    break;
+                }
+            }
+            Debug.LogError("There should be a connectedElement but the element did not match anything in elements array");
+        }
+        return values;
     }
 }
 
@@ -143,11 +170,8 @@ public class PageData
         foreach(PrefabData data in pfd)
         {
             GameObject element = data.toPrefab(canvas);
-            PageElementEventTrigger.Action buttonAction = element.GetComponent<PrefabInfo>().buttonAction;
-            if (buttonAction != PageElementEventTrigger.Action.None)
-                page.addPageElement(element, buttonAction);
-            else
-                page.addPageElement(element);
+            page.addPageElement(element);
+
         }
         page.setVisible(false);
         return page;
@@ -171,6 +195,7 @@ public abstract class PrefabData
 [Serializable]
 public class BackgroundData : PrefabData
 {
+    public string name;
     public RectTransformData rtd;
     public RawImageData rawImage;
     public PageElementEventTrigger.Action action;
@@ -180,29 +205,17 @@ public class BackgroundData : PrefabData
     public BackgroundData(){}
     public BackgroundData(GameObject background)
     {
+        name = background.name;
         rtd = new RectTransformData(background.GetComponent<RectTransform>());
         rawImage = new RawImageData(background.GetComponent<RawImage>());
         PageElementEventTrigger peet = background.GetComponent<PageElementEventTrigger>();
         action = peet.action;
-        Debug.Log("Assigning action: " + action);
-        Page connectedPage = peet.connectedPage;
-        if (connectedPage != null)
-        {
-            connectedPageName = connectedPage.getName();
-        }
-        if (peet.connectedElement != null)
-        {
-            GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
-            for (int i = 0; i < connectedPageElements.Length; i++)
-            {
-                if (connectedPageElements[i].Equals(peet.connectedElement))
-                {
-                    connectedElementIndex = i;
-                    break;
-                }
-            }
-            Debug.LogError("There should be a connectedElement but the element did not match anything in elements array");
-        }
+        Debug.Log("Action when filling backData" + peet.action);
+
+        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
+        connectedPageName = values.connectedPageName;
+        connectedElementIndex = values.connectedElementIndex;
+
     }
 
     /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
@@ -214,14 +227,13 @@ public class BackgroundData : PrefabData
     public override GameObject toPrefab(Canvas canvas)         
     {
         GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);
+        bg.name = name;
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
         rawImage.copyToRawImage(bg.GetComponent<RawImage>());
-        bg.GetComponent<PrefabInfo>().buttonAction = action;
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
         peet.connectedPageName = connectedPageName;
         peet.connectedElementIndex = connectedElementIndex;
         peet.action = action;
-        Debug.Log("Action toPrefab " + peet.action);
         return bg;
     }
 }
@@ -229,10 +241,14 @@ public class BackgroundData : PrefabData
 [Serializable]
 public class ScrollAreaData : PrefabData
 {
+    public string name;
+
     //ScrollArea fields
     public RectTransformData rtd_SA;
     public ImageData image_SA;
     public PageElementEventTrigger.Action action;
+    string connectedPageName;
+    int connectedElementIndex;
 
     //TextBox fields
     public RectTransformData rtd_TB;
@@ -258,11 +274,12 @@ public class ScrollAreaData : PrefabData
     public ScrollAreaData() { }
     public ScrollAreaData(GameObject scrollArea)
     {
-        Debug.Log("Filling ScrollAreaData");
+        name = scrollArea.name;
+
         //SA fields
         rtd_SA = new RectTransformData(scrollArea.GetComponent<RectTransform>());
         image_SA = new ImageData(scrollArea.GetComponent<Image>());
-        action = scrollArea.GetComponent<PrefabInfo>().buttonAction;
+        action = scrollArea.GetComponent<PageElementEventTrigger>().action;
 
         //TB fields
         GameObject textBox = scrollArea.transform.GetChild(0).gameObject;
@@ -287,18 +304,32 @@ public class ScrollAreaData : PrefabData
         //TextFields
         GameObject text = textBox.transform.GetChild(1).gameObject;
         rtd_T = new RectTransformData(text.GetComponent<RectTransform>());
-        text_T = new TextData(text.GetComponent<Text>()); 
+        text_T = new TextData(text.GetComponent<Text>());
+
+        //EventTrigger fields
+        PageElementEventTrigger peet = scrollArea.GetComponent<PageElementEventTrigger>();
+        action = peet.action;
+        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
+        connectedPageName = values.connectedPageName;
+        connectedElementIndex = values.connectedElementIndex;
+
     }
     public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
     {
+        Debug.Log("Canvas: " + canvas);
         GameObject sa = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/ScrollArea.prefab"), canvas.transform);
+        sa.name = name;
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
         image_SA.copyToImage(sa.GetComponent<Image>());
-        sa.GetComponent<PrefabInfo>().buttonAction = action;
+        PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();
+        peet.connectedPageName = connectedPageName;
+        peet.connectedElementIndex = connectedElementIndex;
+        peet.action = action;
 
         GameObject tb = sa.transform.GetChild(0).gameObject;
         rtd_TB.copyToRectTransform(tb.GetComponent<RectTransform>());
         srd_TB.copyToScrollRect(tb.GetComponent<ScrollRect>());
+
 
         GameObject sb = tb.transform.GetChild(0).gameObject;
         rtd_SB.copyToRectTransform(sb.GetComponent<RectTransform>());
@@ -311,10 +342,16 @@ public class ScrollAreaData : PrefabData
         GameObject h = sla.transform.GetChild(0).gameObject;
         rtd_H.copyToRectTransform(h.GetComponent<RectTransform>());
         image_H.copyToImage(h.GetComponent<Image>());
-
-        GameObject t = tb.transform.GetChild(1).gameObject;
+        Debug.Log("tb: " + tb);
+        GameObject t = tb.transform.GetChild(1).gameObject; //should be getchild(1)
         rtd_T.copyToRectTransform(t.GetComponent<RectTransform>());
         text_T.copyToText(t.GetComponent<Text>());
+
+        //Now that all items are instantiated they need each other's references
+        ScrollRect scrollRect = tb.GetComponent<ScrollRect>();
+        scrollRect.verticalScrollbar = sb.GetComponent<Scrollbar>();
+        scrollRect.content = t.GetComponent<RectTransform>();
+        sb.GetComponent<Scrollbar>().handleRect = h.GetComponent<RectTransform>();
 
         return sa;
     }
@@ -323,32 +360,43 @@ public class ScrollAreaData : PrefabData
 [Serializable]
 public class ButtonData : PrefabData
 {
+    public string name;
+
     public RectTransformData rtd;
     public ImageData image;
     public EventTriggerData etd;
     public PageElementEventTrigger.Action action;
     public TextData text;
+    public string connectedPageName;
+    public int connectedElementIndex;
 
     public ButtonData() { }
     public ButtonData(GameObject button)
     {
+        name = button.name;
         rtd = new RectTransformData(button.GetComponent<RectTransform>());
         image = new ImageData(button.GetComponent<Image>());
         etd = new EventTriggerData(button.GetComponent<EventTrigger>());
-        action = button.GetComponent<PrefabInfo>().buttonAction;
-        Debug.Log("Button text " + button.GetComponentInChildren<Text>().text);
         text = new TextData(button.GetComponentInChildren<Text>());
+        PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
+        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
+        connectedPageName = values.connectedPageName;
+        connectedElementIndex = values.connectedElementIndex;
+        action = peet.action;
     }
     public override GameObject toPrefab(Canvas canvas)
     {
-        GameObject trigger = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/Button.prefab"), canvas.transform);
-        rtd.copyToRectTransform(trigger.GetComponent<RectTransform>());
-        image.copyToImage(trigger.GetComponent<Image>());
-        etd.copyToEventTrigger(trigger.GetComponent<EventTrigger>());
-        trigger.GetComponent<PrefabInfo>().buttonAction = action;
-        text.copyToText(trigger.GetComponentInChildren<Text>());
-        Debug.Log("After filled: " + trigger.GetComponentInChildren<Text>().text);
-        return trigger;
+        GameObject button = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/Button.prefab"), canvas.transform);
+        button.name = name;
+        rtd.copyToRectTransform(button.GetComponent<RectTransform>());
+        image.copyToImage(button.GetComponent<Image>());
+        etd.copyToEventTrigger(button.GetComponent<EventTrigger>());
+        text.copyToText(button.GetComponentInChildren<Text>());
+        PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
+        peet.connectedPageName = connectedPageName;
+        peet.connectedElementIndex = connectedElementIndex;
+        peet.action = action;
+        return button;
     }
 }
 
@@ -547,7 +595,7 @@ public class ScrollRectData : ComponentData
         rect.elasticity = elasticity;
         rect.inertia = inertia;
         rect.movementType = movementType;
-        
+        rect.horizontal = false;
         rect.scrollSensitivity = scrollSensitivity;
         rect.velocity = velocity;
         rect.vertical = vertical;

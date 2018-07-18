@@ -6,6 +6,7 @@
       <name>introPage1</name>
       <pfd>
         <PrefabData xsi:type="BackgroundData">
+          <name>bg1</name>
           <rtd>
             <anchoredPosition>
               <x>-6.10351563E-05</x>
@@ -71,9 +72,10 @@
           </rawImage>
           <action>Change</action>
           <connectedPageName>introPage2</connectedPageName>
-          <connectedElementIndex>0</connectedElementIndex>
+          <connectedElementIndex>-1</connectedElementIndex>
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
+          <name>pg1button</name>
           <rtd>
             <anchoredPosition>
               <x>0</x>
@@ -105,7 +107,7 @@
             </sizeDelta>
           </rtd>
           <image>
-            <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -129,11 +131,11 @@
               </Entry>
             </triggers>
           </etd>
-          <action>None</action>
+          <action>Change</action>
           <text>
             <alignByGeometry>false</alignByGeometry>
             <alignment>MiddleCenter</alignment>
-            <fontPath>Library/unity default resources</fontPath>
+            <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
             <fontSize>55</fontSize>
             <fontStyle>Normal</fontStyle>
             <lineSpacing>1</lineSpacing>
@@ -141,8 +143,10 @@
             <resizeTextMaxSize>100</resizeTextMaxSize>
             <resizeTextMinSize>0</resizeTextMinSize>
             <supportRichText>true</supportRichText>
-            <text>Nothing to press here</text>
+            <text>Page3</text>
           </text>
+          <connectedPageName>introPage3</connectedPageName>
+          <connectedElementIndex>-1</connectedElementIndex>
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
@@ -154,6 +158,7 @@
       <name>introPage2</name>
       <pfd>
         <PrefabData xsi:type="BackgroundData">
+          <name>bg2</name>
           <rtd>
             <anchoredPosition>
               <x>-6.10351563E-05</x>
@@ -218,9 +223,10 @@
             </uvRect>
           </rawImage>
           <action>None</action>
-          <connectedElementIndex>0</connectedElementIndex>
+          <connectedElementIndex>-1</connectedElementIndex>
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
+          <name>pg2Button</name>
           <rtd>
             <anchoredPosition>
               <x>0</x>
@@ -252,7 +258,7 @@
             </sizeDelta>
           </rtd>
           <image>
-            <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -280,7 +286,7 @@
           <text>
             <alignByGeometry>false</alignByGeometry>
             <alignment>MiddleCenter</alignment>
-            <fontPath>Library/unity default resources</fontPath>
+            <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
             <fontSize>55</fontSize>
             <fontStyle>Normal</fontStyle>
             <lineSpacing>1</lineSpacing>
@@ -290,8 +296,10 @@
             <supportRichText>true</supportRichText>
             <text>Nothing to press here</text>
           </text>
+          <connectedElementIndex>-1</connectedElementIndex>
         </PrefabData>
         <PrefabData xsi:type="ScrollAreaData">
+          <name>pg2text</name>
           <rtd_SA>
             <anchoredPosition>
               <x>0</x>
@@ -323,7 +331,7 @@
             </sizeDelta>
           </rtd_SA>
           <image_SA>
-            <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+            <sourceImagePath>Assets/Images/DefaultBackground.png</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -339,11 +347,11 @@
               <a>0.392</a>
             </color>
           </image_SA>
-          <action>None</action>
+          <action>Change</action>
           <rtd_TB>
             <anchoredPosition>
               <x>0</x>
-              <y>-5.000001</y>
+              <y>-5</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -392,7 +400,7 @@
           <rtd_SB>
             <anchoredPosition>
               <x>0.6999512</x>
-              <y>-1.79998779</y>
+              <y>-1.80004883</y>
             </anchoredPosition>
             <anchorMax>
               <x>0.9514443</x>
@@ -404,11 +412,11 @@
             </anchorMin>
             <offsetMax>
               <x>-2.70004272</x>
-              <y>5.450012</y>
+              <y>5.449951</y>
             </offsetMax>
             <offsetMin>
               <x>4.099945</x>
-              <y>-9.049988</y>
+              <y>-9.050049</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -420,7 +428,7 @@
             </sizeDelta>
           </rtd_SB>
           <image_SB>
-            <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+            <sourceImagePath>Assets/Images/DefaultBackground.png</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -441,23 +449,23 @@
             <handleRect>
               <anchoredPosition>
                 <x>0</x>
-                <y>2.70001221</y>
+                <y>2.70007324</y>
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>0.99999994</y>
+                <y>1</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.898146749</y>
+                <y>0.8837649</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
-                <y>5.30001068</y>
+                <y>5.30007172</y>
               </offsetMax>
               <offsetMin>
                 <x>-9.1</x>
-                <y>0.100013733</y>
+                <y>0.100074768</y>
               </offsetMin>
               <pivot>
                 <x>0.5</x>
@@ -470,8 +478,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.101853184</size>
-            <value>0.99999994</value>
+            <size>0.116235055</size>
+            <value>1</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -506,23 +514,23 @@
           <rtd_H>
             <anchoredPosition>
               <x>0</x>
-              <y>2.70001221</y>
+              <y>2.70007324</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>0.99999994</y>
+              <y>1</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.898146749</y>
+              <y>0.8837649</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
-              <y>5.30001068</y>
+              <y>5.30007172</y>
             </offsetMax>
             <offsetMin>
               <x>-9.1</x>
-              <y>0.100013733</y>
+              <y>0.100074768</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -534,7 +542,7 @@
             </sizeDelta>
           </rtd_H>
           <image_H>
-            <sourceImagePath>Resources/unity_builtin_extra</sourceImagePath>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -593,6 +601,83 @@
             <supportRichText>true</supportRichText>
             <text>Welcome to Geostory</text>
           </text_T>
+        </PrefabData>
+      </pfd>
+      <nodeGraphicLocation>
+        <x>0</x>
+        <y>0</y>
+      </nodeGraphicLocation>
+    </PageData>
+    <PageData>
+      <name>introPage3</name>
+      <pfd>
+        <PrefabData xsi:type="BackgroundData">
+          <name>bg3</name>
+          <rtd>
+            <anchoredPosition>
+              <x>-6.10351563E-05</x>
+              <y>0.00048828125</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>1</x>
+              <y>1</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0</x>
+              <y>0</y>
+            </anchorMin>
+            <offsetMax>
+              <x>-6.10351563E-05</x>
+              <y>0.0009765612</y>
+            </offsetMax>
+            <offsetMin>
+              <x>-6.10351563E-05</x>
+              <y>1.25146471E-09</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0.00097656</y>
+            </sizeDelta>
+          </rtd>
+          <rawImage>
+            <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
+            <uvRect>
+              <x>0</x>
+              <y>0</y>
+              <position>
+                <x>0</x>
+                <y>0</y>
+              </position>
+              <center>
+                <x>0.5</x>
+                <y>0.5</y>
+              </center>
+              <min>
+                <x>0</x>
+                <y>0</y>
+              </min>
+              <max>
+                <x>1</x>
+                <y>1</y>
+              </max>
+              <width>1</width>
+              <height>1</height>
+              <size>
+                <x>1</x>
+                <y>1</y>
+              </size>
+              <xMin>0</xMin>
+              <yMin>0</yMin>
+              <xMax>1</xMax>
+              <yMax>1</yMax>
+            </uvRect>
+          </rawImage>
+          <action>None</action>
+          <connectedElementIndex>-1</connectedElementIndex>
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>

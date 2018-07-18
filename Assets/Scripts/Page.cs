@@ -48,18 +48,10 @@ public class Page {
         }
     }
 
+    //Assumes only one button per page element. May need to change this
     public void addPageElement(GameObject element)
     {
-        addPageElement(element, PageElementEventTrigger.Action.None);
-    }
-
-
-
-    //Assumes only one button per page element. May need to change this
-    public void addPageElement(GameObject element, PageElementEventTrigger.Action action)
-    {
         EventTrigger trigger = element.GetComponent<PageElementEventTrigger>(); //Implement eventTrigger to do button stuff.
-        element.GetComponent<PrefabInfo>().buttonAction = action;
         if (trigger != null)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -84,7 +76,6 @@ public class Page {
     public void buttonActions(GameObject element)
     {
         PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
-        Debug.Log("In buttonActions");
         if(action == PageElementEventTrigger.Action.Change)
         {
             storyRef.changePage(element.GetComponent<PageElementEventTrigger>().connectedPage);
