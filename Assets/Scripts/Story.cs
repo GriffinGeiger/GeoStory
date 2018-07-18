@@ -1,18 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
-public class Story
+
+[Serializable()]
+public class Story : ISerializable
 {
     private Dictionary<string, Page> pages = new Dictionary<string, Page>();
-    private Page currentPage;
+    public Page currentPage;
+    public string name { get; set; } 
 
+    
+    public Story(){}
+
+    //Deserialization constructor
+    public Story(SerializationInfo info, StreamingContext ctxt)
+    {
+        pages = (Dictionary<string, Page>)info.GetValue("pages", typeof(Dictionary<string, Page>));
+        currentPage = (Page)info.GetValue("currentPage", typeof(Page));
+        name = (string)info.GetValue("name", typeof(string));
+    }
 
     public void changePage(Page nextPage)
     {
         try{
             currentPage.setVisible(false);
-        }catch(System.NullReferenceException nre) {/*do nothing since this just means there was no current page*/}
+        }catch(System.NullReferenceException) {/*do nothing since this just means there was no current page*/}
         currentPage = nextPage;
         currentPage.setVisible(true);
     }
@@ -36,6 +53,19 @@ public class Story
 
     }
 
+    public Page getPage(string pageName)
+    {
+        return pages[pageName];
+    }
+
+    public Page[] getPages()
+    {
+        Dictionary<string, Page>.ValueCollection valueColl = pages.Values;
+        Page[] pageArray = new Page[pages.Count];
+        valueColl.CopyTo(pageArray,0);
+        return pageArray;
+    }
+
     public void removePage(string name)
     {
         pages.Remove(name);
@@ -44,5 +74,12 @@ public class Story
     public bool pageNameExists(string name)
     {
         return pages.ContainsKey(name);
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue("pages", pages);
+        info.AddValue("currentPage", currentPage);
+        info.AddValue("name", name);
     }
 }
