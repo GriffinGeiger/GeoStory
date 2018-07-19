@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//this is to be applied to ElementNode so it can get all dropdowns that are children to it
 public class DropdownSelectionToAction : MonoBehaviour {
-
     [HideInInspector]
-    public Dropdown myDropdown;
+    public List<Dropdown> myDropdowns;
 
     void Start()
     {
-        myDropdown = GetComponent<Dropdown>();
-        myDropdown.onValueChanged.AddListener(delegate
+        Dropdown[] dd = GetComponentsInChildren<Dropdown>();
+        for (int i = 0; i < dd.Length; i++)
         {
-            GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action =  getDropdownSelection();
-        });
-        GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action = getDropdownSelection();
+            myDropdowns.Add(dd[i]);
+            dd[i].GetComponentInParent<AssociatedElementReference>().GetComponentInChildren<ManipulateNodeLines>().dropdownIndex = i;
+            //Will need to make sure that the correct dropdown is at the same index as its action in peet.actions
+            myDropdowns[i].onValueChanged.AddListener(delegate
+            {
+                GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().actions[i] = getDropdownSelection(i);
+            });
+        }
+      //  GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action = getDropdownSelection();
     }
-    public PageElementEventTrigger.Action getDropdownSelection()
+    public PageElementEventTrigger.Action getDropdownSelection(int index)
     {
-        string selectedOption = myDropdown.captionText.text;
-        Debug.Log("Selected: " + myDropdown.value + " " + myDropdown.captionText.text);
+        string selectedOption = myDropdowns[index].captionText.text;
+        Debug.Log("Selected: " + myDropdowns[index].value + " " + myDropdowns[index].captionText.text);
         PageElementEventTrigger.Action associatedElementAction;
         switch (selectedOption)
         {
@@ -34,8 +40,7 @@ public class DropdownSelectionToAction : MonoBehaviour {
                 associatedElementAction = PageElementEventTrigger.Action.Hide;
                 break;
             default:
-                Debug.Log("Dropdown selection: " + selectedOption + "Is not recognized. Was name changed?");
-                associatedElementAction = PageElementEventTrigger.Action.Change;
+                associatedElementAction = PageElementEventTrigger.Action.None;
                 break;
         }
         return associatedElementAction;

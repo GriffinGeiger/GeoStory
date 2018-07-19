@@ -80,10 +80,6 @@ public class GameManagerEditor : Editor
             
 
         }
-        if(GUILayout.Button("Height of selected rect"))
-        {
-            Debug.Log("Selected rect height: " + gm.heightOfrect.rect.height);
-        }
     }
  
 }

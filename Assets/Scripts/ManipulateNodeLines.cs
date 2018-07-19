@@ -16,6 +16,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public float fastScrollSpeed;
     Vector3 pointerPosition;
     public bool dragging;
+    public int dropdownIndex; //The index in the list of dropdowns this connector is controlled by
 
     //Decided to not parent curves under connector it belongs to, instead it will store references to both nodes its connection
     public Transform contentWindow;
@@ -75,8 +76,9 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     {
         //clear any references to next page or next element since previous curve is replaced so the link has been broken
         PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
-        peet.connectedElement = null;
-        peet.connectedPage = null;
+        //clears references while reserving the index for the next connection
+        peet.AddConnections(null, null, PageElementEventTrigger.Action.None, dropdownIndex);
+
         try
         {
             curve.receivingConncector.GetComponent<ReceiveNodeLines>().curves.Remove(curve);
@@ -86,7 +88,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         if(curve == null)
             curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), contentWindow).GetComponent<BezierCurve4PointRenderer>();
         //Set line color to coincide with the function it is providing. (find AssociatedElementRef so it searches sibling components and only the parent has AER) 
-        curve.action = GetComponentInParent<AssociatedElementReference>().GetComponentInChildren<DropdownSelectionToAction>().getDropdownSelection();
+        curve.action = GetComponentInParent<AssociatedElementReference>().GetComponentInChildren<DropdownSelectionToAction>().getDropdownSelection(dropdownIndex);
         LineRenderer line = curve.GetComponent<LineRenderer>();
         switch(curve.action)
         {

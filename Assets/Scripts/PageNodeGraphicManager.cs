@@ -12,6 +12,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
     public Vector2 lowestAnchorPoint;
     public float pixelHeightOfTitle = 76f; //the offset between the top of the node graphic and the bottom of the title card
     public float pixelHeightOfElement = 170f;
+    public float widthOfGraphic;
     public float pixelHeightOfFooter;
     public List<GameObject> nodeParts;
 
@@ -20,7 +21,8 @@ public class PageNodeGraphicManager : MonoBehaviour {
         elementNodePrefab = (GameObject) AssetDatabase.LoadAssetAtPath("Assets/Prefabs/StoryEditor/ElementNode.prefab", typeof(GameObject));
         pixelHeightOfTitle = 76f;
         pixelHeightOfElement = 170f;
-        pixelHeightOfFooter = 0f;
+        pixelHeightOfFooter = 40f;
+        widthOfGraphic = 275f;
     }
     public void buildFromPage(Page content)
     {
@@ -59,12 +61,13 @@ public class PageNodeGraphicManager : MonoBehaviour {
         }
 
         //adjust rectTransform of NodeGraphic
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(elementNodePrefab.GetComponent<RectTransform>().rect.width, heightOfRect);
-        rectTransform.anchoredPosition = page.nodeGraphicLocation;
+        RectTransform graphicRectTransform = GetComponent<RectTransform>();
+        graphicRectTransform.sizeDelta = new Vector2(widthOfGraphic, heightOfRect);
+        graphicRectTransform.anchoredPosition = page.nodeGraphicLocation;
 
         float percentageHeightOfTitle = pixelHeightOfTitle / heightOfRect;
         lowestAnchorPoint = new Vector2(1, 1 - percentageHeightOfTitle);
+        Debug.Log("First lowestAnchorPoint " + lowestAnchorPoint);
 
         foreach (GameObject go in nodeParts)
         {
