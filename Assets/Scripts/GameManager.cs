@@ -46,8 +46,7 @@ public class GameManager : MonoBehaviour {
 
         GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
         bg.name = "bg1";
-        bg.GetComponent<PageElementEventTrigger>().SetConnectedPage(page2);
-        bg.GetComponent<PageElementEventTrigger>().action = PageElementEventTrigger.Action.Change;
+        bg.GetComponent<PageElementEventTrigger>().AddConnections(page2, null, PageElementEventTrigger.Action.Change);
         page1.addPageElement(bg);
 
         
@@ -62,8 +61,7 @@ public class GameManager : MonoBehaviour {
         GameObject pg1Button = GameObject.Instantiate(button, canvas.transform);
         pg1Button.name = "pg1button";
         pg1Button.GetComponentInChildren<Text>().text = "Page3";
-        pg1Button.GetComponent<PageElementEventTrigger>().SetConnectedPage(page3);
-        pg1Button.GetComponent<PageElementEventTrigger>().action = PageElementEventTrigger.Action.Change;
+        pg1Button.GetComponent<PageElementEventTrigger>().AddConnections(page3, null, PageElementEventTrigger.Action.Change);
         page1.addPageElement(pg1Button);
 
         GameObject pg2Button = GameObject.Instantiate(button, canvas.transform);
@@ -74,8 +72,7 @@ public class GameManager : MonoBehaviour {
         GameObject pg2Text = GameObject.Instantiate(scrollArea,canvas.transform);
         pg2Text.name = "pg2text";
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
-        pg2Text.GetComponent<PageElementEventTrigger>().SetConnectedPage(page3);
-        pg2Text.GetComponent<PageElementEventTrigger>().action = PageElementEventTrigger.Action.Change;
+        pg2Text.GetComponent<PageElementEventTrigger>().AddConnections(page3, null, PageElementEventTrigger.Action.Change);
         page2.addPageElement(pg2Text);
 
         intro.addPage(page1);

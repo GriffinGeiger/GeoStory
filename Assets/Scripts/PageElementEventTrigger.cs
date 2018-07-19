@@ -48,4 +48,13 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
         actions[dropdownIndex] = action;
     }
 
+    public void AddConnections(Page page, GameObject element, Action action)
+    {
+        connectedPages.Add(page);
+        connectedPageNames.Add(page.getName());
+        connectedElements.Add(element);
+        actions.Add(action);
+        Debug.Log("These numbers should be the same or theres a problem in PEET: " + connectedPages.Count + connectedPageNames.Count + connectedElements.Count + actions.Count);
+    }
+
 }
