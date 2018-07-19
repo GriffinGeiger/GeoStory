@@ -9,6 +9,7 @@ using System.Reflection;
 public class GameManagerEditor : Editor
 {
     
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -72,12 +73,16 @@ public class GameManagerEditor : Editor
             gm.currentStory.currentPage.setVisible(false);
             foreach(Page page in gm.currentStory.getPages())
             {
-                GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic.prefab"), gm.scrollContent);
+                GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic_Mk2.prefab"), gm.scrollContent);
                 PageNodeGraphicManager pngm = go.GetComponent<PageNodeGraphicManager>();
-                pngm.addBodyPanels(page);
+                pngm.buildFromPage(page);
             }
             
 
+        }
+        if(GUILayout.Button("Height of selected rect"))
+        {
+            Debug.Log("Selected rect height: " + gm.heightOfrect.rect.height);
         }
     }
  

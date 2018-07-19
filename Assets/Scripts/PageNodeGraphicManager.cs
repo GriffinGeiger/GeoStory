@@ -3,91 +3,81 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
-
+using System;
 
 public class PageNodeGraphicManager : MonoBehaviour {
 
     public Page page; //the page this graphic is associated with
-    public GameObject headerPrefab;
-    public GameObject actionBodyPrefab; //Prefab to use if this node will have an action associated with it and no picture
-    public GameObject thumbnailActionBodyPrefab; //Prefab to use if this node has an action and a picture associated with it
-    public GameObject footerPrefab;
-    public Vector2 lowestAnchorPoint = new Vector2(1,1); //the lowest anchor point from previous node part that the next anchor point will latch onto
+    public GameObject elementNodePrefab;
+    public Vector2 lowestAnchorPoint;
+    public float pixelHeightOfTitle = 76f; //the offset between the top of the node graphic and the bottom of the title card
+    public float pixelHeightOfElement = 170f;
+    public float pixelHeightOfFooter;
     public List<GameObject> nodeParts;
+
     public void Awake()
     {
-        headerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeHeader.prefab");
-        actionBodyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeBody.prefab");
-        thumbnailActionBodyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeBodyImage.prefab");
-        footerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeFooter.prefab");
+        elementNodePrefab = (GameObject) AssetDatabase.LoadAssetAtPath("Assets/Prefabs/StoryEditor/ElementNode.prefab", typeof(GameObject));
+        pixelHeightOfTitle = 76f;
+        pixelHeightOfElement = 170f;
+        pixelHeightOfFooter = 0f;
     }
-    public void addBodyPanels(Page content)
+    public void buildFromPage(Page content)
     {
         page = content;
         nodeParts = new List<GameObject>();
-        GameObject header = GameObject.Instantiate(headerPrefab, this.transform);
-        header.GetComponentInChildren<Text>().text = content.getName();
-        nodeParts.Add(header);
-        float heightOfRect = header.GetComponent<RectTransform>().rect.height; //This will set the height of the rect that contains the body panels. Every height of every panel part will add to this
-        float widthOfRect = header.GetComponent<RectTransform>().rect.width;
+        float heightOfRect = pixelHeightOfTitle + pixelHeightOfFooter; //Starts at height of title since that will always be the minimum height of title
         
+
         foreach (GameObject element in content.getElements())
         {
-             PrefabInfo.PrefabType prefabType = element.GetComponent<PrefabInfo>().prefabType;
-             GameObject body;
-             if (prefabType == PrefabInfo.PrefabType.BackgroundImage)
-             {
-                 body = GameObject.Instantiate(thumbnailActionBodyPrefab, this.transform);
-                 body.GetComponentInChildren<RawImage>().texture = element.GetComponent<RawImage>().texture;
-                 
-                 Debug.Log("If wrong image shows up then the problem is in PageNodeGraphicManager");
-             }
-             else if (prefabType == PrefabInfo.PrefabType.ScrollArea || prefabType == PrefabInfo.PrefabType.Button)
-             {
-                 body = GameObject.Instantiate(actionBodyPrefab, this.transform);
-             }
-             else
-             {
-                 throw new System.ArgumentException("Prefab type does not match known prefabs");
-             }
-
-             body.GetComponent<AssociatedElementReference>().associatedElement = element;
-             RectTransform transform = body.GetComponent<RectTransform>();
-             heightOfRect += transform.rect.height;
-             nodeParts.Add(body);
-             body.GetComponentsInChildren<Text>()[1].text = element.name;
-            //Determine the current buttonAction and change the dropdown to reflect that
-            PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
-
-            Dropdown dropdown = body.GetComponent<Dropdown>();
-            if (dropdown != null)
+            GameObject body = GameObject.Instantiate(elementNodePrefab,this.transform);
+            body.GetComponentsInChildren<Text>()[0].text = element.name;
+            try
             {
-                if (action == PageElementEventTrigger.Action.Change)
-                    dropdown.captionText.text = "Change to page";
-                else if (action == PageElementEventTrigger.Action.Show)
-                    dropdown.captionText.text = "Show element";
-                else if (action == PageElementEventTrigger.Action.Hide)
-                    dropdown.captionText.text = "Hide element";
+                body.GetComponent<Image>().sprite = element.GetComponent<Image>().sprite;
             }
-         }
-         
-        GameObject footer = GameObject.Instantiate(footerPrefab, this.transform);
-        heightOfRect += footer.GetComponent<RectTransform>().rect.height;
-        this.GetComponent<RectTransform>().sizeDelta = new Vector2(widthOfRect, heightOfRect);
-        nodeParts.Add(footer);
-        this.GetComponent<RectTransform>().anchoredPosition = page.nodeGraphicLocation;
-        //moveAnchors(footer.GetComponent<RectTransform>(), lowestAnchorPoint);
+            catch (Exception) { }//in case this element doesn't have a sprite
+            body.GetComponent<AssociatedElementReference>().associatedElement = element;
+            heightOfRect += pixelHeightOfElement; //Make height of rect bigger to accommodate for each new element
+            Debug.Log("PixelHeightofelement" + pixelHeightOfElement);
+            nodeParts.Add(body);
+            body.GetComponentsInChildren<Text>()[1].text = element.name;
+            
+            //set dropdown to reflect action
+            PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
+            Dropdown dropdown = body.GetComponent<Dropdown>();
+                if (dropdown != null)
+                {
+                    if (action == PageElementEventTrigger.Action.Change)
+                        dropdown.captionText.text = "Change to page";
+                    else if (action == PageElementEventTrigger.Action.Show)
+                        dropdown.captionText.text = "Show element";
+                    else if (action == PageElementEventTrigger.Action.Hide)
+                        dropdown.captionText.text = "Hide element";
+                }
+        }
 
-        foreach(GameObject go in nodeParts)
+        //adjust rectTransform of NodeGraphic
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(elementNodePrefab.GetComponent<RectTransform>().rect.width, heightOfRect);
+        rectTransform.anchoredPosition = page.nodeGraphicLocation;
+
+        float percentageHeightOfTitle = pixelHeightOfTitle / heightOfRect;
+        lowestAnchorPoint = new Vector2(1, 1 - percentageHeightOfTitle);
+
+        foreach (GameObject go in nodeParts)
         {
             //get the percentage of the rect that this part will take up and set that as the deltaAnchor height
-            RectTransform rt = go.GetComponent<RectTransform>();
-            float heightOfPart = rt.rect.height;
-            float fractionOfRect = (heightOfPart / heightOfRect);
-            rt.anchorMax = new Vector2(1, 1);
-            rt.anchorMin = new Vector2(0, 1 - fractionOfRect);
+            RectTransform elementNode_rt = go.GetComponent<RectTransform>();
+            Debug.Log("Height of rect" + heightOfRect);
+            float fractionOfRect = pixelHeightOfElement / heightOfRect;
+            elementNode_rt.anchorMax = new Vector2(1, 1);
+            Debug.Log("fraction of rect " +  fractionOfRect);
+            elementNode_rt.anchorMin = new Vector2(0,1 - fractionOfRect);
+            Debug.Log("Max Min: " + elementNode_rt.anchorMax + elementNode_rt.anchorMin);
             //moveAnchors so that this part is connected to the bottom anchor of the last nodePart 
-            moveAnchors(rt, lowestAnchorPoint);
+            moveAnchors(elementNode_rt, lowestAnchorPoint);
         }
     }
     //Moves the anchors while preserving size of rectangle to the new max point
@@ -102,6 +92,8 @@ public class PageNodeGraphicManager : MonoBehaviour {
         lowestAnchorPoint = transform.anchorMin + new Vector2(1,0);
         Debug.Log("After moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);
     }
+
+    
     //Takes the info currently applied in the graphic and adds it to the Page this graphic is associated with
     public void assignChanges()
     {

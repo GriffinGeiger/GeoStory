@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PrefabInfo : MonoBehaviour
 {
-    public enum PrefabType { ScrollArea, Button, BackgroundImage, NodeHeader,
+    public enum PrefabType { ScrollArea, Button, BackgroundImage,ElementNode, NodeHeader,
         NodeBody, NodeBodyImage, NodeFooter, NodeConnector, NodeConnectorReceiver, PageNodeConnectorReceiver  };
     public PrefabType prefabType;
 }
