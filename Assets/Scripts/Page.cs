@@ -32,8 +32,9 @@ public class Page {
         {
             //loop through elements and make all elements visible
             foreach(GameObject element in elements)
-            {            
-                element.SetActive(true);
+            {     
+                if(element.GetComponent<PrefabInfo>().activeWithPage)
+                    element.SetActive(true);
             }
             isVisible = true;
         }
@@ -75,18 +76,22 @@ public class Page {
     //Needs only the element that the event is called from since PageElementEventTrigger stores the action and connectedPage or connectedElement
     public void buttonActions(GameObject element)
     {
-        PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
-        if(action == PageElementEventTrigger.Action.Change)
+        for (int i = 0; i < element.GetComponent<PageElementEventTrigger>().connectedPages.Count; i++)
         {
-            storyRef.changePage(element.GetComponent<PageElementEventTrigger>().connectedPage);
-        }
-        if(action == PageElementEventTrigger.Action.Show)
-        {
-            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(true);
-        }
-        if(action == PageElementEventTrigger.Action.Hide)
-        {
-            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(false);
+            PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
+            PageElementEventTrigger.Action action = peet.actions[i];
+            if (action == PageElementEventTrigger.Action.Change)
+            {
+                storyRef.changePage(peet.connectedPages[i]);
+            }
+            if (action == PageElementEventTrigger.Action.Show)
+            {
+                peet.connectedElements[i].GetComponent<PrefabInfo>().activeWithPage = true;
+            }
+            if (action == PageElementEventTrigger.Action.Hide)
+            {
+                peet.connectedElements[i].GetComponent<PrefabInfo>().activeWithPage = false;
+            }
         }
     }
 
@@ -109,10 +114,12 @@ public class Page {
 
     public void setName(string newName)
     {
-        //if( name doesn't exist within story)
+        int i = 1;
+        while(storyRef.pageNameExists(newName))
+        {
+            newName = newName + " (" + i + ")";
+            i++;
+        }
         name = newName;
-        //remove then read to story so name updates in dictionary
-        //else throw exception telling user to change the name
-
     }
 }

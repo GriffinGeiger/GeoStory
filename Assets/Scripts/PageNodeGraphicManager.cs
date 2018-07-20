@@ -11,7 +11,6 @@ public class PageNodeGraphicManager : MonoBehaviour {
     public GameObject elementNodePrefab;
     public Vector2 lowestAnchorPoint;
     public float pixelHeightOfTitle = 76f; //the offset between the top of the node graphic and the bottom of the title card
-    public float pixelHeightOfElement = 170f;
     public float widthOfGraphic;
     public float pixelHeightOfFooter;
     public List<GameObject> nodeParts;
@@ -20,7 +19,6 @@ public class PageNodeGraphicManager : MonoBehaviour {
     {
         elementNodePrefab = (GameObject) AssetDatabase.LoadAssetAtPath("Assets/Prefabs/StoryEditor/ElementNode.prefab", typeof(GameObject));
         pixelHeightOfTitle = 76f;
-        pixelHeightOfElement = 170f;
         pixelHeightOfFooter = 40f;
         widthOfGraphic = 275f;
     }
@@ -29,11 +27,11 @@ public class PageNodeGraphicManager : MonoBehaviour {
         page = content;
         nodeParts = new List<GameObject>();
         float heightOfRect = pixelHeightOfTitle + pixelHeightOfFooter; //Starts at height of title since that will always be the minimum height of title
-        
+
 
         foreach (GameObject element in content.getElements())
         {
-            GameObject body = GameObject.Instantiate(elementNodePrefab,this.transform);
+            GameObject body = GameObject.Instantiate(elementNodePrefab, this.transform);
             body.GetComponentsInChildren<Text>()[0].text = element.name;
             try
             {
@@ -41,14 +39,20 @@ public class PageNodeGraphicManager : MonoBehaviour {
             }
             catch (Exception) { }//in case this element doesn't have a sprite
             body.GetComponent<AssociatedElementReference>().associatedElement = element;
-            heightOfRect += pixelHeightOfElement; //Make height of rect bigger to accommodate for each new element
-            Debug.Log("PixelHeightofelement" + pixelHeightOfElement);
+            body.GetComponent<ElementNodeGraphicManager>().addDropdowns(element.GetComponent<PageElementEventTrigger>().connectedPages.Count);
+            float heightOfElement = body.GetComponent<RectTransform>().rect.height;
+            heightOfRect += heightOfElement; //Make height of rect bigger to accommodate for each new element
             nodeParts.Add(body);
             body.GetComponentsInChildren<Text>()[1].text = element.name;
-            
-            //set dropdown to reflect action
-            PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
-            Dropdown dropdown = body.GetComponent<Dropdown>();
+
+            //add dropdowns and set them to reflect their actions
+            int numberOfDropdowns = element.GetComponent<PageElementEventTrigger>().connectedPages.Count;
+            ElementNodeGraphicManager engm = body.GetComponent<ElementNodeGraphicManager>();
+            engm.addDropdowns(numberOfDropdowns);
+            for (int i = 0; i < numberOfDropdowns; i++) 
+            {
+                PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().actions[i];
+                Dropdown dropdown = engm.dropdowns[i];
                 if (dropdown != null)
                 {
                     if (action == PageElementEventTrigger.Action.Change)
@@ -58,6 +62,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
                     else if (action == PageElementEventTrigger.Action.Hide)
                         dropdown.captionText.text = "Hide element";
                 }
+            }
         }
 
         //adjust rectTransform of NodeGraphic
@@ -74,26 +79,24 @@ public class PageNodeGraphicManager : MonoBehaviour {
             //get the percentage of the rect that this part will take up and set that as the deltaAnchor height
             RectTransform elementNode_rt = go.GetComponent<RectTransform>();
             Debug.Log("Height of rect" + heightOfRect);
-            float fractionOfRect = pixelHeightOfElement / heightOfRect;
+            float fractionOfRect = elementNode_rt.rect.height / heightOfRect;
             elementNode_rt.anchorMax = new Vector2(1, 1);
             Debug.Log("fraction of rect " +  fractionOfRect);
             elementNode_rt.anchorMin = new Vector2(0,1 - fractionOfRect);
             Debug.Log("Max Min: " + elementNode_rt.anchorMax + elementNode_rt.anchorMin);
             //moveAnchors so that this part is connected to the bottom anchor of the last nodePart 
-            moveAnchors(elementNode_rt, lowestAnchorPoint);
+            lowestAnchorPoint = moveAnchors(elementNode_rt, lowestAnchorPoint);
         }
     }
-    //Moves the anchors while preserving size of rectangle to the new max point
-    private void moveAnchors(RectTransform transform ,Vector2 newMax)
+    //Moves the anchors while preserving size of rectangle to the new max point. Returns new LowestAnchorPoint
+    public static Vector2 moveAnchors(RectTransform transform ,Vector2 newMax)
     {
-        Debug.Log("Before moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);
         Vector2 deltaAnchor = transform.anchorMax - transform.anchorMin;
         transform.anchorMax = newMax;
         transform.anchorMin = transform.anchorMax - deltaAnchor;
         transform.offsetMax = Vector2.zero;
         transform.offsetMin = Vector2.zero;
-        lowestAnchorPoint = transform.anchorMin + new Vector2(1,0);
-        Debug.Log("After moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);
+        return transform.anchorMin + new Vector2(1,0);
     }
 
     
