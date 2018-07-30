@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour {
         pg1Button.name = "pg1button";
         pg1Button.GetComponentInChildren<Text>().text = "Page3";
         pg1Button.GetComponent<PageElementEventTrigger>().AddConnections(page3, null, PageElementEventTrigger.Action.Change);
+ 
         page1.addPageElement(pg1Button);
 
         GameObject pg2Button = GameObject.Instantiate(button, canvas.transform);
@@ -74,6 +75,12 @@ public class GameManager : MonoBehaviour {
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
         pg2Text.GetComponent<PageElementEventTrigger>().AddConnections(page3, null, PageElementEventTrigger.Action.Change);
         page2.addPageElement(pg2Text);
+
+        GameObject pg3Text = GameObject.Instantiate(scrollArea, canvas.transform);
+        pg3Text.name = "pg3Text";
+        pg3Text.GetComponentInChildren<Text>().text = "Congration";
+        page3.addPageElement(pg3Text);
+        pg1Button.GetComponent<PageElementEventTrigger>().AddConnections(page3, pg3Text, PageElementEventTrigger.Action.Show);
 
         intro.addPage(page1);
         intro.addPage(page2);

@@ -69,7 +69,7 @@ public class GameManagerEditor : Editor
         if(GUILayout.Button("Build PageNodeGraphic from test page"))
         {
             gm.buildIntro();
-            gm.currentStory.setCurrentPage("introPage2");
+            gm.currentStory.setCurrentPage("introPage1");
             gm.currentStory.currentPage.setVisible(false);
             foreach(Page page in gm.currentStory.getPages())
             {

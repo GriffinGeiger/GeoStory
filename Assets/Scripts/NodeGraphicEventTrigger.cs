@@ -71,7 +71,7 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     public new void OnDrag(PointerEventData data)
     {
         Vector2 deltaPosition =data.position - pointerPosition;
-        Vector2 offset = deltaPosition / scrollArea.transform.localScale;
+        Vector2 offset =  deltaPosition / scrollArea.transform.localScale.x;
         transform.anchoredPosition += offset;
         moveLinesWithNodeGraphic(offset);
         pointerPosition = data.position;
