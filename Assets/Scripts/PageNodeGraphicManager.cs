@@ -26,7 +26,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
     {
         page = content;
         nodeParts = new List<GameObject>();
-        float heightOfRect = titleHeight + footerHeight; //Starts at height of title since that will always be the minimum height of title
+       // float heightOfRect = titleHeight + footerHeight; //Starts at height of title since that will always be the minimum height of title
         foreach (GameObject element in content.getElements())
         {
             GameObject body = GameObject.Instantiate(elementNodePrefab, this.transform);
@@ -59,18 +59,19 @@ public class PageNodeGraphicManager : MonoBehaviour {
                 else Debug.Log("No dropdown found in selection connector");
             }
 
-            heightOfRect += body.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
+            //heightOfRect += body.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
             nodeParts.Add(body);
             body.GetComponentInChildren<Text>().text = element.name;
-
-
         }
+        drawElementNodes();
 
         //adjust rectTransform of NodeGraphic
-        RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
+       /* RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
         nodeGraphic_rt.sizeDelta = new Vector2(graphicWidth, heightOfRect);
         //draw the elements on the NodeGraphic
-        stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);
+        stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);*/
+
+        GetComponentInChildren<Text>().text = page.getName(); //set title of node graphic to page name
     }
 
     /* Places the elements on top of one another in the parentRect with the top of the stack at the offsetFromTop
@@ -95,6 +96,19 @@ public class PageNodeGraphicManager : MonoBehaviour {
         }
     }
 
+    public void drawElementNodes()
+    {
+        float heightOfRect = titleHeight + footerHeight;
+
+        foreach(GameObject part in nodeParts)
+        {
+            heightOfRect += part.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
+        }
+        RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
+        nodeGraphic_rt.sizeDelta = new Vector2(graphicWidth, heightOfRect);
+        //draw the elements on the NodeGraphic
+        stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);
+    }
     
     //Takes the info currently applied in the graphic and adds it to the Page this graphic is associated with
     public void assignChanges()

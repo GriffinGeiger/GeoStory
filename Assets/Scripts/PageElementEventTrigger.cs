@@ -42,9 +42,13 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
 
     public void AddConnections(Page page,GameObject element, Action action, int dropdownIndex)
     {
-        connectedPages[dropdownIndex] = page;
-        connectedPageNames[dropdownIndex] = page.getName();
-        connectedElements[dropdownIndex] = element;
+        if (page != null)
+        {
+            connectedPages[dropdownIndex] = page;
+            connectedPageNames[dropdownIndex] = page.getName();
+        }
+        if(element != null)
+            connectedElements[dropdownIndex] = element;
         actions[dropdownIndex] = action;
     }
 

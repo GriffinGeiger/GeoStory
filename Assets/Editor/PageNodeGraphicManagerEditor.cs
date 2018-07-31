@@ -11,5 +11,10 @@ public class PageNodeGraphicManagerEditor : Editor {
         PageNodeGraphicManager pngm = (PageNodeGraphicManager)target;
 
         GUILayout.Label("Rect height/width (" + pngm.GetComponent<RectTransform>().rect.height + "," + pngm.GetComponent<RectTransform>().rect.width + ")");
+
+        if(GUILayout.Button("Redraw elements"))
+        {
+            pngm.drawElementNodes();
+        }
     }
 }
