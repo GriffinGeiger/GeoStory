@@ -11,9 +11,8 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         Debug.Log("Dropped");
         BezierCurve4PointRenderer currentCurve = ManipulateNodeLines.lastDraggedCurve.GetComponent<BezierCurve4PointRenderer>();
         curves.Add(currentCurve);
-        Vector3 connectionPointInScrollWindowSpace = currentCurve.transform.InverseTransformPoint(transform.TransformPoint(transform.position));
-        currentCurve.setEndpoints(connectionPointInScrollWindowSpace,1);
-        currentCurve.receivingConncector = gameObject;
+        currentCurve.receivingConnector = gameObject;
+        currentCurve.snapEndpointsToConnectors();
         //When dropped send reference to this page or element to the origin element
         PrefabInfo.PrefabType prefabType = GetComponent<PrefabInfo>().prefabType;
 

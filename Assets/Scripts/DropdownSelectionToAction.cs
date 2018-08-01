@@ -18,7 +18,7 @@ public class DropdownSelectionToAction : MonoBehaviour {
             //Will need to make sure that the correct dropdown is at the same index as its action in peet.actions
             myDropdowns[i].onValueChanged.AddListener(delegate
             {
-                GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().actions[i] = getDropdownSelection(i);
+                GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().connections[i].action = getDropdownSelection(i);
             });
         }
       //  GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().action = getDropdownSelection();

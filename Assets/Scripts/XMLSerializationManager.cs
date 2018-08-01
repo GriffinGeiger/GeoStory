@@ -61,38 +61,32 @@ public class XMLSerializationManager : MonoBehaviour {
             foreach(GameObject element in page.getElements())
             {
                 PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
-                for (int i = 0; i < peet.connectedPages.Count; i++)
+                for (int i = 0; i < peet.connections.Count; i++)
                 {
-                    if (peet.connectedPageNames[i] != null && !peet.connectedPageNames[i].Equals(""))
+                    if (peet.connections[i].connectedPageName != null && !peet.connections[i].connectedPageName.Equals(""))
                     {
-                        Debug.Log("connectedPageName: " + peet.connectedPageNames[i] + " from " + page + " " + element);
-                        peet.connectedPages[i] = story.getPage(peet.connectedPageNames[i]);
-                        if (peet.connectedElementIndexes[i] != -1)
+                        Debug.Log("connectedPageName: " + peet.connections[i].connectedPageName + " from " + page + " " + element);
+                        peet.connections[i].connectedPage = story.getPage(peet.connections[i].connectedPageName);
+                        if (peet.connections[i].connectedElementIndex != -1)
                         {
-                            peet.connectedElements[i] = page.getElements()[peet.connectedElementIndexes[i]];
+                            peet.connections[i].connectedElement = page.getElements()[peet.connections[i].connectedElementIndex];
                         }
                     }
                 }
             }
         }
     }
-    //gets the pageName and index from a peet and returns them in struct format
-    public struct connectedValues { public string[] connectedPageNames; public int[] connectedElementIndexes; } 
-    public static  connectedValues getConnectedValues(PageElementEventTrigger peet)
+
+    public static ConnectionInfo[] setElementIndexes(PageElementEventTrigger peet)
     {
-        connectedValues values = new connectedValues();
-        int numOfConnections = peet.connectedPages.Count;
-        values.connectedPageNames = new string[numOfConnections];
-        values.connectedElementIndexes = new int[numOfConnections];
-        for (int i = 0; i < numOfConnections; i++)
+        ConnectionInfo[] connections = peet.connections.ToArray();
+        for (int i = 0; i < connections.Length; i++)
         {
-            values.connectedElementIndexes[i] = -1; //-1 should be default value 
-            Page connectedPage = peet.connectedPages[i];
-            if (connectedPage != null)
-            {
-                values.connectedPageNames[i] = connectedPage.getName();
-            }
-            GameObject currentElement = peet.connectedElements[i];
+            connections[i].connectedElementIndex = -1; //-1 should be default value 
+            Page connectedPage = peet.connections[i].connectedPage;
+            if (connectedPage == null) continue;
+
+            GameObject currentElement = peet.connections[i].connectedElement;
             if (currentElement != null)
             {
                 GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
@@ -100,14 +94,14 @@ public class XMLSerializationManager : MonoBehaviour {
                 {
                     if (connectedPageElements[j].Equals(currentElement))
                     {
-                        values.connectedElementIndexes[i] = j;
+                        connections[i].connectedElementIndex = j;
                         break;
                     }
                 }
                 Debug.LogError("There should be a connectedElement but the element did not match anything in elements array");
             }
         }
-        return values;
+        return connections;
     }
 }
 
@@ -208,9 +202,7 @@ public class BackgroundData : PrefabData
     public string name;
     public RectTransformData rtd;
     public RawImageData rawImage;
-    public PageElementEventTrigger.Action[] actions;
-    public string[] connectedPageNames; //Need to figure out how to serialize and deserialize the page and element connections
-    public int[] connectedElementIndexes; //Index of element in the elements List on the connected page
+    public ConnectionInfo[] connections;
 
     public BackgroundData(){}
     public BackgroundData(GameObject background)
@@ -220,10 +212,7 @@ public class BackgroundData : PrefabData
         rawImage = new RawImageData(background.GetComponent<RawImage>());
         //Fill the connection arrays
         PageElementEventTrigger peet = background.GetComponent<PageElementEventTrigger>();
-        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
-        connectedPageNames = values.connectedPageNames;
-        connectedElementIndexes = values.connectedElementIndexes;
-        actions = peet.actions.ToArray();
+        connections = XMLSerializationManager.setElementIndexes(peet);
     }
 
     /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
@@ -239,12 +228,7 @@ public class BackgroundData : PrefabData
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
         rawImage.copyToRawImage(bg.GetComponent<RawImage>());
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
-        for (int i = 0; i < connectedPageNames.Length; i++)
-        {
-            peet.connectedPageNames[i] = connectedPageNames[i];
-            peet.connectedElementIndexes[i] = connectedElementIndexes[i];
-            peet.actions[i] = actions[i];
-        }
+        peet.connections = new List<ConnectionInfo>(connections);
         return bg;
     }
 }
@@ -257,9 +241,7 @@ public class ScrollAreaData : PrefabData
     //ScrollArea fields
     public RectTransformData rtd_SA;
     public ImageData image_SA;
-    public PageElementEventTrigger.Action[] actions;
-    public string[] connectedPageNames; 
-    public int[] connectedElementIndexes;
+    public ConnectionInfo[] connections;
 
     //TextBox fields
     public RectTransformData rtd_TB;
@@ -318,10 +300,7 @@ public class ScrollAreaData : PrefabData
 
         //EventTrigger fields
         PageElementEventTrigger peet = scrollArea.GetComponent<PageElementEventTrigger>();
-        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
-        connectedPageNames = values.connectedPageNames;
-        connectedElementIndexes = values.connectedElementIndexes;
-        actions = peet.actions.ToArray();
+        connections = XMLSerializationManager.setElementIndexes(peet);
 
     }
     public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
@@ -332,12 +311,7 @@ public class ScrollAreaData : PrefabData
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
         image_SA.copyToImage(sa.GetComponent<Image>());
         PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();
-        for (int i = 0; i < connectedPageNames.Length; i++)
-        {
-            peet.connectedPageNames[i] = connectedPageNames[i];
-            peet.connectedElementIndexes[i] = connectedElementIndexes[i];
-            peet.actions[i] = actions[i];
-        }
+        peet.connections = new List<ConnectionInfo>(connections);
 
         GameObject tb = sa.transform.GetChild(0).gameObject;
         rtd_TB.copyToRectTransform(tb.GetComponent<RectTransform>());
@@ -379,9 +353,7 @@ public class ButtonData : PrefabData
     public ImageData image;
     public EventTriggerData etd;
     public TextData text;
-    public PageElementEventTrigger.Action[] actions;
-    public string[] connectedPageNames;
-    public int[] connectedElementIndexes;
+    public ConnectionInfo[] connections;
 
     public ButtonData() { }
     public ButtonData(GameObject button)
@@ -392,10 +364,7 @@ public class ButtonData : PrefabData
         etd = new EventTriggerData(button.GetComponent<EventTrigger>());
         text = new TextData(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
-        connectedPageNames = values.connectedPageNames;
-        connectedElementIndexes = values.connectedElementIndexes;
-        actions = peet.actions.ToArray();
+        connections = XMLSerializationManager.setElementIndexes(peet);
     }
     public override GameObject toPrefab(Canvas canvas)
     {
@@ -406,12 +375,7 @@ public class ButtonData : PrefabData
         etd.copyToEventTrigger(button.GetComponent<EventTrigger>());
         text.copyToText(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        for (int i = 0; i < connectedPageNames.Length; i++)
-        {
-            peet.connectedPageNames[i] = connectedPageNames[i];
-            peet.connectedElementIndexes[i] = connectedElementIndexes[i];
-            peet.actions[i] = actions[i];
-        }
+        peet.connections = new List<ConnectionInfo>(connections);
         return button;
     }
 }

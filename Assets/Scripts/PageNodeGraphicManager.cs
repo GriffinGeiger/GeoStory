@@ -40,12 +40,12 @@ public class PageNodeGraphicManager : MonoBehaviour {
 
 
             //add dropdowns and set them to reflect their actions
-            int numberOfDropdowns = element.GetComponent<PageElementEventTrigger>().connectedPages.Count;
+            int numberOfDropdowns = element.GetComponent<PageElementEventTrigger>().connections.Count;
             ElementNodeGraphicManager engm = body.GetComponent<ElementNodeGraphicManager>();
             engm.addSelectionConnectors(numberOfDropdowns);
             for (int i = 0; i < numberOfDropdowns; i++)
             {
-                PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().actions[i];
+                PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().connections[i].action;
                 Dropdown dropdown = engm.selectionConnectors[i].GetComponentInChildren<Dropdown>();
                 if (dropdown != null)
                 {
@@ -103,6 +103,12 @@ public class PageNodeGraphicManager : MonoBehaviour {
         foreach(GameObject part in nodeParts)
         {
             heightOfRect += part.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
+            //update the location of the lines to reconnect with the now shifted nodes
+            foreach (ManipulateNodeLines mnl in part.GetComponentsInChildren<ManipulateNodeLines>())
+            {
+                if(mnl.curve != null)
+                    mnl.curve.snapEndpointsToConnectors();
+            }
         }
         RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
         nodeGraphic_rt.sizeDelta = new Vector2(graphicWidth, heightOfRect);

@@ -14,7 +14,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
     public int vertexCount = 12;
     public float pointExtendRatio = .1f;
     public GameObject originConnector;
-    public GameObject receivingConncector;
+    public GameObject receivingConnector;
     public PageElementEventTrigger.Action action; //The action this line represents
 
     void Update()
@@ -76,14 +76,15 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
         point4.anchoredPosition = end;
     }
 
-    //If only one endpoint needs to change while the other must remain unchanged specify the point then 0 for start and 1 for end
-    public void setEndpoints(Vector3 point, int i)
+    public void snapEndpointsToConnectors()
     {
-        if (i == 0)
-            setEndpoints(point, point4.anchoredPosition);
-        else if (i == 1)
-            setEndpoints(point1.anchoredPosition, point);
+        //Find the position of endpoints in scrollWindowSpace then set the endpoints
+        Vector3 originPointInScrollWindowSpace = transform.InverseTransformPoint(originConnector.transform.TransformPoint(originConnector.transform.position));
+        Vector3 receivingPointInScrollWindowSpace;
+        if (receivingConnector != null)
+            receivingPointInScrollWindowSpace = transform.InverseTransformPoint(receivingConnector.transform.TransformPoint(receivingConnector.transform.position));
         else
-            Debug.LogError("setEndpoints only accepts 0 or 1 as the second argument. Received: " + i);
+            receivingPointInScrollWindowSpace = point4.transform.position;
+        setEndpoints(originPointInScrollWindowSpace, receivingPointInScrollWindowSpace);
     }
 }

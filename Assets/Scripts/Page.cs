@@ -76,21 +76,21 @@ public class Page {
     //Needs only the element that the event is called from since PageElementEventTrigger stores the action and connectedPage or connectedElement
     public void buttonActions(GameObject element)
     {
-        for (int i = 0; i < element.GetComponent<PageElementEventTrigger>().connectedPages.Count; i++)
+        for (int i = 0; i < element.GetComponent<PageElementEventTrigger>().connections.Count; i++)
         {
             PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
-            PageElementEventTrigger.Action action = peet.actions[i];
+            PageElementEventTrigger.Action action = peet.connections[i].action;
             if (action == PageElementEventTrigger.Action.Change)
             {
-                storyRef.changePage(peet.connectedPages[i]);
+                storyRef.changePage(peet.connections[i].connectedPage);
             }
             if (action == PageElementEventTrigger.Action.Show)
             {
-                peet.connectedElements[i].GetComponent<PrefabInfo>().activeWithPage = true;
+                peet.connections[i].connectedElement.GetComponent<PrefabInfo>().activeWithPage = true;
             }
             if (action == PageElementEventTrigger.Action.Hide)
             {
-                peet.connectedElements[i].GetComponent<PrefabInfo>().activeWithPage = false;
+                peet.connections[i].connectedElement.GetComponent<PrefabInfo>().activeWithPage = false;
             }
         }
     }

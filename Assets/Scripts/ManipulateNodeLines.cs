@@ -77,11 +77,12 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         //clear any references to next page or next element since previous curve is replaced so the link has been broken
         PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
         //clears references while reserving the index for the next connection
+        Debug.Log("DropdownIndex: " + dropdownIndex);
         peet.AddConnections(null, null, PageElementEventTrigger.Action.None, dropdownIndex);
 
         try
         {
-            curve.receivingConncector.GetComponent<ReceiveNodeLines>().curves.Remove(curve);
+            curve.receivingConnector.GetComponent<ReceiveNodeLines>().curves.Remove(curve);
         }
         catch (Exception) { /*This is expected to throw exceptions if curve doesn't exist or doesnt have a receiving connector */}
         //SIDE NOTE: peet.action will need to be set when the dropdown by when clicked is changed. Dropdown can also be limited to not allow change to page if line is already connected to pageReceiverNode

@@ -87,16 +87,18 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
         ManipulateNodeLines[] nodeLines = GetComponentsInChildren<ManipulateNodeLines>();
         foreach (ManipulateNodeLines mnl in nodeLines)
         {
-            if(mnl.curve != null)
-                mnl.curve.setEndpoints(mnl.curve.point1.anchoredPosition + (Vector2) offset, 0);
+            if (mnl.curve != null)
+                mnl.curve.snapEndpointsToConnectors();
+                //mnl.curve.setEndpoints(mnl.curve.point1.anchoredPosition + (Vector2) offset, 0);
         }
 
         ReceiveNodeLines[] receivedNodeLines = GetComponentsInChildren<ReceiveNodeLines>();
 
         foreach (ReceiveNodeLines rnl in receivedNodeLines)
         {
-            foreach(BezierCurve4PointRenderer curve in rnl.curves)
-                curve.setEndpoints(curve.point4.anchoredPosition + (Vector2) offset,1);
+            foreach (BezierCurve4PointRenderer curve in rnl.curves)
+                curve.snapEndpointsToConnectors();
+                    //curve.setEndpoints(curve.point4.anchoredPosition + (Vector2) offset,1);
         }
     }
 }
