@@ -26,7 +26,8 @@ public class ElementNodeGraphicManager : MonoBehaviour {
         for(int i = 0; i < amount; i++)
         {
             GameObject selector = GameObject.Instantiate(selectionConnectorPrefab, this.transform);
-            selector.GetComponentInChildren<ManipulateNodeLines>().dropdownIndex = selectionConnectors.Count;
+            selector.GetComponentInChildren<ManipulateNodeLines>().connectionIndex = selectionConnectors.Count;
+            selector.name += " " + selectionConnectors.Count;
             selectionConnectors.Add(selector);
         }
         PageNodeGraphicManager.stackUIElements(selectionConnectors.ToArray(), GetComponent<RectTransform>(), headerHeight);

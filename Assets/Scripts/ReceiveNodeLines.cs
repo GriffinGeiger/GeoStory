@@ -8,7 +8,6 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
     public List<BezierCurve4PointRenderer> curves;
     public new void OnDrop(PointerEventData data)
     {
-        Debug.Log("Dropped");
         BezierCurve4PointRenderer currentCurve = ManipulateNodeLines.lastDraggedCurve.GetComponent<BezierCurve4PointRenderer>();
         curves.Add(currentCurve);
         currentCurve.receivingConnector = gameObject;
@@ -21,9 +20,9 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
             associatedElement.GetComponent<PageElementEventTrigger>().
             AddConnections(GetComponentInParent<PageNodeGraphicManager>().page,
             associatedElement, currentCurve.action, 
-            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().dropdownIndex);
+            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionIndex);
 
-        Debug.Log("Reference to the next element has been given to pageElementEventTrigger");
+        Debug.Log("Reference to the next element has been given to pageElementEventTrigger at connectionIndex" + currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionIndex);
         
     }
 }

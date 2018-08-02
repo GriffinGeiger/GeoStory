@@ -42,14 +42,14 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
         }
     }
 
-    public void AddConnections(Page page,GameObject element, Action action, int dropdownIndex)
+    public void AddConnections(Page page,GameObject element, Action action, int connectionIndex)
     {
         //If it needs to add placeholder spaces then this will do it, although I think it will be unneccessary after redesign
-        while (dropdownIndex >= connections.Count)
+        while (connectionIndex >= connections.Count)
         {
             connections.Add(null);
         }
-        connections[dropdownIndex] = new ConnectionInfo(page, element, action);
+        connections[connectionIndex] = new ConnectionInfo(page, element, action);
     }
 
     public void AddConnections(Page page, GameObject element, Action action)

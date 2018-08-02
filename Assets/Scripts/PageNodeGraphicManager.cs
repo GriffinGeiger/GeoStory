@@ -31,6 +31,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
         {
             GameObject body = GameObject.Instantiate(elementNodePrefab, this.transform);
             body.GetComponentsInChildren<Text>()[0].text = element.name;
+            body.name = "ElementNode_" + element.name;
             try
             {
                 body.GetComponent<Image>().sprite = element.GetComponent<Image>().sprite;
@@ -72,6 +73,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
         stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);*/
 
         GetComponentInChildren<Text>().text = page.getName(); //set title of node graphic to page name
+        name = "NodeGraphic_" + page.getName();
     }
 
     /* Places the elements on top of one another in the parentRect with the top of the stack at the offsetFromTop

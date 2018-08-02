@@ -10,6 +10,7 @@ public class PageElementEventTriggerEditor : Editor
     {
         base.OnInspectorGUI();
         PageElementEventTrigger peet = (PageElementEventTrigger)target;
+        GUILayout.Label("Connection size: " + peet.connections.Count);
     }
 }
 
