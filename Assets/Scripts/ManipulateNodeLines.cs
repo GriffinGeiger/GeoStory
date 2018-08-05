@@ -18,7 +18,6 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public bool dragging;
     public int connectionIndex; //The index in the list of dropdowns this connector is controlled by
 
-    //Decided to not parent curves under connector it belongs to, instead it will store references to both nodes its connection
     public Transform contentWindow;
 
     void Awake()

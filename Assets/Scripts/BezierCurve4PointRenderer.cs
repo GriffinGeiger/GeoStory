@@ -84,7 +84,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
         if (receivingConnector != null)
             receivingPointInScrollWindowSpace = transform.InverseTransformPoint(receivingConnector.transform.TransformPoint(receivingConnector.transform.position));
         else
-            receivingPointInScrollWindowSpace = point4.transform.position;
+            receivingPointInScrollWindowSpace = transform.InverseTransformPoint(point4.transform.position);
         setEndpoints(originPointInScrollWindowSpace, receivingPointInScrollWindowSpace);
     }
 }

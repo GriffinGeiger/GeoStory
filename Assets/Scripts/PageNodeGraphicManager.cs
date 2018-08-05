@@ -34,7 +34,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
             body.name = "ElementNode_" + element.name;
             try
             {
-                body.GetComponent<Image>().sprite = element.GetComponent<Image>().sprite;
+                body.GetComponentInChildren<Image>().sprite = element.GetComponent<Image>().sprite;
             }
             catch (Exception) { }//in case this element doesn't have a sprite
             body.GetComponent<AssociatedElementReference>().associatedElement = element;
@@ -105,17 +105,21 @@ public class PageNodeGraphicManager : MonoBehaviour {
         foreach(GameObject part in nodeParts)
         {
             heightOfRect += part.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
-            //update the location of the lines to reconnect with the now shifted nodes
-            foreach (ManipulateNodeLines mnl in part.GetComponentsInChildren<ManipulateNodeLines>())
-            {
-                if(mnl.curve != null)
-                    mnl.curve.snapEndpointsToConnectors();
-            }
+
         }
         RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
         nodeGraphic_rt.sizeDelta = new Vector2(graphicWidth, heightOfRect);
         //draw the elements on the NodeGraphic
         stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);
+        //update the location of the lines to reconnect with the now shifted nodes
+        foreach (GameObject part in nodeParts)
+        {
+            foreach (ManipulateNodeLines mnl in part.GetComponentsInChildren<ManipulateNodeLines>())
+            {
+                if (mnl.curve != null)
+                    mnl.curve.snapEndpointsToConnectors();
+            }
+        }
     }
     
     //Takes the info currently applied in the graphic and adds it to the Page this graphic is associated with

@@ -201,7 +201,7 @@ public class BackgroundData : PrefabData
 {
     public string name;
     public RectTransformData rtd;
-    public RawImageData rawImage;
+    public ImageData image;
     public ConnectionInfo[] connections;
 
     public BackgroundData(){}
@@ -209,7 +209,7 @@ public class BackgroundData : PrefabData
     {
         name = background.name;
         rtd = new RectTransformData(background.GetComponent<RectTransform>());
-        rawImage = new RawImageData(background.GetComponent<RawImage>());
+        image = new ImageData(background.GetComponent<Image>());
         //Fill the connection arrays
         PageElementEventTrigger peet = background.GetComponent<PageElementEventTrigger>();
         connections = XMLSerializationManager.setElementIndexes(peet);
@@ -226,7 +226,7 @@ public class BackgroundData : PrefabData
         GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);
         bg.name = name;
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
-        rawImage.copyToRawImage(bg.GetComponent<RawImage>());
+        image.copyToImage(bg.GetComponent<Image>());
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
         peet.connections = new List<ConnectionInfo>(connections);
         return bg;

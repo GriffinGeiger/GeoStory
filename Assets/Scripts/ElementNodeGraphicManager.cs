@@ -9,18 +9,19 @@ public class ElementNodeGraphicManager : MonoBehaviour {
     public GameObject selectionConnectorPrefab;
     public RectTransform NodeGraphicRect;   //Will need to edit the sizeDelta when a dropdown is added/removed
     public float headerHeight; //height of the thumbnail and name 
+    public float footerHeight; //height of spacing under last selection connector and the add connector button
     private void Awake()
     {
         NodeGraphicRect = GetComponentInParent<RectTransform>();
         selectionConnectorPrefab = (GameObject) AssetDatabase.LoadAssetAtPath("Assets/Prefabs/StoryEditor/SelectionConnector.prefab", typeof(GameObject));
         headerHeight = 110f;
-        
+        footerHeight = 0f;
     }
 
     //adds selectionConnectors to the elementNode
     public void addSelectionConnectors(int amount)
     {
-        float elementHeight = headerHeight + ((amount + selectionConnectors.Count) * selectionConnectorPrefab.GetComponent<RectTransform>().rect.height);
+        float elementHeight = headerHeight + footerHeight +((amount + selectionConnectors.Count) * selectionConnectorPrefab.GetComponent<RectTransform>().rect.height);
         RectTransform element_rt = GetComponent<RectTransform>();
         element_rt.sizeDelta = new Vector2(NodeGraphicRect.rect.width, elementHeight);
         for(int i = 0; i < amount; i++)
