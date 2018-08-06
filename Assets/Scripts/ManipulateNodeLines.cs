@@ -16,7 +16,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public float fastScrollSpeed;
     Vector3 pointerPosition;
     public bool dragging;
-    public int connectionIndex; //The index in the list of dropdowns this connector is controlled by
+    public ConnectionInfo connection;
 
     public Transform contentWindow;
 
@@ -76,16 +76,12 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         //clear any references to next page or next element since previous curve is replaced so the link has been broken
         PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
         //clears references while reserving the index for the next connection
-        Debug.Log("connectionIndex: " + connectionIndex);
-        peet.AddConnections(null, null, PageElementEventTrigger.Action.None, connectionIndex);
-        try
-        {
-            curve.receivingConnector.GetComponent<ReceiveNodeLines>().curves.Remove(curve);
-        }
-        catch (Exception) { /*This is expected to throw exceptions if curve doesn't exist or doesnt have a receiving connector */}
-        //SIDE NOTE: peet.action will need to be set when the dropdown by when clicked is changed. Dropdown can also be limited to not allow change to page if line is already connected to pageReceiverNode
-        if(curve == null)
-            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), contentWindow).GetComponent<BezierCurve4PointRenderer>();
+        peet.AddConnections(null, null, PageElementEventTrigger.Action.None);
+        if(curve != null)
+            curve.breakLink();
+        curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
+            , contentWindow).GetComponent<BezierCurve4PointRenderer>();
+        
         //Set line color to coincide with the function it is providing. (find AssociatedElementRef so it searches sibling components and only the parent has AER) 
         curve.action = GetComponentInParent<SelectionConnectorManager>().getDropdownSelection();
         LineRenderer line = curve.GetComponent<LineRenderer>();
@@ -118,5 +114,12 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
+    }
+
+    public int getConnectionIndex()
+    {
+        PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
+        Debug.Log("Connection " + connection);
+        return peet.connections.IndexOf(connection);
     }
 }

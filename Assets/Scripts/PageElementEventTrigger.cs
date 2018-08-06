@@ -52,9 +52,23 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
         connections[connectionIndex] = new ConnectionInfo(page, element, action);
     }
 
-    public void AddConnections(Page page, GameObject element, Action action)
+    public ConnectionInfo AddConnections(Page page, GameObject element, Action action)
     {
-        connections.Add(new ConnectionInfo(page, element, action));
+        ConnectionInfo connection = new ConnectionInfo(page, element, action);
+        connections.Add(connection);
+        return connection;
+    }
+
+    public void removeConnection(int connectionIndex)
+    {
+        connections.RemoveAt(connectionIndex);
+        for(int i = connectionIndex + 1; i < connections.Count; i++)
+        {
+            connections[i - 1] = connections[i];
+        }
+        connections.RemoveAt(connections.Count - 1);
+        connections.TrimExcess();
+        Debug.Log("Connections Count " + connections.Count);
     }
 
 }

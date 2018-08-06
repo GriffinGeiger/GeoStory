@@ -1608,7 +1608,6 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
-  connectionIndex: 0
   contentWindow: {fileID: 0}
 --- !u!114 &505379912
 MonoBehaviour:
@@ -2497,7 +2496,6 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
-  connectionIndex: 0
   contentWindow: {fileID: 0}
 --- !u!114 &785124246
 MonoBehaviour:
@@ -4154,7 +4152,6 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
-  connectionIndex: 0
   contentWindow: {fileID: 0}
 --- !u!114 &1036026061
 MonoBehaviour:
@@ -7693,7 +7690,6 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
-  connectionIndex: 0
   contentWindow: {fileID: 0}
 --- !u!114 &1868450250
 MonoBehaviour:

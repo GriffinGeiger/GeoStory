@@ -15,14 +15,10 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         //When dropped send reference to this page or element to the origin element
         PrefabInfo.PrefabType prefabType = GetComponent<PrefabInfo>().prefabType;
 
-        //Sets the connectedElement and page in the pageElementEventTrigger of the element where the nodeLine was dragged from to this associated element at the correct index
+        //adds a connection to the associated element and gives reference of it to the originConnector
         GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement;
-            associatedElement.GetComponent<PageElementEventTrigger>().
+        currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connection =  associatedElement.GetComponent<PageElementEventTrigger>().
             AddConnections(GetComponentInParent<PageNodeGraphicManager>().page,
-            associatedElement, currentCurve.action, 
-            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionIndex);
-
-        Debug.Log("Reference to the next element has been given to pageElementEventTrigger at connectionIndex" + currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionIndex);
-        
+            associatedElement, currentCurve.action);
     }
 }

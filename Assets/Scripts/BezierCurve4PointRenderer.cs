@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -86,5 +87,19 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
         else
             receivingPointInScrollWindowSpace = transform.InverseTransformPoint(point4.transform.position);
         setEndpoints(originPointInScrollWindowSpace, receivingPointInScrollWindowSpace);
+    }
+
+    public void breakLink()
+    {
+        int connectionIndex = originConnector.GetComponent<ManipulateNodeLines>().getConnectionIndex();
+        Debug.Log("ConnectionIndex " + connectionIndex);
+        originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().removeConnection(connectionIndex);
+        try
+        {
+            receivingConnector.GetComponent<ReceiveNodeLines>().curves.Remove(this);
+        }
+        catch (Exception) { }
+        Debug.Log("Destroying");
+        GameObject.Destroy(this.gameObject);
     }
 }
