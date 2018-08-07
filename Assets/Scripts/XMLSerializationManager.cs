@@ -79,7 +79,9 @@ public class XMLSerializationManager : MonoBehaviour {
 
     public static ConnectionInfo[] setElementIndexes(PageElementEventTrigger peet)
     {
-        ConnectionInfo[] connections = peet.connections.ToArray();
+        ConnectionInfo[] connections = new ConnectionInfo[peet.connections.Count];
+        peet.connections.Values.CopyTo(connections,0);
+
         for (int i = 0; i < connections.Length; i++)
         {
             connections[i].connectedElementIndex = -1; //-1 should be default value 
@@ -228,7 +230,10 @@ public class BackgroundData : PrefabData
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
         image.copyToImage(bg.GetComponent<Image>());
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
-        peet.connections = new List<ConnectionInfo>(connections);
+        foreach(ConnectionInfo connection in connections)
+        {
+            peet.AddConnection(connection);
+        }
         return bg;
     }
 }
@@ -310,8 +315,11 @@ public class ScrollAreaData : PrefabData
         sa.name = name;
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
         image_SA.copyToImage(sa.GetComponent<Image>());
-        PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();
-        peet.connections = new List<ConnectionInfo>(connections);
+        PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();      
+        foreach (ConnectionInfo connection in connections)
+        {
+            peet.AddConnection(connection);
+        }
 
         GameObject tb = sa.transform.GetChild(0).gameObject;
         rtd_TB.copyToRectTransform(tb.GetComponent<RectTransform>());
@@ -375,7 +383,10 @@ public class ButtonData : PrefabData
         etd.copyToEventTrigger(button.GetComponent<EventTrigger>());
         text.copyToText(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        peet.connections = new List<ConnectionInfo>(connections);
+        foreach (ConnectionInfo connection in connections)
+        {
+            peet.AddConnection(connection);
+        }
         return button;
     }
 }

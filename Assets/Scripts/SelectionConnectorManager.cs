@@ -6,25 +6,26 @@ using UnityEngine.UI;
 
 public class SelectionConnectorManager : MonoBehaviour {
 
-    public int connectionIndex; //Each page element has multiple connections, this is the index of which connection in the connections list this selection connector represents
+    public int connectionKey; //Each page element has multiple connections, this is the index of which connection in the connections list this selection connector represents
     private Dropdown dropdown;
     private PageElementEventTrigger peet; //The peet this element is associated with
 
 	void Start ()
     {
         peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
-        connectionIndex = peet.connections.Count;
+        connectionKey = GetComponentInChildren<ManipulateNodeLines>().connectionKey;
         dropdown = GetComponentInChildren<Dropdown>();
 
         dropdown.onValueChanged.AddListener(delegate
         {
             try
             {
-                peet.connections[connectionIndex].action = getDropdownSelection();
+                peet.connections[connectionKey].action = getDropdownSelection();
             }
-            catch(Exception) { peet.AddConnections(null, null, getDropdownSelection(), connectionIndex); }
+            catch(Exception) { peet.AddConnection(null, null, getDropdownSelection()); }
         });
     }
+
     public PageElementEventTrigger.Action getDropdownSelection()
     {
         string selectedOption = dropdown.captionText.text;

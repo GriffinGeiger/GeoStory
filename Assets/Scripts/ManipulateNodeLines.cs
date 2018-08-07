@@ -16,7 +16,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public float fastScrollSpeed;
     Vector3 pointerPosition;
     public bool dragging;
-    public ConnectionInfo connection;
+    public int connectionKey;
 
     public Transform contentWindow;
 
@@ -75,8 +75,8 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     {
         //clear any references to next page or next element since previous curve is replaced so the link has been broken
         PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
-        //clears references while reserving the index for the next connection
-        peet.AddConnections(null, null, PageElementEventTrigger.Action.None);
+
+        //peet.AddConnection(null, null, PageElementEventTrigger.Action.None); //shouldn't need this with current implementation
         if(curve != null)
             curve.breakLink();
         curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
@@ -114,12 +114,5 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
-    }
-
-    public int getConnectionIndex()
-    {
-        PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
-        Debug.Log("Connection " + connection);
-        return peet.connections.IndexOf(connection);
     }
 }

@@ -1,20 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 //This class will eventually handle any events that will cause a page change, element appearance/disappearance, or any other action from a pageElement
 public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
 
-    /*  public List<Page> connectedPages; //The page the action will change to
-      public List<string> connectedPageNames; //this is needed in deserialization 
-      public List<GameObject> connectedElements; //The element that the action will switch to or activate (Will be null if the connected node is a Page)
-      public List<int> connectedElementIndexes; //this is needed in deserialization. Default value is -1
-
-      public List<Action> actions; //the action that will happen
-      */
-    public enum Action { None, Change, Show, Hide };
-    public List<ConnectionInfo> connections = new List<ConnectionInfo>();
+    public enum Action { None, Change, Show, Hide , ToggleVisibility};
+    public Dictionary<int, ConnectionInfo> connections = new Dictionary<int, ConnectionInfo>();
 
     public new void OnPointerClick(PointerEventData data)
     {
@@ -42,45 +36,52 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
         }
     }
 
-    public void AddConnections(Page page,GameObject element, Action action, int connectionIndex)
-    {
-        //If it needs to add placeholder spaces then this will do it, although I think it will be unneccessary after redesign
-        while (connectionIndex >= connections.Count)
-        {
-            connections.Add(null);
-        }
-        connections[connectionIndex] = new ConnectionInfo(page, element, action);
-    }
-
-    public ConnectionInfo AddConnections(Page page, GameObject element, Action action)
+    //Returns the int key for this connection
+    public int AddConnection(Page page, GameObject element, Action action)
     {
         ConnectionInfo connection = new ConnectionInfo(page, element, action);
-        connections.Add(connection);
-        return connection;
+        int newKey = getNewKey();
+        connection.connectionKey = newKey;
+        connections.Add(newKey,connection);
+        return newKey;
+    }
+    //adds connection and gives new key
+    public int AddConnection(ConnectionInfo connection)
+    {
+        int newKey = getNewKey();
+        connection.connectionKey = newKey;
+        connections.Add(newKey, connection);
+        return newKey;
     }
 
-    public void removeConnection(int connectionIndex)
+    //Returns the lowest value key not used by the connection dictionary
+    private int getNewKey()
     {
-        connections.RemoveAt(connectionIndex);
-        for(int i = connectionIndex + 1; i < connections.Count; i++)
+       
+        int newKey = 0;
+        while(connections.ContainsKey(newKey) )
         {
-            connections[i - 1] = connections[i];
+            newKey++;
         }
-        connections.RemoveAt(connections.Count - 1);
-        connections.TrimExcess();
-        Debug.Log("Connections Count " + connections.Count);
+        return newKey;
     }
 
 }
 
+[System.Serializable]
 public class ConnectionInfo
 {
+    [XmlIgnore]
     public Page connectedPage;  //The page the action will change to
     public string connectedPageName;    //this is needed in deserialization 
+    [XmlIgnore]
     public GameObject connectedElement; //The element that the action will switch to or activate (Will be null if the connected node is a Page)
     public string connectedElementName; //this is needed in deserialization. Default value is -1
     public int connectedElementIndex;
     public PageElementEventTrigger.Action action;
+    public int connectionKey;
+
+    public ConnectionInfo() { }
 
     public ConnectionInfo(Page page, GameObject element, PageElementEventTrigger.Action action)
     {

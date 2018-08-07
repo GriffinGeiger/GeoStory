@@ -59,18 +59,12 @@ public class PageNodeGraphicManager : MonoBehaviour {
                 }
                 else Debug.Log("No dropdown found in selection connector");
             }
-
-            //heightOfRect += body.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
             nodeParts.Add(body);
             body.GetComponentInChildren<Text>().text = element.name;
         }
         drawElementNodes();
-
-        //adjust rectTransform of NodeGraphic
-       /* RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
-        nodeGraphic_rt.sizeDelta = new Vector2(graphicWidth, heightOfRect);
-        //draw the elements on the NodeGraphic
-        stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);*/
+        
+        //need to connect the connectors with curves
 
         GetComponentInChildren<Text>().text = page.getName(); //set title of node graphic to page name
         name = "NodeGraphic_" + page.getName();

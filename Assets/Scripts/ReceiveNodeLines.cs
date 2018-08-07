@@ -17,8 +17,8 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
 
         //adds a connection to the associated element and gives reference of it to the originConnector
         GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement;
-        currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connection =  associatedElement.GetComponent<PageElementEventTrigger>().
-            AddConnections(GetComponentInParent<PageNodeGraphicManager>().page,
+        currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey =  associatedElement.GetComponent<PageElementEventTrigger>().
+            AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
             associatedElement, currentCurve.action);
     }
 }

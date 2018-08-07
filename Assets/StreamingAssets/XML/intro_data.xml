@@ -9,7 +9,7 @@
           <name>bg1</name>
           <rtd>
             <anchoredPosition>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>0.00048828125</y>
             </anchoredPosition>
             <anchorMax>
@@ -21,11 +21,11 @@
               <y>0</y>
             </anchorMin>
             <offsetMax>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>0.0009765612</y>
             </offsetMax>
             <offsetMin>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>1.25146471E-09</y>
             </offsetMin>
             <pivot>
@@ -37,42 +37,31 @@
               <y>0.00097656</y>
             </sizeDelta>
           </rtd>
-          <rawImage>
+          <image>
             <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
-            <uvRect>
-              <x>0</x>
-              <y>0</y>
-              <position>
-                <x>0</x>
-                <y>0</y>
-              </position>
-              <center>
-                <x>0.5</x>
-                <y>0.5</y>
-              </center>
-              <min>
-                <x>0</x>
-                <y>0</y>
-              </min>
-              <max>
-                <x>1</x>
-                <y>1</y>
-              </max>
-              <width>1</width>
-              <height>1</height>
-              <size>
-                <x>1</x>
-                <y>1</y>
-              </size>
-              <xMin>0</xMin>
-              <yMin>0</yMin>
-              <xMax>1</xMax>
-              <yMax>1</yMax>
-            </uvRect>
-          </rawImage>
-          <action>Change</action>
-          <connectedPageName>introPage2</connectedPageName>
-          <connectedElementIndex>-1</connectedElementIndex>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Simple</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <connections>
+            <ConnectionInfo>
+              <connectedPageName>introPage2</connectedPageName>
+              <connectedElementIndex>-1</connectedElementIndex>
+              <action>Change</action>
+              <connectionKey>0</connectionKey>
+            </ConnectionInfo>
+          </connections>
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
           <name>pg1button</name>
@@ -131,7 +120,6 @@
               </Entry>
             </triggers>
           </etd>
-          <action>Change</action>
           <text>
             <alignByGeometry>false</alignByGeometry>
             <alignment>MiddleCenter</alignment>
@@ -145,13 +133,26 @@
             <supportRichText>true</supportRichText>
             <text>Page3</text>
           </text>
-          <connectedPageName>introPage3</connectedPageName>
-          <connectedElementIndex>-1</connectedElementIndex>
+          <connections>
+            <ConnectionInfo>
+              <connectedPageName>introPage3</connectedPageName>
+              <connectedElementIndex>-1</connectedElementIndex>
+              <action>Change</action>
+              <connectionKey>0</connectionKey>
+            </ConnectionInfo>
+            <ConnectionInfo>
+              <connectedPageName>introPage3</connectedPageName>
+              <connectedElementName>pg3Text</connectedElementName>
+              <connectedElementIndex>1</connectedElementIndex>
+              <action>Show</action>
+              <connectionKey>1</connectionKey>
+            </ConnectionInfo>
+          </connections>
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>0</x>
-        <y>0</y>
+        <x>1.28790426</x>
+        <y>0.869609833</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -161,7 +162,7 @@
           <name>bg2</name>
           <rtd>
             <anchoredPosition>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>0.00048828125</y>
             </anchoredPosition>
             <anchorMax>
@@ -173,11 +174,11 @@
               <y>0</y>
             </anchorMin>
             <offsetMax>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>0.0009765612</y>
             </offsetMax>
             <offsetMin>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>1.25146471E-09</y>
             </offsetMin>
             <pivot>
@@ -189,41 +190,24 @@
               <y>0.00097656</y>
             </sizeDelta>
           </rtd>
-          <rawImage>
+          <image>
             <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
-            <uvRect>
-              <x>0</x>
-              <y>0</y>
-              <position>
-                <x>0</x>
-                <y>0</y>
-              </position>
-              <center>
-                <x>0.5</x>
-                <y>0.5</y>
-              </center>
-              <min>
-                <x>0</x>
-                <y>0</y>
-              </min>
-              <max>
-                <x>1</x>
-                <y>1</y>
-              </max>
-              <width>1</width>
-              <height>1</height>
-              <size>
-                <x>1</x>
-                <y>1</y>
-              </size>
-              <xMin>0</xMin>
-              <yMin>0</yMin>
-              <xMax>1</xMax>
-              <yMax>1</yMax>
-            </uvRect>
-          </rawImage>
-          <action>None</action>
-          <connectedElementIndex>-1</connectedElementIndex>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Simple</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <connections />
         </PrefabData>
         <PrefabData xsi:type="ButtonData">
           <name>pg2Button</name>
@@ -282,7 +266,6 @@
               </Entry>
             </triggers>
           </etd>
-          <action>None</action>
           <text>
             <alignByGeometry>false</alignByGeometry>
             <alignment>MiddleCenter</alignment>
@@ -296,7 +279,7 @@
             <supportRichText>true</supportRichText>
             <text>Nothing to press here</text>
           </text>
-          <connectedElementIndex>-1</connectedElementIndex>
+          <connections />
         </PrefabData>
         <PrefabData xsi:type="ScrollAreaData">
           <name>pg2text</name>
@@ -347,7 +330,14 @@
               <a>0.392</a>
             </color>
           </image_SA>
-          <action>Change</action>
+          <connections>
+            <ConnectionInfo>
+              <connectedPageName>introPage3</connectedPageName>
+              <connectedElementIndex>-1</connectedElementIndex>
+              <action>Change</action>
+              <connectionKey>0</connectionKey>
+            </ConnectionInfo>
+          </connections>
           <rtd_TB>
             <anchoredPosition>
               <x>0</x>
@@ -604,8 +594,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>0</x>
-        <y>0</y>
+        <x>1.04325414</x>
+        <y>0.762577057</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -615,7 +605,7 @@
           <name>bg3</name>
           <rtd>
             <anchoredPosition>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>0.00048828125</y>
             </anchoredPosition>
             <anchorMax>
@@ -627,11 +617,11 @@
               <y>0</y>
             </anchorMin>
             <offsetMax>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>0.0009765612</y>
             </offsetMax>
             <offsetMin>
-              <x>-6.10351563E-05</x>
+              <x>-0.000122070313</x>
               <y>1.25146471E-09</y>
             </offsetMin>
             <pivot>
@@ -643,46 +633,333 @@
               <y>0.00097656</y>
             </sizeDelta>
           </rtd>
-          <rawImage>
+          <image>
             <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
-            <uvRect>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Simple</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <connections />
+        </PrefabData>
+        <PrefabData xsi:type="ScrollAreaData">
+          <name>pg3Text</name>
+          <rtd_SA>
+            <anchoredPosition>
               <x>0</x>
               <y>0</y>
-              <position>
+            </anchoredPosition>
+            <anchorMax>
+              <x>0.801000059</x>
+              <y>0.8395164</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0.157333344</x>
+              <y>0.1811335</y>
+            </anchorMin>
+            <offsetMax>
+              <x>0</x>
+              <y>0</y>
+            </offsetMax>
+            <offsetMin>
+              <x>0</x>
+              <y>0</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0</y>
+            </sizeDelta>
+          </rtd_SA>
+          <image_SA>
+            <sourceImagePath>Assets/Images/DefaultBackground.png</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>0.392</a>
+            </color>
+          </image_SA>
+          <connections />
+          <rtd_TB>
+            <anchoredPosition>
+              <x>0</x>
+              <y>-5</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>1</x>
+              <y>1</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0</x>
+              <y>0</y>
+            </anchorMin>
+            <offsetMax>
+              <x>0</x>
+              <y>-52.5</y>
+            </offsetMax>
+            <offsetMin>
+              <x>0</x>
+              <y>42.4999962</y>
+            </offsetMin>
+            <pivot>
+              <x>0.50000006</x>
+              <y>0.49999997</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>-95</y>
+            </sizeDelta>
+          </rtd_TB>
+          <srd_TB>
+            <decelerationRate>0.135</decelerationRate>
+            <elasticity>0.1</elasticity>
+            <inertia>true</inertia>
+            <movementType>Elastic</movementType>
+            <normalizedPosition>
+              <x>1</x>
+              <y>1</y>
+            </normalizedPosition>
+            <scrollSensitivity>1</scrollSensitivity>
+            <velocity>
+              <x>0</x>
+              <y>0</y>
+            </velocity>
+            <vertical>true</vertical>
+            <verticalNormalizedPosition>1</verticalNormalizedPosition>
+            <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
+            <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
+          </srd_TB>
+          <rtd_SB>
+            <anchoredPosition>
+              <x>0.6999512</x>
+              <y>-1.80004883</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>0.9514443</x>
+              <y>0.950000048</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0.8438336</x>
+              <y>0.05</y>
+            </anchorMin>
+            <offsetMax>
+              <x>-2.70004272</x>
+              <y>5.449951</y>
+            </offsetMax>
+            <offsetMin>
+              <x>4.099945</x>
+              <y>-9.050049</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>-6.799988</x>
+              <y>14.5</y>
+            </sizeDelta>
+          </rtd_SB>
+          <image_SB>
+            <sourceImagePath>Assets/Images/DefaultBackground.png</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image_SB>
+          <sb_SB>
+            <direction>BottomToTop</direction>
+            <handleRect>
+              <anchoredPosition>
                 <x>0</x>
-                <y>0</y>
-              </position>
-              <center>
+                <y>2.70007324</y>
+              </anchoredPosition>
+              <anchorMax>
+                <x>1</x>
+                <y>1</y>
+              </anchorMax>
+              <anchorMin>
+                <x>0</x>
+                <y>0.8837649</y>
+              </anchorMin>
+              <offsetMax>
+                <x>9.1</x>
+                <y>5.30007172</y>
+              </offsetMax>
+              <offsetMin>
+                <x>-9.1</x>
+                <y>0.100074768</y>
+              </offsetMin>
+              <pivot>
                 <x>0.5</x>
                 <y>0.5</y>
-              </center>
-              <min>
-                <x>0</x>
-                <y>0</y>
-              </min>
-              <max>
-                <x>1</x>
-                <y>1</y>
-              </max>
-              <width>1</width>
-              <height>1</height>
-              <size>
-                <x>1</x>
-                <y>1</y>
-              </size>
-              <xMin>0</xMin>
-              <yMin>0</yMin>
-              <xMax>1</xMax>
-              <yMax>1</yMax>
-            </uvRect>
-          </rawImage>
-          <action>None</action>
-          <connectedElementIndex>-1</connectedElementIndex>
+              </pivot>
+              <sizeDelta>
+                <x>18.2</x>
+                <y>5.199997</y>
+              </sizeDelta>
+            </handleRect>
+            <numberOfSteps>0</numberOfSteps>
+            <onValueChanged />
+            <size>0.116235055</size>
+            <value>1</value>
+          </sb_SB>
+          <rtd_SlA>
+            <anchoredPosition>
+              <x>0</x>
+              <y>0</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>1</x>
+              <y>1</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0</x>
+              <y>0</y>
+            </anchorMin>
+            <offsetMax>
+              <x>-10</x>
+              <y>-10</y>
+            </offsetMax>
+            <offsetMin>
+              <x>10</x>
+              <y>10</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>-20</x>
+              <y>-20</y>
+            </sizeDelta>
+          </rtd_SlA>
+          <rtd_H>
+            <anchoredPosition>
+              <x>0</x>
+              <y>2.70007324</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>1</x>
+              <y>1</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0</x>
+              <y>0.8837649</y>
+            </anchorMin>
+            <offsetMax>
+              <x>9.1</x>
+              <y>5.30007172</y>
+            </offsetMax>
+            <offsetMin>
+              <x>-9.1</x>
+              <y>0.100074768</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>18.2</x>
+              <y>5.199997</y>
+            </sizeDelta>
+          </rtd_H>
+          <image_H>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image_H>
+          <rtd_T>
+            <anchoredPosition>
+              <x>-40.125</x>
+              <y>-2977.74976</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>1</x>
+              <y>1</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0</x>
+              <y>0</y>
+            </anchorMin>
+            <offsetMax>
+              <x>-104.799988</x>
+              <y>0.000244140625</y>
+            </offsetMax>
+            <offsetMin>
+              <x>24.5499878</x>
+              <y>-5955.5</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>-129.349976</x>
+              <y>5955.5</y>
+            </sizeDelta>
+          </rtd_T>
+          <text_T>
+            <alignByGeometry>false</alignByGeometry>
+            <alignment>UpperLeft</alignment>
+            <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
+            <fontSize>100</fontSize>
+            <fontStyle>Normal</fontStyle>
+            <lineSpacing>1</lineSpacing>
+            <resizeTextForBestFit>true</resizeTextForBestFit>
+            <resizeTextMaxSize>300</resizeTextMaxSize>
+            <resizeTextMinSize>0</resizeTextMinSize>
+            <supportRichText>true</supportRichText>
+            <text>Congration</text>
+          </text_T>
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>0</x>
-        <y>0</y>
+        <x>-1.80257607</x>
+        <y>-0.06733381</y>
       </nodeGraphicLocation>
     </PageData>
   </pages>
