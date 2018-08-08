@@ -37,7 +37,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
                 body.GetComponentInChildren<Image>().sprite = element.GetComponent<Image>().sprite;
             }
             catch (Exception) { }//in case this element doesn't have a sprite
-            body.GetComponent<AssociatedElementReference>().associatedElement = element;
+            body.GetComponent<ElementNodeGraphicManager>().associatedElement = element;
 
 
             //add dropdowns and set them to reflect their actions
@@ -63,8 +63,6 @@ public class PageNodeGraphicManager : MonoBehaviour {
             body.GetComponentInChildren<Text>().text = element.name;
         }
         drawElementNodes();
-        
-        //need to connect the connectors with curves
 
         GetComponentInChildren<Text>().text = page.getName(); //set title of node graphic to page name
         name = "NodeGraphic_" + page.getName();
@@ -89,6 +87,32 @@ public class PageNodeGraphicManager : MonoBehaviour {
             //set offsets from anchors
             elementRectTransform.anchoredPosition = new Vector2(0, 0);
             elementRectTransform.sizeDelta = new Vector2(parentRect.rect.width, elementRectTransform.rect.height);
+        }
+    }
+    public void drawConnectionCurves()
+    {
+        foreach (GameObject element in nodeParts)
+        {
+            ElementNodeGraphicManager engm = element.GetComponent<ElementNodeGraphicManager>();
+            foreach (GameObject selectionConnector in engm.selectionConnectors)
+            {
+                //get the connection
+                SelectionConnectorManager scm = selectionConnector.GetComponent<SelectionConnectorManager>();
+                ConnectionInfo connection = engm.associatedElement.GetComponent<PageElementEventTrigger>().connections[scm.connectionKey];
+                RectTransform contentWindow = GetComponentInParent<PinchZoom>().GetComponent<RectTransform>();
+                BezierCurve4PointRenderer curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
+                    , contentWindow).GetComponent<BezierCurve4PointRenderer>();
+
+                selectionConnector.GetComponentInChildren<ManipulateNodeLines>().curve = curve;
+                curve.originConnector = selectionConnector.GetComponentInChildren<ManipulateNodeLines>().gameObject;
+                Debug.Log("Connected element " + connection.connectedElement + connection.connectedElementIndex);
+                try
+                {
+                    curve.receivingConnector = connection.connectedElement.GetComponent<ReceiveNodeLines>().gameObject;
+                }
+                catch (Exception) { } //will need to do something about if there is no connected element but there is a connected page once I put page connection receiver
+                curve.snapEndpointsToConnectors();
+            }
         }
     }
 
@@ -128,7 +152,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
             }
             else if(prefabType == PrefabInfo.PrefabType.NodeBodyImage || prefabType == PrefabInfo.PrefabType.NodeBody || prefabType == PrefabInfo.PrefabType.NodeFooter) //if this is a Node with an associated element
             {
-                GameObject associatedElement = go.GetComponent<AssociatedElementReference>().associatedElement;
+                GameObject associatedElement = go.GetComponent<ElementNodeGraphicManager>().associatedElement;
                 PrefabInfo.PrefabType associatedElementPrefabType = associatedElement.GetComponent<PrefabInfo>().prefabType;
                 if(associatedElementPrefabType == PrefabInfo.PrefabType.BackgroundImage)
                 {

@@ -16,7 +16,7 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         PrefabInfo.PrefabType prefabType = GetComponent<PrefabInfo>().prefabType;
 
         //adds a connection to the associated element and gives reference of it to the originConnector
-        GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement;
+        GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
         currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey =  associatedElement.GetComponent<PageElementEventTrigger>().
             AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
             associatedElement, currentCurve.action);

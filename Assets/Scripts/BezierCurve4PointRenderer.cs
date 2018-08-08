@@ -92,7 +92,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
     public void breakLink()
     {
         //Gets key from the origin connector and removes the connection
-        originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement
+        originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement
             .GetComponent<PageElementEventTrigger>().connections.Remove(originConnector.GetComponent<ManipulateNodeLines>().connectionKey);
         try
         {

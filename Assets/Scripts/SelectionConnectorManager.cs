@@ -12,7 +12,7 @@ public class SelectionConnectorManager : MonoBehaviour {
 
 	void Start ()
     {
-        peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
+        peet = GetComponentInParent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>();
         connectionKey = GetComponentInChildren<ManipulateNodeLines>().connectionKey;
         dropdown = GetComponentInChildren<Dropdown>();
 

@@ -10,6 +10,8 @@ public class ElementNodeGraphicManager : MonoBehaviour {
     public RectTransform NodeGraphicRect;   //Will need to edit the sizeDelta when a dropdown is added/removed
     public float headerHeight; //height of the thumbnail and name 
     public float footerHeight; //height of spacing under last selection connector and the add connector button
+    public GameObject associatedElement;
+
     private void Awake()
     {
         NodeGraphicRect = GetComponentInParent<RectTransform>();

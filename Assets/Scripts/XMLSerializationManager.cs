@@ -35,7 +35,6 @@ public class XMLSerializationManager : MonoBehaviour {
     {
         Type type = original.GetType();
         PropertyInfo[] properties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-        Debug.Log("FieldLength: " + properties.Length);
         foreach(PropertyInfo property in properties)
         {
             try
@@ -49,13 +48,13 @@ public class XMLSerializationManager : MonoBehaviour {
         {
             Text t = (Text)copy;
             Text orig = (Text)original;
-            Debug.Log("Text in copy component: " + t.text + " Text in original: " + orig.text);
         }
         catch (Exception) { }
     }
     //Loops through every element in a story and gives it reference to the element/page that it is connected to
     public static void makeActionConnections(Story story)
     {
+        Debug.Log("Making action connections");
         foreach(Page page in story.getPages())
         {
             foreach(GameObject element in page.getElements())
@@ -65,11 +64,12 @@ public class XMLSerializationManager : MonoBehaviour {
                 {
                     if (peet.connections[i].connectedPageName != null && !peet.connections[i].connectedPageName.Equals(""))
                     {
-                        Debug.Log("connectedPageName: " + peet.connections[i].connectedPageName + " from " + page + " " + element);
+                        Debug.Log("connectedPageName: " + peet.connections[i].connectedPageName + " from " + page + " " + element + " elementIndex: " + peet.connections[i].connectedElementIndex);
                         peet.connections[i].connectedPage = story.getPage(peet.connections[i].connectedPageName);
                         if (peet.connections[i].connectedElementIndex != -1)
                         {
                             peet.connections[i].connectedElement = page.getElements()[peet.connections[i].connectedElementIndex];
+                            Debug.Log("Connection: " + peet.connections[i].connectedElement);
                         }
                     }
                 }
@@ -91,16 +91,17 @@ public class XMLSerializationManager : MonoBehaviour {
             GameObject currentElement = peet.connections[i].connectedElement;
             if (currentElement != null)
             {
+                Debug.Log("Current element is not null: " + currentElement);
                 GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
                 for (int j = 0; j < connectedPageElements.Length; j++)
                 {
+                    Debug.Log("looping through elements in connected page: " + connectedPageElements[j]);
                     if (connectedPageElements[j].Equals(currentElement))
                     {
                         connections[i].connectedElementIndex = j;
                         break;
                     }
                 }
-                Debug.LogError("There should be a connectedElement but the element did not match anything in elements array");
             }
         }
         return connections;
@@ -232,6 +233,7 @@ public class BackgroundData : PrefabData
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
         foreach(ConnectionInfo connection in connections)
         {
+            Debug.Log("ConnectionElementIndexes: "+connection.connectedElement);
             peet.AddConnection(connection);
         }
         return bg;
@@ -310,7 +312,6 @@ public class ScrollAreaData : PrefabData
     }
     public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
     {
-        Debug.Log("Canvas: " + canvas);
         GameObject sa = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/ScrollArea.prefab"), canvas.transform);
         sa.name = name;
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
@@ -337,7 +338,6 @@ public class ScrollAreaData : PrefabData
         GameObject h = sla.transform.GetChild(0).gameObject;
         rtd_H.copyToRectTransform(h.GetComponent<RectTransform>());
         image_H.copyToImage(h.GetComponent<Image>());
-        Debug.Log("tb: " + tb);
         GameObject t = tb.transform.GetChild(1).gameObject; //should be getchild(1)
         rtd_T.copyToRectTransform(t.GetComponent<RectTransform>());
         text_T.copyToText(t.GetComponent<Text>());

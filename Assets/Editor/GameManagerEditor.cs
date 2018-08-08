@@ -66,19 +66,12 @@ public class GameManagerEditor : Editor
             gm.testTransform.offsetMax = new Vector2(0, 0);
             Debug.Log("OffsetMin: " + gm.testTransform.offsetMin);
         }
-        if(GUILayout.Button("Build PageNodeGraphic from test page"))
+        if(GUILayout.Button("Build PageNodeGraphics from testStory"))
         {
-            gm.buildIntro();
+            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", gm.canvas);
             gm.currentStory.setCurrentPage("introPage1");
             gm.currentStory.currentPage.setVisible(false);
-            foreach(Page page in gm.currentStory.getPages())
-            {
-                GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic_Mk2.prefab"), gm.scrollContent);
-                PageNodeGraphicManager pngm = go.GetComponent<PageNodeGraphicManager>();
-                pngm.buildFromPage(page);
-            }
-            
-
+            FindObjectOfType<StoryEditorManager>().buildStoryEditorGraphics(gm.currentStory);           
         }
     }
  

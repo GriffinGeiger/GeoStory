@@ -74,7 +74,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public new void OnBeginDrag(PointerEventData data)
     {
         //clear any references to next page or next element since previous curve is replaced so the link has been broken
-        PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
+        PageElementEventTrigger peet = GetComponentInParent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>();
 
         //peet.AddConnection(null, null, PageElementEventTrigger.Action.None); //shouldn't need this with current implementation
         if(curve != null)
