@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,9 +7,47 @@ using UnityEngine.EventSystems;
 public class ReceiveNodeLines : EventTrigger, IDropHandler {
 
     public List<BezierCurve4PointRenderer> curves;
+    private BezierCurve4PointRenderer currentCurve;
+    public enum ConnectionReceiverType{Page, Element}
+    public ConnectionReceiverType connectionReceiverType;
+    void Awake()
+    {
+        if (GetComponentInParent<ElementNodeGraphicManager>() != null) //Page connectors are children of pageGraphic not elementGraphic
+            connectionReceiverType = ConnectionReceiverType.Element;
+        else
+            connectionReceiverType = ConnectionReceiverType.Page;
+    }
     public new void OnDrop(PointerEventData data)
     {
-        BezierCurve4PointRenderer currentCurve = ManipulateNodeLines.lastDraggedCurve.GetComponent<BezierCurve4PointRenderer>();
+        currentCurve = ManipulateNodeLines.lastDraggedCurve.GetComponent<BezierCurve4PointRenderer>();
+        Debug.Log("Action: " + currentCurve.action + "Receiver Type" + connectionReceiverType);
+        if(currentCurve.action == PageElementEventTrigger.Action.Change)
+        {
+            if (connectionReceiverType == ConnectionReceiverType.Element)
+            {
+                Debug.Log("Wrong receiver type, please connect to the page receiver");
+                //Give the user some kind of feedback
+                currentCurve.breakLink();
+            }
+            else
+                giveConnectionReferences();
+        }
+        else
+        {
+            if (connectionReceiverType == ConnectionReceiverType.Page)
+            {
+                Debug.Log("Wrong Receiver type, please connect to the element receiver");
+                //give user feedback
+                currentCurve.breakLink();
+            }
+            else
+                giveConnectionReferences();
+        }
+        
+    }
+
+    private void giveConnectionReferences()
+    {
         curves.Add(currentCurve);
         currentCurve.receivingConnector = gameObject;
         currentCurve.snapEndpointsToConnectors();
@@ -16,9 +55,13 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         PrefabInfo.PrefabType prefabType = GetComponent<PrefabInfo>().prefabType;
 
         //adds a connection to the associated element and gives reference of it to the originConnector
-        GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
-        currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey =  associatedElement.GetComponent<PageElementEventTrigger>().
-            AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
-            associatedElement, currentCurve.action);
+        try
+        {
+            GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
+            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
+                AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
+                GetComponentInParent<ElementNodeGraphicManager>().associatedElement, currentCurve.action);
+        }
+        catch (Exception) { } //There is no associated element if this is a page connector
     }
 }

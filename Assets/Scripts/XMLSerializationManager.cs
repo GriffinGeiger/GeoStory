@@ -54,7 +54,6 @@ public class XMLSerializationManager : MonoBehaviour {
     //Loops through every element in a story and gives it reference to the element/page that it is connected to
     public static void makeActionConnections(Story story)
     {
-        Debug.Log("Making action connections");
         foreach(Page page in story.getPages())
         {
             foreach(GameObject element in page.getElements())
@@ -62,14 +61,12 @@ public class XMLSerializationManager : MonoBehaviour {
                 PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
                 for (int i = 0; i < peet.connections.Count; i++)
                 {
-                    if (peet.connections[i].connectedPageName != null && !peet.connections[i].connectedPageName.Equals(""))
+                    if (peet.connections[i].connectedPageName != null && !peet.connections[i].connectedPageName.Equals("")) //if there is a connected page
                     {
-                        Debug.Log("connectedPageName: " + peet.connections[i].connectedPageName + " from " + page + " " + element + " elementIndex: " + peet.connections[i].connectedElementIndex);
                         peet.connections[i].connectedPage = story.getPage(peet.connections[i].connectedPageName);
                         if (peet.connections[i].connectedElementIndex != -1)
                         {
-                            peet.connections[i].connectedElement = page.getElements()[peet.connections[i].connectedElementIndex];
-                            Debug.Log("Connection: " + peet.connections[i].connectedElement);
+                            peet.connections[i].connectedElement = peet.connections[i].connectedPage.getElements()[peet.connections[i].connectedElementIndex];
                         }
                     }
                 }
@@ -218,12 +215,6 @@ public class BackgroundData : PrefabData
         connections = XMLSerializationManager.setElementIndexes(peet);
     }
 
-    /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
-     * This means the rectTransform scale must be (1,1,1) and offset min and max are (0,0)
-     * 
-     * Side side note: when the player edits a rect transform they will be dragging the anchor points and the corners of the transform will be dragged to them,
-     * not the other way around
-     */
     public override GameObject toPrefab(Canvas canvas)         
     {
         GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);

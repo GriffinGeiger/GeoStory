@@ -48,6 +48,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
             {
                 PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().connections[i].action;
                 Dropdown dropdown = engm.selectionConnectors[i].GetComponentInChildren<Dropdown>();
+                Debug.Log("Action: " + action);
                 if (dropdown != null)
                 {
                     if (action == PageElementEventTrigger.Action.Change)
@@ -94,23 +95,43 @@ public class PageNodeGraphicManager : MonoBehaviour {
         foreach (GameObject element in nodeParts)
         {
             ElementNodeGraphicManager engm = element.GetComponent<ElementNodeGraphicManager>();
+            int connectionKey = 0; //this will increment with every processed selection connector so that it will apply each connection to a selection connector
             foreach (GameObject selectionConnector in engm.selectionConnectors)
             {
                 //get the connection
-                SelectionConnectorManager scm = selectionConnector.GetComponent<SelectionConnectorManager>();
-                ConnectionInfo connection = engm.associatedElement.GetComponent<PageElementEventTrigger>().connections[scm.connectionKey];
+                ConnectionInfo connection = engm.associatedElement.GetComponent<PageElementEventTrigger>().connections[connectionKey++]; 
                 RectTransform contentWindow = GetComponentInParent<PinchZoom>().GetComponent<RectTransform>();
                 BezierCurve4PointRenderer curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
                     , contentWindow).GetComponent<BezierCurve4PointRenderer>();
 
                 selectionConnector.GetComponentInChildren<ManipulateNodeLines>().curve = curve;
                 curve.originConnector = selectionConnector.GetComponentInChildren<ManipulateNodeLines>().gameObject;
-                Debug.Log("Connected element " + connection.connectedElement + connection.connectedElementIndex);
-                try
+
+
+
+                foreach(PageNodeGraphicManager pngm in FindObjectsOfType<PageNodeGraphicManager>())
                 {
-                    curve.receivingConnector = connection.connectedElement.GetComponent<ReceiveNodeLines>().gameObject;
+                    if(connection.connectedPage.Equals(pngm.page))
+                    {
+                        if (connection.connectedElement != null)
+                        {
+                            foreach (GameObject otherElement in pngm.nodeParts)
+                            {
+                                if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement))
+                                {
+                                    curve.receivingConnector = otherElement.GetComponentInChildren<ReceiveNodeLines>().gameObject;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //The first ReceiveNodeLines should be the PageNodeConnector receiver since it his highest in hierarchy
+                            curve.receivingConnector = pngm.GetComponentInChildren<ReceiveNodeLines>().gameObject;
+                        }
+                    }
                 }
-                catch (Exception) { } //will need to do something about if there is no connected element but there is a connected page once I put page connection receiver
+                Debug.Log(connection.action);
+                curve.setAction(connection.action);
                 curve.snapEndpointsToConnectors();
             }
         }
@@ -136,36 +157,6 @@ public class PageNodeGraphicManager : MonoBehaviour {
             {
                 if (mnl.curve != null)
                     mnl.curve.snapEndpointsToConnectors();
-            }
-        }
-    }
-    
-    //Takes the info currently applied in the graphic and adds it to the Page this graphic is associated with
-    public void assignChanges()
-    {
-        foreach(GameObject go in nodeParts)
-        {
-            PrefabInfo.PrefabType prefabType = go.GetComponent<PrefabInfo>().prefabType;
-            if(prefabType == PrefabInfo.PrefabType.NodeHeader)
-            {
-
-            }
-            else if(prefabType == PrefabInfo.PrefabType.NodeBodyImage || prefabType == PrefabInfo.PrefabType.NodeBody || prefabType == PrefabInfo.PrefabType.NodeFooter) //if this is a Node with an associated element
-            {
-                GameObject associatedElement = go.GetComponent<ElementNodeGraphicManager>().associatedElement;
-                PrefabInfo.PrefabType associatedElementPrefabType = associatedElement.GetComponent<PrefabInfo>().prefabType;
-                if(associatedElementPrefabType == PrefabInfo.PrefabType.BackgroundImage)
-                {
-                    //Get info from the nodeBodyImage and fill out associated element
-                }
-                else if (associatedElementPrefabType == PrefabInfo.PrefabType.ScrollArea)
-                {
-
-                }
-                else if(associatedElementPrefabType == PrefabInfo.PrefabType.Button)
-                {
-
-                }
             }
         }
     }

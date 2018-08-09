@@ -102,4 +102,30 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
         Debug.Log("Destroying");
         GameObject.Destroy(this.gameObject);
     }
+
+    //Sets the action field and changes the color of the line
+    public void setAction(PageElementEventTrigger.Action action)
+    {
+        //Set line color to coincide with the function it is providing. (find AssociatedElementRef so it searches sibling components and only the parent has AER) 
+        this.action = action;
+        LineRenderer line = this.GetComponent<LineRenderer>();
+        switch (this.action)
+        {
+            case PageElementEventTrigger.Action.Change:
+                line.startColor = new Color(0.7253471f, 0.9433962f, 0.9433962f);
+                line.endColor = new Color(0.2569865f, 0.75472f, 0.6981435f);
+                break;
+            case PageElementEventTrigger.Action.Show:
+                line.startColor = new Color(.74f, .98f, .69f);
+                line.endColor = new Color(.20f, .67f, .04f);
+                break;
+            case PageElementEventTrigger.Action.Hide:
+                line.startColor = new Color(0.9811321f, 0.6895692f, 0.6895692f);
+                line.endColor = new Color(0.7921569f, 0, 0);
+                break;
+            case PageElementEventTrigger.Action.None:
+                Debug.LogError("Line was drawn but has no action");
+                break;
+        }
+    }
 }
