@@ -46,19 +46,25 @@ public class PageNodeGraphicManager : MonoBehaviour {
             engm.addSelectionConnectors(numberOfDropdowns);
             for (int i = 0; i < numberOfDropdowns; i++)
             {
-                PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().connections[i].action;
+                ConnectionInfo connection = element.GetComponent<PageElementEventTrigger>().connections[i];
+                PageElementEventTrigger.Action action =connection.action;
                 Dropdown dropdown = engm.selectionConnectors[i].GetComponentInChildren<Dropdown>();
-                Debug.Log("Action: " + action);
                 if (dropdown != null)
                 {
                     if (action == PageElementEventTrigger.Action.Change)
-                        dropdown.captionText.text = "Change to page";
+                        dropdown.value = 0;
                     else if (action == PageElementEventTrigger.Action.Show)
-                        dropdown.captionText.text = "Show element";
+                    {
+                        dropdown.value = 1;
+                    }
                     else if (action == PageElementEventTrigger.Action.Hide)
-                        dropdown.captionText.text = "Hide element";
+                        dropdown.value = 2;
                 }
                 else Debug.Log("No dropdown found in selection connector");
+
+                //set the connection key in ManipulateNodeLines for this selection connector
+                dropdown.GetComponentInParent<SelectionConnectorManager>().GetComponentInChildren<ManipulateNodeLines>()
+                    .connectionKey = connection.connectionKey;
             }
             nodeParts.Add(body);
             body.GetComponentInChildren<Text>().text = element.name;
@@ -67,6 +73,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
 
         GetComponentInChildren<Text>().text = page.getName(); //set title of node graphic to page name
         name = "NodeGraphic_" + page.getName();
+        this.GetComponent<RectTransform>().anchoredPosition = content.nodeGraphicLocation;
     }
 
     /* Places the elements on top of one another in the parentRect with the top of the stack at the offsetFromTop
@@ -119,18 +126,22 @@ public class PageNodeGraphicManager : MonoBehaviour {
                             {
                                 if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement))
                                 {
-                                    curve.receivingConnector = otherElement.GetComponentInChildren<ReceiveNodeLines>().gameObject;
+                                    ReceiveNodeLines rnl = otherElement.GetComponentInChildren<ReceiveNodeLines>();
+                                    curve.receivingConnector = rnl.gameObject;
+                                    rnl.curves.Add(curve);
                                 }
                             }
                         }
                         else
                         {
                             //The first ReceiveNodeLines should be the PageNodeConnector receiver since it his highest in hierarchy
-                            curve.receivingConnector = pngm.GetComponentInChildren<ReceiveNodeLines>().gameObject;
+                            ReceiveNodeLines rnl = pngm.GetComponentInChildren<ReceiveNodeLines>();
+                            curve.receivingConnector = rnl.gameObject;
+                            rnl.curves.Add(curve);
+
                         }
                     }
                 }
-                Debug.Log(connection.action);
                 curve.setAction(connection.action);
                 curve.snapEndpointsToConnectors();
             }

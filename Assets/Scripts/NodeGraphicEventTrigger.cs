@@ -89,7 +89,6 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
         {
             if (mnl.curve != null)
                 mnl.curve.snapEndpointsToConnectors();
-                //mnl.curve.setEndpoints(mnl.curve.point1.anchoredPosition + (Vector2) offset, 0);
         }
 
         ReceiveNodeLines[] receivedNodeLines = GetComponentsInChildren<ReceiveNodeLines>();
@@ -97,8 +96,11 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
         foreach (ReceiveNodeLines rnl in receivedNodeLines)
         {
             foreach (BezierCurve4PointRenderer curve in rnl.curves)
+            {
+                Debug.Log("Moving received curve" + curve);
                 curve.snapEndpointsToConnectors();
-                    //curve.setEndpoints(curve.point4.anchoredPosition + (Vector2) offset,1);
+            }
+                    
         }
     }
 }

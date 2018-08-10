@@ -224,7 +224,6 @@ public class BackgroundData : PrefabData
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
         foreach(ConnectionInfo connection in connections)
         {
-            Debug.Log("ConnectionElementIndexes: "+connection.connectedElement);
             peet.AddConnection(connection);
         }
         return bg;

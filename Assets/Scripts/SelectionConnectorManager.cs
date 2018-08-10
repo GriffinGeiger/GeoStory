@@ -18,11 +18,46 @@ public class SelectionConnectorManager : MonoBehaviour {
 
         dropdown.onValueChanged.AddListener(delegate
         {
+            //Check to see if the change is still valid to the connector it is connected to (Can call hide and show both on an element but not on a page)
+            //If valid, change action and color of curve, otherwise break the link
             try
             {
-                peet.connections[connectionKey].action = getDropdownSelection();
+                connectionKey = GetComponentInChildren<ManipulateNodeLines>().connectionKey;
+                PageElementEventTrigger.Action selection = getDropdownSelection();
+                if (selection == PageElementEventTrigger.Action.Change)
+                {
+
+                    BezierCurve4PointRenderer curve = GetComponentInChildren<ManipulateNodeLines>().curve;
+                    if (peet.connections[connectionKey].connectedElement != null) //if the connected receiver is from an Element then it cannot be page changed to
+                    {
+                        Debug.Log("Breaking link because trying to Change to Element");
+                        curve.breakLink();
+                    }
+                    else
+                    {
+                        Debug.Log("Changing old selection to Change");
+                        peet.connections[connectionKey].action = selection;
+                        curve.setAction(selection);
+                    }
+                }
+                else
+                {
+                    BezierCurve4PointRenderer curve = GetComponentInChildren<ManipulateNodeLines>().curve;
+                    if (peet.connections[connectionKey].connectedElement == null) //if the connected receiver is from an page then it cannot have an element function applied
+                    {
+                        Debug.Log("Breaking link because trying to " + selection + " to Page");
+                        curve.breakLink();
+                    }
+                    else
+                    {
+                        Debug.Log("Changing old selection to " + selection);
+                        peet.connections[connectionKey].action = selection;
+                        curve.setAction(selection);
+                    }
+                }
             }
-            catch(Exception) { peet.AddConnection(null, null, getDropdownSelection()); }
+            catch (KeyNotFoundException) { } //If key wasn't found then there wasn't a connection already made
+            catch (NullReferenceException) { } //if curve wasn't found then there wasnt a connection already made
         });
     }
 

@@ -99,6 +99,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
             receivingConnector.GetComponent<ReceiveNodeLines>().curves.Remove(this);
         }
         catch (Exception) { }
+        originConnector.GetComponent<ManipulateNodeLines>().connectionKey = -1; //return connection key to default since connection no longer exists
         Debug.Log("Destroying");
         GameObject.Destroy(this.gameObject);
     }

@@ -52,16 +52,21 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         currentCurve.receivingConnector = gameObject;
         currentCurve.snapEndpointsToConnectors();
         //When dropped send reference to this page or element to the origin element
-        PrefabInfo.PrefabType prefabType = GetComponent<PrefabInfo>().prefabType;
+
 
         //adds a connection to the associated element and gives reference of it to the originConnector
+        GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
         try
         {
-            GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
+            //If there's no connectedElement (this is a page connector) then exception will be thrown sinc engm will be null
             currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
                 AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
                 GetComponentInParent<ElementNodeGraphicManager>().associatedElement, currentCurve.action);
         }
-        catch (Exception) { } //There is no associated element if this is a page connector
+        catch (Exception) {
+            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
+                AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
+                null, currentCurve.action);
+        } //There is no associated element if this is a page connector
     }
 }

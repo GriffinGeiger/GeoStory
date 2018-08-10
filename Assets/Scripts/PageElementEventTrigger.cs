@@ -57,7 +57,6 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
     //Returns the lowest value key not used by the connection dictionary
     private int getNewKey()
     {
-       
         int newKey = 0;
         while(connections.ContainsKey(newKey) )
         {

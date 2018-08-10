@@ -28,6 +28,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         fastScrollSpeed = .05f;
         contentWindow = GetComponentInParent<PinchZoom>().t;  //The pinch zoom script holds reference to the rectTransform
         dragging = false;
+        connectionKey = -1; //default value so that if no connection is made then 
     }
     void Update()
     {
