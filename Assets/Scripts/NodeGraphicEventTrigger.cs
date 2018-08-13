@@ -79,6 +79,7 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
+        Debug.Log("Setting the location");
         transform.GetComponent<PageNodeGraphicManager>().page.nodeGraphicLocation = transform.position;
     }
 
@@ -97,7 +98,6 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
         {
             foreach (BezierCurve4PointRenderer curve in rnl.curves)
             {
-                Debug.Log("Moving received curve" + curve);
                 curve.snapEndpointsToConnectors();
             }
                     

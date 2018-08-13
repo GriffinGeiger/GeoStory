@@ -467,7 +467,7 @@ Prefab:
     - target: {fileID: 224433989575831274, guid: 7098ae9daf9f0c54d8f01a87518b7892,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224433989575831274, guid: 7098ae9daf9f0c54d8f01a87518b7892,
         type: 2}
@@ -519,11 +519,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114029647836631762, guid: 7098ae9daf9f0c54d8f01a87518b7892,
-        type: 2}
-      propertyPath: associatedElement
-      value: 
-      objectReference: {fileID: 1417030692}
     - target: {fileID: 114217552416744960, guid: 7098ae9daf9f0c54d8f01a87518b7892,
         type: 2}
       propertyPath: associatedElement
@@ -1049,11 +1044,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224203148709077856, guid: 219e72de74c4cf1479f815044d92a382,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 219e72de74c4cf1479f815044d92a382, type: 2}
   m_IsPrefabParent: 0
@@ -1370,10 +1360,13 @@ MonoBehaviour:
                   nodeGraphicLocation: {x: 0, y: 0}
               isVisible: 0
               nodeGraphicLocation: {x: 0, y: 0}
+              gameManagerRef: {fileID: 0}
           isVisible: 0
           nodeGraphicLocation: {x: 0, y: 0}
+          gameManagerRef: {fileID: 0}
       isVisible: 0
       nodeGraphicLocation: {x: 0, y: 0}
+      gameManagerRef: {fileID: 0}
   canvas: {fileID: 919525179}
   scrollArea: {fileID: 1699131702613014, guid: e506ae931aecc8143ad4be6a86f217e6, type: 2}
   background: {fileID: 1193753452822602, guid: 94849a701843b5e4397d95afd046f5f3, type: 2}

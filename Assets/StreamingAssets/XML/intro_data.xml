@@ -438,7 +438,7 @@
             <direction>BottomToTop</direction>
             <handleRect>
               <anchoredPosition>
-                <x>0</x>
+                <x>-4.76837158E-07</x>
                 <y>2.70007324</y>
               </anchoredPosition>
               <anchorMax>
@@ -503,7 +503,7 @@
           </rtd_SlA>
           <rtd_H>
             <anchoredPosition>
-              <x>0</x>
+              <x>-4.76837158E-07</x>
               <y>2.70007324</y>
             </anchoredPosition>
             <anchorMax>
@@ -701,7 +701,14 @@
               <a>0.392</a>
             </color>
           </image_SA>
-          <connections />
+          <connections>
+            <ConnectionInfo>
+              <connectedPageName>introPage4</connectedPageName>
+              <connectedElementIndex>-1</connectedElementIndex>
+              <action>Change</action>
+              <connectionKey>0</connectionKey>
+            </ConnectionInfo>
+          </connections>
           <rtd_TB>
             <anchoredPosition>
               <x>0</x>
@@ -802,7 +809,7 @@
             <direction>BottomToTop</direction>
             <handleRect>
               <anchoredPosition>
-                <x>0</x>
+                <x>-4.76837158E-07</x>
                 <y>2.70007324</y>
               </anchoredPosition>
               <anchorMax>
@@ -867,7 +874,7 @@
           </rtd_SlA>
           <rtd_H>
             <anchoredPosition>
-              <x>0</x>
+              <x>-4.76837158E-07</x>
               <y>2.70007324</y>
             </anchoredPosition>
             <anchorMax>
@@ -960,6 +967,66 @@
       <nodeGraphicLocation>
         <x>283.08</x>
         <y>351.1</y>
+      </nodeGraphicLocation>
+    </PageData>
+    <PageData>
+      <name>introPage4</name>
+      <pfd>
+        <PrefabData xsi:type="BackgroundData">
+          <name>background</name>
+          <rtd>
+            <anchoredPosition>
+              <x>-0.000122070313</x>
+              <y>0.00048828125</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>1</x>
+              <y>1</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0</x>
+              <y>0</y>
+            </anchorMin>
+            <offsetMax>
+              <x>-0.000122070313</x>
+              <y>0.0009765612</y>
+            </offsetMax>
+            <offsetMin>
+              <x>-0.000122070313</x>
+              <y>1.25146471E-09</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0.00097656</y>
+            </sizeDelta>
+          </rtd>
+          <image>
+            <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Simple</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <connections />
+        </PrefabData>
+      </pfd>
+      <nodeGraphicLocation>
+        <x>0.642448068</x>
+        <y>1.73076415</y>
       </nodeGraphicLocation>
     </PageData>
   </pages>

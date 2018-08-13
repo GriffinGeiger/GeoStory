@@ -73,6 +73,13 @@ public class GameManagerEditor : Editor
             gm.currentStory.currentPage.setVisible(false);
             FindObjectOfType<StoryEditorManager>().buildStoryEditorGraphics(gm.currentStory);           
         }
+        if(GUILayout.Button("Add Page"))
+        {
+            Page page = new Page("New Page" , gm.currentStory);
+            page.buildDefaultPage();
+            gm.currentStory.addPage(page);
+            FindObjectOfType<StoryEditorManager>().addPageGraphic(page);
+        }
     }
  
 }

@@ -16,15 +16,20 @@ public class StoryEditorManager : MonoBehaviour {
     {
         foreach (Page page in gm.currentStory.getPages())
         {
-            GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic_Mk2.prefab"), gm.scrollContent);
-            PageNodeGraphicManager pngm = go.GetComponent<PageNodeGraphicManager>();
-            pngm.buildFromPage(page);
-            pageGraphics.Add(pngm.gameObject);
+            addPageGraphic(page);
         }
 
         foreach(GameObject pageGraphic in pageGraphics)
         {
             pageGraphic.GetComponent<PageNodeGraphicManager>().drawConnectionCurves();
         }
+    }
+
+    public void addPageGraphic(Page page)
+    {
+        GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic_Mk2.prefab"), gm.scrollContent);
+        PageNodeGraphicManager pngm = go.GetComponent<PageNodeGraphicManager>();
+        pngm.buildFromPage(page);
+        pageGraphics.Add(pngm.gameObject);
     }
 }

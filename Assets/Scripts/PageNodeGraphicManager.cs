@@ -14,6 +14,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
     public float graphicWidth;
     public float footerHeight;
     public List<GameObject> nodeParts;
+    public InputField titleInputField;
 
     public void Awake()
     {
@@ -21,6 +22,18 @@ public class PageNodeGraphicManager : MonoBehaviour {
         titleHeight = 76f;
         footerHeight = 40f;
         graphicWidth = 275f;
+        titleInputField = GetComponentInChildren<InputField>();
+        titleInputField.onEndEdit.AddListener(delegate {
+            string name = titleInputField.text;
+            if (name.Trim().Length == 0)
+            {
+                Debug.Log("Name not entered, not reassigning");
+                titleInputField.text = page.getName();
+                return;
+            }
+            this.name = "NodeGraphic_" + name;
+            page.setName(name);
+        });
     }
     public void buildFromPage(Page content)
     {
@@ -30,7 +43,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
         foreach (GameObject element in content.getElements())
         {
             GameObject body = GameObject.Instantiate(elementNodePrefab, this.transform);
-            body.GetComponentsInChildren<Text>()[0].text = element.name;
+            body.GetComponentInChildren<InputField>().text = element.name;
             body.name = "ElementNode_" + element.name;
             try
             {
@@ -67,11 +80,10 @@ public class PageNodeGraphicManager : MonoBehaviour {
                     .connectionKey = connection.connectionKey;
             }
             nodeParts.Add(body);
-            body.GetComponentInChildren<Text>().text = element.name;
         }
         drawElementNodes();
 
-        GetComponentInChildren<Text>().text = page.getName(); //set title of node graphic to page name
+        GetComponentInChildren<InputField>().text = page.getName(); //set title of node graphic to page name
         name = "NodeGraphic_" + page.getName();
         this.GetComponent<RectTransform>().anchoredPosition = content.nodeGraphicLocation;
     }

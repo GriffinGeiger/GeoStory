@@ -14,18 +14,27 @@ public class Page {
     public bool isVisible;
     private string name;
     public Vector2 nodeGraphicLocation;
-
+    public GameManager gameManagerRef;
     public Page() { }
     public Page(string name,Story story)
     {
+        gameManagerRef = GameObject.FindObjectOfType<GameManager>();
         this.name = name;
         storyRef = story;
         //create default page
+
         //create options bar
         //create background
-        
+
     }	
 	
+    public void buildDefaultPage()
+    {
+        GameObject bg = GameObject.Instantiate(gameManagerRef.background, gameManagerRef.canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        bg.SetActive(false);
+        bg.name = "background";
+        addPageElement(bg);
+    }
     public void setVisible(bool tf)
     {
         if (tf == true)

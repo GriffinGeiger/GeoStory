@@ -23,6 +23,18 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         Debug.Log("Action: " + currentCurve.action + "Receiver Type" + connectionReceiverType);
         if(currentCurve.action == PageElementEventTrigger.Action.Change)
         {
+            //Check if theres already a Change connection since each page element can only have one change
+            foreach(ConnectionInfo connection in currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().
+                associatedElement.GetComponent<PageElementEventTrigger>().connections.Values)
+            {
+                if(connection.action == PageElementEventTrigger.Action.Change)
+                {
+                    Debug.Log("Already has a change connection, cannot have more than one per page element");
+                    currentCurve.breakLink();
+                    return;
+                }
+            }
+
             if (connectionReceiverType == ConnectionReceiverType.Element)
             {
                 Debug.Log("Wrong receiver type, please connect to the page receiver");
