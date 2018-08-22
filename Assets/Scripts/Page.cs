@@ -12,7 +12,7 @@ public class Page {
     private List<GameObject> elements = new List<GameObject>();
     public Story storyRef;
     public bool isVisible;
-    private string name;
+    public string name;
     public Vector2 nodeGraphicLocation;
     public GameManager gameManagerRef;
     public Page() { }

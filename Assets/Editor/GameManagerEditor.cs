@@ -80,6 +80,15 @@ public class GameManagerEditor : Editor
             gm.currentStory.addPage(page);
             FindObjectOfType<StoryEditorManager>().addPageGraphic(page);
         }
+        if(GUILayout.Button("Pages in story"))
+        {
+            string output = "Page names in currentstory \n";
+            foreach(Page page in gm.currentStory.getPages())
+            {
+                output += page.getName() + "\n";
+            }
+            Debug.Log(output);
+        }
     }
  
 }

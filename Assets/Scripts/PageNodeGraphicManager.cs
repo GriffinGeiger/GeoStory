@@ -24,6 +24,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
         graphicWidth = 275f;
         titleInputField = GetComponentInChildren<InputField>();
         titleInputField.onEndEdit.AddListener(delegate {
+            string oldName = page.getName();
             string name = titleInputField.text;
             if (name.Trim().Length == 0)
             {
@@ -32,7 +33,24 @@ public class PageNodeGraphicManager : MonoBehaviour {
                 return;
             }
             this.name = "NodeGraphic_" + name;
-            page.setName(name);
+            if (page.name != name)   //if the page name is the same as it was previously, setting it again would treat it as a copy
+                page.setName(name);
+            else return; //page name didn't change so nothing needs to be done
+            //all connections related to old name need to be changed to new name
+            foreach(PageElementEventTrigger peet in Resources.FindObjectsOfTypeAll<PageElementEventTrigger>())
+            {
+                Debug.Log("looping peet");
+                foreach(ConnectionInfo connection in peet.connections.Values)
+                {
+                    Debug.Log("looping connections");
+                    if (connection.connectedPageName.Equals(oldName))
+                    {
+                        Debug.Log("Changing connection name: " + connection.connectedPageName + " to " + name);
+                        connection.connectedPageName = name;
+                    }
+                }
+            }
+
         });
     }
     public void buildFromPage(Page content)

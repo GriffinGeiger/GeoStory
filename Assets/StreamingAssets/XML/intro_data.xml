@@ -3,7 +3,7 @@
   <name>intro</name>
   <pages>
     <PageData>
-      <name>introPage1 (1)</name>
+      <name>introPage1</name>
       <pfd>
         <PrefabData xsi:type="BackgroundData">
           <name>bg1</name>
@@ -151,8 +151,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>-0.3899432</x>
-        <y>-0.0491973124</y>
+        <x>-2.88152361</x>
+        <y>-0.317003876</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -375,7 +375,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.99999994</y>
+              <y>1</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -383,7 +383,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
+            <verticalNormalizedPosition>1</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -594,8 +594,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>-0.9616588</x>
-        <y>1.51268768</y>
+        <x>-0.615925</x>
+        <y>2.439437</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -653,7 +653,7 @@
           <connections />
         </PrefabData>
         <PrefabData xsi:type="ScrollAreaData">
-          <name>pg3Text</name>
+          <name>pg3textule</name>
           <rtd_SA>
             <anchoredPosition>
               <x>0</x>
@@ -739,7 +739,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.99999994</y>
+              <y>1</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -747,7 +747,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
+            <verticalNormalizedPosition>1</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -958,8 +958,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>1.13826</x>
-        <y>-0.6365306</y>
+        <x>1.32527435</x>
+        <y>-0.185043186</y>
       </nodeGraphicLocation>
     </PageData>
   </pages>

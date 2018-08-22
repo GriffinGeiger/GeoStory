@@ -75,8 +75,7 @@ public class ConnectionInfo
     public string connectedPageName;    //this is needed in deserialization 
     [XmlIgnore]
     public GameObject connectedElement; //The element that the action will switch to or activate (Will be null if the connected node is a Page)
-    public string connectedElementName; //this is needed in deserialization. Default value is -1
-    public int connectedElementIndex;
+    public int connectedElementIndex;//this is needed in deserialization. Default value is -1
     public PageElementEventTrigger.Action action;
     public int connectionKey;
 
@@ -88,8 +87,6 @@ public class ConnectionInfo
         if(page != null)
             connectedPageName = page.getName();
         connectedElement = element;
-        if(element != null)
-            connectedElementName = element.name;
         this.action = action;
     }
 }

@@ -11,10 +11,11 @@ public class PageElementEventTriggerEditor : Editor
         base.OnInspectorGUI();
         PageElementEventTrigger peet = (PageElementEventTrigger)target;
         GUILayout.Label("Connection size: " + peet.connections.Count);
-        GUILayout.Label("[Key|connectedPageName|connectedElementName] \n" + "----------------------------");
+        GUILayout.Label("[Key|connectedPageName|connectedElementIndex \n|connectedObjectName|Object|Action] \n" + "----------------------------");
+
         foreach(KeyValuePair<int,ConnectionInfo> connection in peet.connections)
         {
-            GUILayout.Label("[" + connection.Key + " | " + connection.Value.connectedPageName + "|" + connection.Value.connectedElementName + 
+            GUILayout.Label("[" + connection.Key + " | " + connection.Value.connectedPageName + "|" + connection.Value.connectedElementIndex +
                 "\n | " + connection.Value.connectedPage.getName() + " | " + connection.Value.connectedElement + " | " + connection.Value.action + "]");
         }
     }
