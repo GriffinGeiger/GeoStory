@@ -79,8 +79,8 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
-        Debug.Log("Setting the location");
-        transform.GetComponent<PageNodeGraphicManager>().page.nodeGraphicLocation = transform.position;
+        Debug.Log("Setting the location: " + transform.anchoredPosition);
+        transform.GetComponent<PageNodeGraphicManager>().page.nodeGraphicLocation = transform.anchoredPosition;
     }
 
     public void moveLinesWithNodeGraphic(Vector3 offset)

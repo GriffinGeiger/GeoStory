@@ -39,13 +39,10 @@ public class PageNodeGraphicManager : MonoBehaviour {
             //all connections related to old name need to be changed to new name
             foreach(PageElementEventTrigger peet in Resources.FindObjectsOfTypeAll<PageElementEventTrigger>())
             {
-                Debug.Log("looping peet");
                 foreach(ConnectionInfo connection in peet.connections.Values)
                 {
-                    Debug.Log("looping connections");
                     if (connection.connectedPageName.Equals(oldName))
                     {
-                        Debug.Log("Changing connection name: " + connection.connectedPageName + " to " + name);
                         connection.connectedPageName = name;
                     }
                 }

@@ -55,7 +55,6 @@ public class Story : ISerializable
 
     public Page getPage(string pageName)
     {
-        Debug.Log("getting Page: " + pageName);
         //pagenames that have copies with tags (1) are screwing this up
         return pages[pageName];
     }
