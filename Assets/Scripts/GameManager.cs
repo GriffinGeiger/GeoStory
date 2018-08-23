@@ -18,8 +18,11 @@ public class GameManager : MonoBehaviour {
     public GameObject background;
     public GameObject button;
     public RectTransform testTransform; //Delete this when done with testing
+    public GameObject storyEditorScrollWindow;
     public RectTransform scrollContent;
     public static string defaultFontPath = "Assets/Fonts/jesaya free.ttf";
+    private Mode currentMode;
+    public enum Mode { Play, EditStory, EditPage};
 
     public static bool created = false;
 
@@ -35,6 +38,56 @@ public class GameManager : MonoBehaviour {
     {
         currentStory = new Story();
 	}
+
+    //Deactivates any elements that are associated with other modes and activates the one for this mode
+    public void changeMode(Mode newMode)
+    {
+        switch(newMode)
+        {
+            case Mode.Play:
+                storyEditorScrollWindow.SetActive(false);
+                //set all editor features on the page items to false
+
+                currentStory.currentPage.setVisible(true);
+                break;
+            case Mode.EditStory:
+                currentStory.currentPage.setVisible(false);
+                storyEditorScrollWindow.SetActive(true);
+                //delete previous page nodes and rebuild them
+                StoryEditorManager sem = storyEditorScrollWindow.GetComponentInChildren<StoryEditorManager>();
+                foreach(GameObject pageNodeGraphic in sem.pageGraphics)
+                {
+                    GameObject.Destroy(pageNodeGraphic);
+                }
+                sem.buildStoryEditorGraphics(currentStory);
+                break;
+            case Mode.EditPage:
+                storyEditorScrollWindow.SetActive(false);
+                currentStory.currentPage.setVisible(true);
+                //set all editor features on page items to true
+                break;
+        }
+    }
+    
+    //jumps to the mode and page specified
+    public void changeMode(Mode newMode, Page page)
+    {
+        //Save any changes to previous story
+        XMLSerializationManager.saveStory(currentStory);
+        try
+        {
+            currentStory.setCurrentPage(page.getName());
+            changeMode(newMode);
+        } catch (KeyNotFoundException)
+        {
+            //if page is not in current story, then change the current story
+            Debug.Log("The story you are changing to is not in the same story that was previously active. Changing currentStory");
+            currentStory = page.storyRef;
+            currentStory.setCurrentPage(page.getName());
+            changeMode(newMode);
+        }
+    }
+
     public void buildIntro()
     {
         Story intro = new Story();
@@ -97,7 +150,4 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    void Update () {
-		
-	}
 }
