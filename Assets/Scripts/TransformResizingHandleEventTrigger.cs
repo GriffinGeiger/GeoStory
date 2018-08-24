@@ -17,7 +17,7 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
     }
     public new void OnBeginDrag(PointerEventData data)
     {
-      
+
     }
 
     public new void OnDrag(PointerEventData data)
@@ -27,12 +27,18 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
         Debug.Log("Dragging");
         if (isMax)
         {
-            Debug.Log("canvasRectPoint " + (Vector2)canvasRect.InverseTransformPoint(cam.ScreenToWorldPoint(data.position)) + "Sizedelta:" + canvasRect.sizeDelta);
-            rt.anchorMax = ((Vector2)canvasRect.InverseTransformPoint(cam.ScreenToWorldPoint(data.position))) / canvasRect.sizeDelta;
-            Debug.Log(rt.anchorMax);
+            Debug.Log("data.position:" + data.position +
+                "\n worldPoint: " + cam.ScreenToWorldPoint(data.position) +
+                "\n canvasRectPoint " + (Vector2)canvasRect.InverseTransformPoint(cam.ScreenToWorldPoint(data.position)) +
+                "\n Sizedelta:" + canvasRect.sizeDelta);
+            rt.anchorMax = ((Vector2)rt.InverseTransformPoint(cam.ScreenToWorldPoint(data.position))) / canvasRect.sizeDelta;
+            Debug.Log("AnchorMax" + rt.anchorMax);
         }
         else
-            rt.anchorMin = ((Vector2)canvasRect.InverseTransformPoint(cam.ScreenToWorldPoint(data.position))) / canvasRect.sizeDelta;
+        {
+            Debug.Log("Moving anchorMin");
+            rt.anchorMin = ((Vector2)rt.InverseTransformPoint(cam.ScreenToWorldPoint(data.position))) / canvasRect.sizeDelta;
+        }
     }
     public new void OnPointerUp(PointerEventData data)
     {
