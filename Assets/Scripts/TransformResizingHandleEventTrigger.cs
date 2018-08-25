@@ -24,20 +24,13 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
     {
         //Vector3 receivingPointInScrollWindowSpace = curve.transform.InverseTransformPoint(cam.ScreenToWorldPoint(pointerPosition + addedPosition));
         //move anchor with drag, dot will move with anchor since pivot is at (1,1)
-        Debug.Log("Dragging");
         if (isMax)
         {
-            Debug.Log("data.position:" + data.position +
-                "\n worldPoint: " + cam.ScreenToWorldPoint(data.position) +
-                "\n canvasRectPoint " + (Vector2)canvasRect.InverseTransformPoint(cam.ScreenToWorldPoint(data.position)) +
-                "\n Sizedelta:" + canvasRect.sizeDelta);
-            rt.anchorMax = ((Vector2)rt.InverseTransformPoint(cam.ScreenToWorldPoint(data.position))) / canvasRect.sizeDelta;
-            Debug.Log("AnchorMax" + rt.anchorMax);
+            rt.anchorMax = ((Vector2)data.position)/ canvasRect.sizeDelta;
         }
         else
         {
-            Debug.Log("Moving anchorMin");
-            rt.anchorMin = ((Vector2)rt.InverseTransformPoint(cam.ScreenToWorldPoint(data.position))) / canvasRect.sizeDelta;
+            rt.anchorMin = ((Vector2) data.position) / canvasRect.sizeDelta;
         }
     }
     public new void OnPointerUp(PointerEventData data)
