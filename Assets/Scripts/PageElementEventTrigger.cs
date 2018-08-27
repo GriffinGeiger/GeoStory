@@ -9,6 +9,7 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
 
     public enum Action { None, Change, Show, Hide , ToggleVisibility};
     public Dictionary<int, ConnectionInfo> connections = new Dictionary<int, ConnectionInfo>();
+    public Page pageRef;
 
     public new void OnPointerClick(PointerEventData data)
     {

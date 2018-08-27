@@ -14,6 +14,7 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
     {
         cam = Camera.main;
         canvasRect = FindObjectOfType<Canvas>().GetComponent<RectTransform>();
+        rt = GetComponentInParent<EditingHandlesManager>().editedRect;
     }
     public new void OnBeginDrag(PointerEventData data)
     {
@@ -26,11 +27,26 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
         //move anchor with drag, dot will move with anchor since pivot is at (1,1)
         if (isMax)
         {
-            rt.anchorMax = ((Vector2)data.position)/ canvasRect.sizeDelta;
+            Vector2 newMax = ((Vector2)data.position) / canvasRect.sizeDelta;
+            if(newMax.x<rt.anchorMin.x)
+            {
+                newMax.x = rt.anchorMin.x;
+            }
+            if (newMax.y < rt.anchorMin.y)
+            {
+                newMax.y = rt.anchorMin.y;
+            }
+
+            rt.anchorMax = newMax;
         }
         else
         {
-            rt.anchorMin = ((Vector2) data.position) / canvasRect.sizeDelta;
+            Vector2 newMin = ((Vector2)data.position) / canvasRect.sizeDelta;
+            if (newMin.x > rt.anchorMax.x)
+                newMin.x = rt.anchorMax.x;
+            if (newMin.y > rt.anchorMax.y)
+                newMin.y = rt.anchorMax.y;
+            rt.anchorMin = newMin;
         }
     }
     public new void OnPointerUp(PointerEventData data)

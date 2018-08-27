@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Assets.Scripts;
 
 [Serializable()]
 public class Page {
@@ -62,6 +63,7 @@ public class Page {
     public void addPageElement(GameObject element)
     {
         EventTrigger trigger = element.GetComponent<PageElementEventTrigger>(); //Implement eventTrigger to do button stuff.
+        ((PageElementEventTrigger) trigger).pageRef = this;
         if (trigger != null)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -78,6 +80,7 @@ public class Page {
 
     public void removePageElement(GameObject element)      //Test this later
     {
+        ConnectionsLibrary.removeConnectionsTo(storyRef, element);
         elements.Remove(element);
     }
 

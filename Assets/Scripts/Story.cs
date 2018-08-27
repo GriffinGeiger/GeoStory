@@ -5,7 +5,8 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using Assets.Scripts;
+using Assets.Scripts;
 
 [Serializable()]
 public class Story : ISerializable
@@ -69,6 +70,9 @@ public class Story : ISerializable
 
     public void removePage(string name)
     {
+        Page page = pages[name];
+        //remove any references to this page
+        ConnectionsLibrary.removeConnectionsTo(this, page);
         pages.Remove(name);
     }
 
