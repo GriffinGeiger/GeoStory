@@ -32,8 +32,9 @@ namespace Assets.Scripts
                     PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
                     foreach (KeyValuePair<int, ConnectionInfo> connection in peet.connections)
                     {
-                        if (connection.Value.connectedElement.Equals(removeElement))        
-                            peet.connections.Remove(connection.Key);
+                        if(connection.Value.connectedElement != null)
+                            if (connection.Value.connectedElement.Equals(removeElement))
+                                peet.connections.Remove(connection.Key);
                     }
                 }
             }

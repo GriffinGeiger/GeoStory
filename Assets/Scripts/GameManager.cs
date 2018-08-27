@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
             case Mode.Play:
                 storyEditorScrollWindow.SetActive(false);
                 //set all editor features on the page items to false
-
+                setPageEditorActive(false);
                 currentStory.currentPage.setVisible(true);
                 break;
             case Mode.EditStory:
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour {
                 storyEditorScrollWindow.SetActive(false);
                 currentStory.currentPage.setVisible(true);
                 //set all editor features on page items to true
+                setPageEditorActive(true);
                 break;
         }
     }
@@ -87,7 +88,13 @@ public class GameManager : MonoBehaviour {
             changeMode(newMode);
         }
     }
-
+    public void setPageEditorActive(bool tf)
+    {
+        foreach (EditingHandlesManager ehm in Resources.FindObjectsOfTypeAll<EditingHandlesManager>())
+        {
+            ehm.gameObject.SetActive(tf);
+        }
+    }
     public void buildIntro()
     {
         Story intro = new Story();
@@ -149,5 +156,6 @@ public class GameManager : MonoBehaviour {
       //  XMLSerializationManager.saveStory(intro);
 
     }
+
 
 }

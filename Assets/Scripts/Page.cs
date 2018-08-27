@@ -82,6 +82,7 @@ public class Page {
     {
         ConnectionsLibrary.removeConnectionsTo(storyRef, element);
         elements.Remove(element);
+        GameObject.Destroy(element);
     }
 
     //Triggers when a button is pressed on a Page. 

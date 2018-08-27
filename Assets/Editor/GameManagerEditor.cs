@@ -89,6 +89,10 @@ public class GameManagerEditor : Editor
             }
             Debug.Log(output);
         }
+        if(GUILayout.Button("Edit Current Page"))
+        {
+            gm.changeMode(GameManager.Mode.EditPage, gm.currentStory.currentPage);
+        }
     }
  
 }
