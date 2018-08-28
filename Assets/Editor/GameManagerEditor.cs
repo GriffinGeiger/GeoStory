@@ -43,7 +43,8 @@ public class GameManagerEditor : Editor
         if (GUILayout.Button("BuildIntro"))
         {
             Debug.Log("Building intro story");
-            gm.buildIntro();
+            gm.currentStory = gm.buildIntro();
+            
         }
         if(GUILayout.Button("Debug serialization"))
         {

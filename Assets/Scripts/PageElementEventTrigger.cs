@@ -10,29 +10,33 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
     public enum Action { None, Change, Show, Hide , ToggleVisibility};
     public Dictionary<int, ConnectionInfo> connections = new Dictionary<int, ConnectionInfo>();
     public Page pageRef;
+    public bool buttonsActive;
 
     public new void OnPointerClick(PointerEventData data)
     {
-        for (int i = 0; i < connections.Count; i++)
+        if (buttonsActive)
         {
-            Action action = connections[i].action;
-            if (action == Action.Change)
+            for (int i = 0; i < connections.Count; i++)
             {
-                Debug.Log("Changing page to " + connections[i].connectedPageName + connections[i].connectedPage);
-                if (connections[i].connectedPage != null)
-                    connections[i].connectedPage.storyRef.changePage(connections[i].connectedPage); //connectedPages[i] has a reference to the story. Since both pages have to be on same story it doesn't matter if this page or that one supplies ref
-                else
-                    Debug.Log("PageElementEventTrigger is trying to changePage but no page is connected");
-            }
-            else if (action == Action.Show)
-            {
-                Debug.Log("Showing " + connections[i].connectedElement.name + " from index: " + connections[i].connectedElementIndex + " from page: " + connections[i].connectedPage.getName());
-                connections[i].connectedElement.SetActive(true);
-            }
-            else if (action == Action.Hide)
-            {
-                Debug.Log("Hiding " + connections[i].connectedElement.name + " from index: " + connections[i].connectedElementIndex + " from page: " + connections[i].connectedPage.getName());
-                connections[i].connectedElement.SetActive(false);
+                Action action = connections[i].action;
+                if (action == Action.Change)
+                {
+                    Debug.Log("Changing page to " + connections[i].connectedPageName + connections[i].connectedPage);
+                    if (connections[i].connectedPage != null)
+                        connections[i].connectedPage.storyRef.changePage(connections[i].connectedPage); //connectedPages[i] has a reference to the story. Since both pages have to be on same story it doesn't matter if this page or that one supplies ref
+                    else
+                        Debug.Log("PageElementEventTrigger is trying to changePage but no page is connected");
+                }
+                else if (action == Action.Show)
+                {
+                    Debug.Log("Showing " + connections[i].connectedElement.name + " from index: " + connections[i].connectedElementIndex + " from page: " + connections[i].connectedPage.getName());
+                    connections[i].connectedElement.SetActive(true);
+                }
+                else if (action == Action.Hide)
+                {
+                    Debug.Log("Hiding " + connections[i].connectedElement.name + " from index: " + connections[i].connectedElementIndex + " from page: " + connections[i].connectedPage.getName());
+                    connections[i].connectedElement.SetActive(false);
+                }
             }
         }
     }

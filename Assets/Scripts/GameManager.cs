@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
     }
     void Start ()
     {
-        currentStory = new Story();
+        currentStory = buildIntro();
 	}
 
     //Deactivates any elements that are associated with other modes and activates the one for this mode
@@ -88,14 +88,19 @@ public class GameManager : MonoBehaviour {
             changeMode(newMode);
         }
     }
+    //Set this true for editing, false for playing
     public void setPageEditorActive(bool tf)
     {
         foreach (EditingHandlesManager ehm in Resources.FindObjectsOfTypeAll<EditingHandlesManager>())
         {
             ehm.gameObject.SetActive(tf);
         }
+        foreach (PageElementEventTrigger peet in Resources.FindObjectsOfTypeAll<PageElementEventTrigger>())
+        {
+            peet.buttonsActive = !tf;
+        }
     }
-    public void buildIntro()
+    public Story buildIntro()
     {
         Story intro = new Story();
         intro.name = "intro";
@@ -149,9 +154,9 @@ public class GameManager : MonoBehaviour {
         page2.setVisible(false);
         page3.setVisible(false);
         intro.setCurrentPage("introPage1");
-        currentStory = intro;
-        
-        
+
+
+        return intro;
 
       //  XMLSerializationManager.saveStory(intro);
 
