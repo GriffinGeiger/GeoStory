@@ -213,6 +213,7 @@ MonoBehaviour:
     name: 
     nodeGraphicLocation: {x: 0, y: 0}
     gameManagerRef: {fileID: 0}
+  buttonsActive: 0
 --- !u!114 &114226392323316326
 MonoBehaviour:
   m_ObjectHideFlags: 1
