@@ -364,6 +364,10 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Hide element
       m_Image: {fileID: 0}
+    - m_Text: Toggle element visibility
+      m_Image: {fileID: 0}
+    - m_Text: Edit Page
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -466,7 +470,7 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
-  connectionIndex: 0
+  connectionKey: 0
   contentWindow: {fileID: 0}
 --- !u!114 &114205158245848570
 MonoBehaviour:
@@ -599,7 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d05ffcab80b31c4fba0821432e5fa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectionIndex: 0
+  connectionKey: 0
 --- !u!114 &114681160073002296
 MonoBehaviour:
   m_ObjectHideFlags: 1

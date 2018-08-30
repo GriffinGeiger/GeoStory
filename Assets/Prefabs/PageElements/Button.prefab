@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1455144275297902
 GameObject:
   m_ObjectHideFlags: 1
@@ -197,23 +197,28 @@ MonoBehaviour:
           currentPage:
             storyRef:
               currentPage:
+                storyRef:
+                  firstPageName: 
                 isVisible: 0
                 name: 
                 nodeGraphicLocation: {x: 0, y: 0}
                 gameManagerRef: {fileID: 0}
+              firstPageName: 
             isVisible: 0
             name: 
             nodeGraphicLocation: {x: 0, y: 0}
             gameManagerRef: {fileID: 0}
+          firstPageName: 
         isVisible: 0
         name: 
         nodeGraphicLocation: {x: 0, y: 0}
         gameManagerRef: {fileID: 0}
+      firstPageName: 
     isVisible: 0
     name: 
     nodeGraphicLocation: {x: 0, y: 0}
     gameManagerRef: {fileID: 0}
-  buttonsActive: 0
+  buttonsActive: 1
 --- !u!114 &114226392323316326
 MonoBehaviour:
   m_ObjectHideFlags: 1

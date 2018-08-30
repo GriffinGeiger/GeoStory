@@ -13,6 +13,7 @@ public class Story : ISerializable
 {
     private Dictionary<string, Page> pages = new Dictionary<string, Page>();
     public Page currentPage;
+    public string firstPageName;
     public string name { get; set; } 
 
     

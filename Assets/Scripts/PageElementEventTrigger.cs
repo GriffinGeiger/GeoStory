@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 //This class will eventually handle any events that will cause a page change, element appearance/disappearance, or any other action from a pageElement
 public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
 
-    public enum Action { None, Change, Show, Hide , ToggleVisibility};
+    public enum Action { None, Change, Show, Hide , ToggleVisibility, Edit};
     public Dictionary<int, ConnectionInfo> connections = new Dictionary<int, ConnectionInfo>();
     public Page pageRef;
     public bool buttonsActive;
@@ -36,6 +36,14 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
                 {
                     Debug.Log("Hiding " + connections[i].connectedElement.name + " from index: " + connections[i].connectedElementIndex + " from page: " + connections[i].connectedPage.getName());
                     connections[i].connectedElement.SetActive(false);
+                }
+                else if(action == Action.ToggleVisibility)
+                {
+                    connections[i].connectedElement.SetActive(!connections[i].connectedElement.activeInHierarchy);
+                }
+                else if (action == Action.Edit)
+                {
+                    pageRef.gameManagerRef.changeMode(GameManager.Mode.EditPage, connections[i].connectedPage);
                 }
             }
         }

@@ -920,6 +920,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1391119041}
     m_Modifications:
+    - target: {fileID: 114035069917966966, guid: 9b16e248be85d4a41864360c7fc59e43,
+        type: 2}
+      propertyPath: m_Options.m_Options.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 224580843740347718, guid: 9b16e248be85d4a41864360c7fc59e43,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -1009,6 +1014,11 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.49999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 114035069917966966, guid: 9b16e248be85d4a41864360c7fc59e43,
+        type: 2}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: Edit Page
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b16e248be85d4a41864360c7fc59e43, type: 2}
@@ -1637,18 +1647,22 @@ MonoBehaviour:
                   isVisible: 0
                   name: 
                   nodeGraphicLocation: {x: 0, y: 0}
+                firstPageName: 
               isVisible: 0
               name: 
               nodeGraphicLocation: {x: 0, y: 0}
               gameManagerRef: {fileID: 0}
+            firstPageName: 
           isVisible: 0
           name: 
           nodeGraphicLocation: {x: 0, y: 0}
           gameManagerRef: {fileID: 0}
+        firstPageName: 
       isVisible: 0
       name: 
       nodeGraphicLocation: {x: 0, y: 0}
       gameManagerRef: {fileID: 0}
+    firstPageName: 
   canvas: {fileID: 919525179}
   scrollArea: {fileID: 1699131702613014, guid: e506ae931aecc8143ad4be6a86f217e6, type: 2}
   background: {fileID: 1193753452822602, guid: 94849a701843b5e4397d95afd046f5f3, type: 2}

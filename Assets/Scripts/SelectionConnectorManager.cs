@@ -24,7 +24,7 @@ public class SelectionConnectorManager : MonoBehaviour {
             {
                 connectionKey = GetComponentInChildren<ManipulateNodeLines>().connectionKey;
                 PageElementEventTrigger.Action selection = getDropdownSelection();
-                if (selection == PageElementEventTrigger.Action.Change)
+                if (selection == PageElementEventTrigger.Action.Change || selection == PageElementEventTrigger.Action.Edit) //These can only be connected to page connectors
                 {
 
                     BezierCurve4PointRenderer curve = GetComponentInChildren<ManipulateNodeLines>().curve;
@@ -75,6 +75,12 @@ public class SelectionConnectorManager : MonoBehaviour {
                 break;
             case "Hide element":
                 associatedElementAction = PageElementEventTrigger.Action.Hide;
+                break;
+            case "Toggle element visibility":
+                associatedElementAction = PageElementEventTrigger.Action.ToggleVisibility;
+                break;
+            case "Edit Page":
+                associatedElementAction = PageElementEventTrigger.Action.Edit;
                 break;
             default:
                 associatedElementAction = PageElementEventTrigger.Action.None;

@@ -16,10 +16,8 @@ public class ToolbarManager : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log("Child count: " + parent.childCount);
         if(parent.childCount != siblingCount) //if amount of siblings changed
         {
-            Debug.Log("setting as last sibling");
             transform.SetAsLastSibling();
             siblingCount = parent.childCount;
         }

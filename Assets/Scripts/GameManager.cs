@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour {
     }
     void Start ()
     {
-        currentStory = buildIntro();
+        currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", canvas);
+        currentStory.currentPage = currentStory.getPage(currentStory.firstPageName);
+        changeMode(Mode.Play);
 	}
 
     //Deactivates any elements that are associated with other modes and activates the one for this mode
