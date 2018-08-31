@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Assets.Scripts;
+using UnityEditor;
 
 [Serializable()]
 public class Page {
@@ -31,7 +32,7 @@ public class Page {
 	
     public void buildDefaultPage()
     {
-        GameObject bg = GameObject.Instantiate(gameManagerRef.background, gameManagerRef.canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultBackgroundPrefabPath), gameManagerRef.canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
         bg.SetActive(false);
         bg.name = "background";
         addPageElement(bg);

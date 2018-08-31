@@ -11,7 +11,6 @@ public class ToolbarManager : MonoBehaviour {
         parent = GetComponentsInParent<RectTransform>()[1];
         transform.SetAsLastSibling();
         siblingCount = parent.childCount;
-        Debug.Log("Parent: " + parent.gameObject);
 	}
 
     void Update()

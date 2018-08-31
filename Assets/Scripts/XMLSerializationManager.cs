@@ -12,6 +12,7 @@ public class XMLSerializationManager : MonoBehaviour {
  
     public static StoryData saveStory(Story story)
     {
+        Debug.Log("Saving story: " + story.name);
         StoryData storyToSerialize = new StoryData(story);
         Type[] extraTypes = { typeof(ComponentData) };
         XmlSerializer ser = new XmlSerializer(typeof(StoryData),extraTypes);
@@ -88,11 +89,11 @@ public class XMLSerializationManager : MonoBehaviour {
             GameObject currentElement = peet.connections[i].connectedElement;
             if (currentElement != null)
             {
-                Debug.Log("Current element is not null: " + currentElement);
+                //Debug.Log("Current element is not null: " + currentElement);
                 GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
                 for (int j = 0; j < connectedPageElements.Length; j++)
                 {
-                    Debug.Log("looping through elements in connected page: " + connectedPageElements[j]);
+                   // Debug.Log("looping through elements in connected page: " + connectedPageElements[j]);
                     if (connectedPageElements[j].Equals(currentElement))
                     {
                         connections[i].connectedElementIndex = j;
@@ -109,12 +110,14 @@ public class XMLSerializationManager : MonoBehaviour {
 public class StoryData
 {
     public string name;
+    public string firstPageName;
     public List<PageData> pages = new List<PageData>();
     public StoryData() { }
     public StoryData(Story story)
     {
         Page[] pageArray = story.getPages();
         name = story.name;
+        firstPageName = story.firstPageName;
         foreach(Page p in pageArray)
         {
             pages.Add(new PageData(p));
@@ -125,6 +128,7 @@ public class StoryData
     {
         Story story = new Story();
         story.name = name;
+        story.firstPageName = firstPageName;
         //currentPage?
 
         foreach(PageData pd in pages)
@@ -459,7 +463,7 @@ public class ImageData : ComponentData
     public ImageData(Image image)
     {
         sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
-        Debug.Log("Path of image:" + sourceImagePath);
+        //Debug.Log("Path of image:" + sourceImagePath);
 
         alphaHitTestMinimumThreshold = image.alphaHitTestMinimumThreshold;
         fillAmount = image.fillAmount;
@@ -508,7 +512,7 @@ public class RawImageData : ComponentData
     public RawImageData(RawImage image)
     {
         sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.texture);
-        Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
+       // Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
         uvRect = image.uvRect;
     }
 
@@ -650,7 +654,7 @@ public class TextData : ComponentData
     {
         alignByGeometry = text.alignByGeometry;
         alignment = text.alignment;
-        Debug.Log("FontPath: " + UnityEditor.AssetDatabase.GetAssetPath(text.font));
+        //Debug.Log("FontPath: " + UnityEditor.AssetDatabase.GetAssetPath(text.font));
         fontPath = UnityEditor.AssetDatabase.GetAssetPath(text.font);
         fontSize = text.fontSize;
         fontStyle = text.fontStyle;

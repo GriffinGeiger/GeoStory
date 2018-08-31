@@ -8,12 +8,10 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
     public RectTransform rt;
     [SerializeField]
     public bool isMax; //True if this trigger pairs to the max, false if pairs to min
-    private RectTransform canvasRect;
     Camera cam;
     void Awake()
     {
         cam = Camera.main;
-        canvasRect = FindObjectOfType<Canvas>().GetComponent<RectTransform>();
         rt = GetComponentInParent<EditingHandlesManager>().editedRect;
     }
     public new void OnBeginDrag(PointerEventData data)
@@ -27,7 +25,7 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
         //move anchor with drag, dot will move with anchor since pivot is at (1,1)
         if (isMax)
         {
-            Vector2 newMax = ((Vector2)data.position) / canvasRect.sizeDelta;
+            Vector2 newMax = ((Vector2)data.position) / new Vector2(Screen.width, Screen.height);
             if(newMax.x<rt.anchorMin.x)
             {
                 newMax.x = rt.anchorMin.x;
@@ -41,7 +39,7 @@ public class TransformResizingHandleEventTrigger : EventTrigger, IBeginDragHandl
         }
         else
         {
-            Vector2 newMin = ((Vector2)data.position) / canvasRect.sizeDelta;
+            Vector2 newMin = ((Vector2)data.position) / new Vector2(Screen.width, Screen.height);
             if (newMin.x > rt.anchorMax.x)
                 newMin.x = rt.anchorMax.x;
             if (newMin.y > rt.anchorMax.y)

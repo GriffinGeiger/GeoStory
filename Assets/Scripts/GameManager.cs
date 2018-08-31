@@ -14,14 +14,21 @@ public class GameManager : MonoBehaviour {
     
     public Story currentStory;
     public Canvas canvas;
-    public GameObject scrollArea;
-    public GameObject background;
-    public GameObject button;
+
+
     public RectTransform testTransform; //Delete this when done with testing
     public GameObject storyEditorScrollWindow;
+    public GameObject storyEditorToolbar;
+    public GameObject pageEditorToolbar;
     public RectTransform scrollContent;
     public static string defaultFontPath = "Assets/Fonts/jesaya free.ttf";
+    public static string defaultBackgroundImagePath = "Assets/Images/low-poly-iphone-6-wallpaper";
+    public static string defaultButtonPrefabPath = "Assets/Prefabs/PageElements/Button.prefab";
+    public static string defaultBackgroundPrefabPath = "Assets/Prefabs/PageElements/BackgroundImage.prefab";
+    public static string defaultImagePrefabPath = "Assets/Prefabs/PageElements/Image.prefab";
+    public static string defaultScrollAreaPrefabPath = "Assets/Prefabs/PageElements/ScrollArea.prefab";
     private Mode currentMode;
+
     public enum Mode { Play, EditStory, EditPage};
 
     public static bool created = false;
@@ -37,9 +44,12 @@ public class GameManager : MonoBehaviour {
     void Start ()
     {
         currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", canvas);
+        storyEditorToolbar = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/StoryEditorToolbar.prefab"), canvas.transform);
+        pageEditorToolbar = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageEditor/PageEditorToolbar.prefab"), canvas.transform);
         currentStory.currentPage = currentStory.getPage(currentStory.firstPageName);
         changeMode(Mode.Play);
-	}
+
+    }
 
     //Deactivates any elements that are associated with other modes and activates the one for this mode
     public void changeMode(Mode newMode)
@@ -47,12 +57,15 @@ public class GameManager : MonoBehaviour {
         switch(newMode)
         {
             case Mode.Play:
+                storyEditorToolbar.SetActive(false);
                 storyEditorScrollWindow.SetActive(false);
                 //set all editor features on the page items to false
                 setPageEditorActive(false);
                 currentStory.currentPage.setVisible(true);
                 break;
             case Mode.EditStory:
+                setPageEditorActive(false);
+                storyEditorToolbar.SetActive(true);
                 currentStory.currentPage.setVisible(false);
                 storyEditorScrollWindow.SetActive(true);
                 //delete previous page nodes and rebuild them
@@ -93,6 +106,7 @@ public class GameManager : MonoBehaviour {
     //Set this true for editing, false for playing
     public void setPageEditorActive(bool tf)
     {
+        pageEditorToolbar.SetActive(tf);
         foreach (EditingHandlesManager ehm in Resources.FindObjectsOfTypeAll<EditingHandlesManager>())
         {
             ehm.gameObject.SetActive(tf);
@@ -104,6 +118,10 @@ public class GameManager : MonoBehaviour {
     }
     public Story buildIntro()
     {
+        GameObject scrollArea = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultScrollAreaPrefabPath),canvas.transform);
+        GameObject background = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultBackgroundPrefabPath), canvas.transform);
+        GameObject button =     GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultButtonPrefabPath), canvas.transform);
+
         Story intro = new Story();
         intro.name = "intro";
 

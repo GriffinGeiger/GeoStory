@@ -14,6 +14,8 @@ public class GameManagerEditor : Editor
     {
         base.OnInspectorGUI();
         GameManager gm = (GameManager) target;
+
+        GUILayout.Label("Story Management");
         if (GUILayout.Button("Toggle Current page visibility"))
         {
             Debug.Log("toggling current page visibility. CurrentPage.isVisible = " + gm.currentStory.getCurrentPage().isVisible);
@@ -22,51 +24,41 @@ public class GameManagerEditor : Editor
             else
                 gm.currentStory.getCurrentPage().setVisible(false);
         }
-        if(GUILayout.Button("Name of CurrentPage"))
+        if(GUILayout.Button("Name of CurrentStory and CurrentPage"))
         {
-            Debug.Log("The currentPage is : " + gm.currentStory.getCurrentPage().getName());
-        }
-        if(GUILayout.Button("# of page elements in current page"))
-        { 
-           Debug.Log(gm.currentStory.getCurrentPage().getNumberOfPageElements());
-        }
-        if(GUILayout.Button("Save Story to XML"))
-        {
-            Debug.Log("Testing XML");
-            XMLSerializationManager.saveStory(gm.currentStory);
-        }
-        if(GUILayout.Button("Load IntroStory from XML"))
-        {
-            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml",gm.canvas);
-            gm.currentStory.setCurrentPage("introPage1");
+            Debug.Log("CurrentStory: " + gm.currentStory.name + " CurrentPage: " + gm.currentStory.getCurrentPage().getName());
         }
         if (GUILayout.Button("BuildIntro"))
         {
             Debug.Log("Building intro story");
             gm.currentStory = gm.buildIntro();
-            
         }
-        if(GUILayout.Button("Debug serialization"))
+        if (GUILayout.Button("Make currentPage first page"))
         {
-            gm.buildIntro();
-            StoryData input = XMLSerializationManager.saveStory(gm.currentStory);
-            Story output = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml",gm.canvas);
-           // Debug.Log("input: " + checkout(input) + " ouput: " + checkout(output));
+            gm.currentStory.firstPageName = gm.currentStory.currentPage.name;
         }
-        if(GUILayout.Button("Print corners"))
+        if (GUILayout.Button("Pages in story"))
         {
-            Vector3[] corners = new Vector3[4];
-            gm.testTransform.GetWorldCorners(corners);
-            foreach(Vector3 corner in corners)
+            string output = "Page names in currentstory \n";
+            foreach (Page page in gm.currentStory.getPages())
             {
-                Debug.Log("Corner: " + corner);
+                output += page.getName() + "\n";
             }
-            Debug.Log("Anchor Max: " + gm.testTransform.anchorMax + " Anchor Min: " + gm.testTransform.anchorMin);
-            
-            gm.testTransform.offsetMin = new Vector2(0, 0);
-            gm.testTransform.offsetMax = new Vector2(0, 0);
-            Debug.Log("OffsetMin: " + gm.testTransform.offsetMin);
+            Debug.Log(output);
         }
+
+        GUILayout.Label("XML Management");
+        if (GUILayout.Button("Load IntroStory from XML"))
+        {
+            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", gm.canvas);
+            gm.currentStory.setCurrentPage("introPage1");
+        }
+        if (GUILayout.Button("Save Story to XML"))
+        {
+            XMLSerializationManager.saveStory(gm.currentStory);
+        }
+
+        GUILayout.Label("StoryEditor Management");
         if(GUILayout.Button("Build PageNodeGraphics from testStory"))
         {
             gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", gm.canvas);
@@ -81,19 +73,12 @@ public class GameManagerEditor : Editor
             gm.currentStory.addPage(page);
             FindObjectOfType<StoryEditorManager>().addPageGraphic(page);
         }
-        if(GUILayout.Button("Pages in story"))
-        {
-            string output = "Page names in currentstory \n";
-            foreach(Page page in gm.currentStory.getPages())
-            {
-                output += page.getName() + "\n";
-            }
-            Debug.Log(output);
-        }
+
         if(GUILayout.Button("Edit Current Page"))
         {
             gm.changeMode(GameManager.Mode.EditPage, gm.currentStory.currentPage);
         }
+
     }
  
 }
