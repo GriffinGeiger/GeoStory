@@ -151,9 +151,11 @@ public class PageNodeGraphicManager : MonoBehaviour {
                         {
                             foreach (GameObject otherElement in pngm.nodeParts)
                             {
+                                Debug.Log("Other element" + otherElement);
                                 if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement))
                                 {
                                     ReceiveNodeLines rnl = otherElement.GetComponentInChildren<ReceiveNodeLines>();
+                                    Debug.Log("Rnl : " + rnl.gameObject);
                                     curve.receivingConnector = rnl.gameObject;
                                     rnl.curves.Add(curve);
                                 }

@@ -29,7 +29,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &114090843781461898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -43,6 +43,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  pageRef:
+    storyRef:
+      currentPage:
+        storyRef:
+          currentPage:
+            storyRef:
+              currentPage:
+                storyRef:
+                  firstPageName: 
+                isVisible: 0
+                name: 
+                nodeGraphicLocation: {x: 0, y: 0}
+                gameManagerRef: {fileID: 0}
+              firstPageName: 
+            isVisible: 0
+            name: 
+            nodeGraphicLocation: {x: 0, y: 0}
+            gameManagerRef: {fileID: 0}
+          firstPageName: 
+        isVisible: 0
+        name: 
+        nodeGraphicLocation: {x: 0, y: 0}
+        gameManagerRef: {fileID: 0}
+      firstPageName: 
+    isVisible: 0
+    name: 
+    nodeGraphicLocation: {x: 0, y: 0}
+    gameManagerRef: {fileID: 0}
+  buttonsActive: 0
 --- !u!114 &114784820504543742
 MonoBehaviour:
   m_ObjectHideFlags: 1

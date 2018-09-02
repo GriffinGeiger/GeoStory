@@ -15,6 +15,8 @@ public class GameManagerEditor : Editor
         base.OnInspectorGUI();
         GameManager gm = (GameManager) target;
 
+        GUILayout.Label("CurrentStory: " + gm.currentStory.name);
+        GUILayout.Label("CurrentPage: " + gm.currentStory.currentPage.name);
         GUILayout.Label("Story Management");
         if (GUILayout.Button("Toggle Current page visibility"))
         {
@@ -23,10 +25,6 @@ public class GameManagerEditor : Editor
                 gm.currentStory.getCurrentPage().setVisible(true);
             else
                 gm.currentStory.getCurrentPage().setVisible(false);
-        }
-        if(GUILayout.Button("Name of CurrentStory and CurrentPage"))
-        {
-            Debug.Log("CurrentStory: " + gm.currentStory.name + " CurrentPage: " + gm.currentStory.getCurrentPage().getName());
         }
         if (GUILayout.Button("BuildIntro"))
         {

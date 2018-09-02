@@ -79,7 +79,7 @@ public class Page {
         }
     }
 
-    public void removePageElement(GameObject element)      //Test this later
+    public void removePageElement(GameObject element)      
     {
         ConnectionsLibrary.removeConnectionsTo(storyRef, element);
         elements.Remove(element);

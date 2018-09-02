@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EditingHandlesManager : MonoBehaviour {
 
-    public RectTransform editedRect; //The rt that the handles are editing
+    public RectTransform editedRect; //The rt that the handles are editing0
 }

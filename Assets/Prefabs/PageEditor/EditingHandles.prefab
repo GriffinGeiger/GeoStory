@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224616615642410978}
   - component: {fileID: 222238314311220516}
   - component: {fileID: 114135559750898970}
-  - component: {fileID: 114883180154040744}
+  - component: {fileID: 114719504120888588}
   m_Layer: 5
   m_Name: DeleteDot
   m_TagString: Untagged
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   rt: {fileID: 0}
-  isMax: 1
+  editingFunction: 0
 --- !u!114 &114135559750898970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,6 +189,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114719504120888588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191664962693236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24de8f211aba664ab582aa118883d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+  rt: {fileID: 0}
+  editingFunction: 2
 --- !u!114 &114796821402709832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,20 +218,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   rt: {fileID: 0}
-  isMax: 0
---- !u!114 &114883180154040744
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1191664962693236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05bce4c715100024c976279e718c37be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
-  delegates: []
+  editingFunction: 1
 --- !u!222 &222238314311220516
 CanvasRenderer:
   m_ObjectHideFlags: 1

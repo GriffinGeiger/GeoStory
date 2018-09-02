@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224586680271843678}
   - component: {fileID: 222142772374212146}
   - component: {fileID: 114442525221604608}
-  - component: {fileID: 114385561741353392}
+  - component: {fileID: 114177003157813232}
   m_Layer: 5
   m_Name: DeleteDot
   m_TagString: Untagged
@@ -145,7 +145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1699131702613014
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1774101568272614
 GameObject:
   m_ObjectHideFlags: 1
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   rt: {fileID: 0}
-  isMax: 0
+  editingFunction: 1
 --- !u!114 &114167630005652002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,6 +250,21 @@ MonoBehaviour:
     ipsum at, tempus odio. Vestibulum ante ipsum primis in faucibus orci luctus et
     ultrices posuere cubilia Curae; Donec posuere tristique nisl et congue. Morbi
     bibendum massa ante, eu rhoncus dui scelerisque sed. Quisque eu aliquet urna.\r\n"
+--- !u!114 &114177003157813232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023790590006780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24de8f211aba664ab582aa118883d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+  rt: {fileID: 0}
+  editingFunction: 2
 --- !u!114 &114296808665713338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -304,19 +319,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114385561741353392
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1023790590006780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05bce4c715100024c976279e718c37be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
-  delegates: []
 --- !u!114 &114390101463134258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -358,7 +360,7 @@ MonoBehaviour:
     name: 
     nodeGraphicLocation: {x: 0, y: 0}
     gameManagerRef: {fileID: 0}
-  buttonsActive: 1
+  buttonsActive: 0
 --- !u!114 &114442525221604608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -516,7 +518,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   rt: {fileID: 0}
-  isMax: 1
+  editingFunction: 0
 --- !u!114 &114927073301657078
 MonoBehaviour:
   m_ObjectHideFlags: 1

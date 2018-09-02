@@ -129,7 +129,6 @@ public class StoryData
         Story story = new Story();
         story.name = name;
         story.firstPageName = firstPageName;
-        //currentPage?
 
         foreach(PageData pd in pages)
         {

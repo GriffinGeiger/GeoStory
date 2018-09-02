@@ -78,9 +78,9 @@ public class GameManager : MonoBehaviour {
                 break;
             case Mode.EditPage:
                 storyEditorScrollWindow.SetActive(false);
+                storyEditorToolbar.SetActive(false);
                 currentStory.currentPage.setVisible(true);
-                //set all editor features on page items to true
-                setPageEditorActive(true);
+                setPageEditorActive(true);  //set all editor features on page items to true
                 break;
         }
     }
@@ -111,6 +111,26 @@ public class GameManager : MonoBehaviour {
         {
             ehm.gameObject.SetActive(tf);
         }
+        foreach(GameObject element in currentStory.currentPage.getElements())
+        {
+            PrefabInfo info = element.GetComponent<PrefabInfo>();
+            switch (info.prefabType)
+            {
+                case PrefabInfo.PrefabType.ScrollArea:
+                    break;
+                case PrefabInfo.PrefabType.Button:
+                    InputField input = element.GetComponentInChildren<InputField>();
+                    if (tf)
+                        input.text = input.textComponent.text;
+                    input.enabled = tf;
+                    break;
+                case PrefabInfo.PrefabType.BackgroundImage:
+                    break;
+                default:
+                    break;
+            }
+
+        }
         foreach (PageElementEventTrigger peet in Resources.FindObjectsOfTypeAll<PageElementEventTrigger>())
         {
             peet.buttonsActive = !tf;
@@ -128,6 +148,7 @@ public class GameManager : MonoBehaviour {
         Page page1 = new Page("introPage1",intro);
         Page page2 = new Page("introPage2", intro);
         Page page3 = new Page("introPage3", intro);
+        intro.firstPageName = "introPage1";
 
         GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
         bg.name = "bg1";

@@ -16,5 +16,11 @@ public class PageNodeGraphicManagerEditor : Editor {
         {
             pngm.drawElementNodes();
         }
+
+        GUILayout.Label("nodeParts");
+        foreach(GameObject nodePart in pngm.nodeParts)
+        {
+            GUILayout.Label(nodePart.name);
+        }
     }
 }

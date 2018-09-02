@@ -14,6 +14,12 @@ public class StoryEditorManager : MonoBehaviour {
 
     public void buildStoryEditorGraphics(Story story)
     {
+        //Remove any previous editor graphics
+        pageGraphics.Clear();
+        foreach(BezierCurve4PointRenderer curve in FindObjectsOfType<BezierCurve4PointRenderer>())
+        {
+            GameObject.Destroy(curve.gameObject);
+        }
         foreach (Page page in gm.currentStory.getPages())
         {
             addPageGraphic(page);
