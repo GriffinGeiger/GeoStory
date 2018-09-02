@@ -69,12 +69,8 @@ public class GameManager : MonoBehaviour {
                 currentStory.currentPage.setVisible(false);
                 storyEditorScrollWindow.SetActive(true);
                 //delete previous page nodes and rebuild them
-                StoryEditorManager sem = storyEditorScrollWindow.GetComponentInChildren<StoryEditorManager>();
-                foreach(GameObject pageNodeGraphic in sem.pageGraphics)
-                {
-                    GameObject.Destroy(pageNodeGraphic);
-                }
-                sem.buildStoryEditorGraphics(currentStory);
+                storyEditorScrollWindow.GetComponentInChildren<StoryEditorManager>()
+                    .buildStoryEditorGraphics(currentStory);
                 break;
             case Mode.EditPage:
                 storyEditorScrollWindow.SetActive(false);

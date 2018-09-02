@@ -15,6 +15,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
     public float footerHeight;
     public List<GameObject> nodeParts;
     public InputField titleInputField;
+    private RectTransform contentWindow;
 
     public void Awake()
     {
@@ -22,6 +23,7 @@ public class PageNodeGraphicManager : MonoBehaviour {
         titleHeight = 76f;
         footerHeight = 40f;
         graphicWidth = 275f;
+        contentWindow = GetComponentInParent<PinchZoom>().GetComponent<RectTransform>();
         titleInputField = GetComponentInChildren<InputField>();
         titleInputField.onEndEdit.AddListener(delegate {
             string oldName = page.getName();
@@ -126,15 +128,14 @@ public class PageNodeGraphicManager : MonoBehaviour {
     }
     public void drawConnectionCurves()
     {
-        foreach (GameObject element in nodeParts)
+        foreach (GameObject element in nodeParts) //for every element in this pages nodeparts
         {
             ElementNodeGraphicManager engm = element.GetComponent<ElementNodeGraphicManager>();
             int connectionKey = 0; //this will increment with every processed selection connector so that it will apply each connection to a selection connector
-            foreach (GameObject selectionConnector in engm.selectionConnectors)
+            foreach (GameObject selectionConnector in engm.selectionConnectors) //for every selection connector in this element
             {
                 //get the connection
                 ConnectionInfo connection = engm.associatedElement.GetComponent<PageElementEventTrigger>().connections[connectionKey++]; 
-                RectTransform contentWindow = GetComponentInParent<PinchZoom>().GetComponent<RectTransform>();
                 BezierCurve4PointRenderer curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
                     , contentWindow).GetComponent<BezierCurve4PointRenderer>();
 
@@ -145,18 +146,19 @@ public class PageNodeGraphicManager : MonoBehaviour {
 
                 foreach(PageNodeGraphicManager pngm in FindObjectsOfType<PageNodeGraphicManager>())
                 {
-                    if(connection.connectedPage.Equals(pngm.page))
+                    if(connection.connectedPage.Equals(pngm.page))  //if the connected page matches this page
                     {
-                        if (connection.connectedElement != null)
+                        
+                        if (connection.connectedElement != null) //if its connected to an element node and not a page node
                         {
-                            foreach (GameObject otherElement in pngm.nodeParts)
+                            foreach (GameObject otherElement in pngm.nodeParts) //check all the elements in the origin page
                             {
-                                Debug.Log("Other element" + otherElement);
-                                if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement))
+                                Debug.Log("associatedElement:" + otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement);
+                                if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement)) //when one matches thats the origin connector
                                 {
                                     ReceiveNodeLines rnl = otherElement.GetComponentInChildren<ReceiveNodeLines>();
-                                    Debug.Log("Rnl : " + rnl.gameObject);
                                     curve.receivingConnector = rnl.gameObject;
+                                    Debug.Log("ReceivingConnector" + curve.receivingConnector);
                                     rnl.curves.Add(curve);
                                 }
                             }

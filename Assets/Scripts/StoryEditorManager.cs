@@ -15,6 +15,10 @@ public class StoryEditorManager : MonoBehaviour {
     public void buildStoryEditorGraphics(Story story)
     {
         //Remove any previous editor graphics
+        foreach (GameObject pageNodeGraphic in pageGraphics)
+        {
+            GameObject.Destroy(pageNodeGraphic);
+        }
         pageGraphics.Clear();
         foreach(BezierCurve4PointRenderer curve in FindObjectsOfType<BezierCurve4PointRenderer>())
         {
@@ -24,18 +28,20 @@ public class StoryEditorManager : MonoBehaviour {
         {
             addPageGraphic(page);
         }
-
-        foreach(GameObject pageGraphic in pageGraphics)
+        //New graphics have been made, they need to be connected
+        XMLSerializationManager.makeActionConnections(story);
+        foreach (GameObject pageGraphic in pageGraphics)
         {
             pageGraphic.GetComponent<PageNodeGraphicManager>().drawConnectionCurves();
         }
     }
 
-    public void addPageGraphic(Page page)
+    public GameObject addPageGraphic(Page page)
     {
         GameObject go = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/NodeGraphic_Mk2.prefab"), gm.scrollContent);
         PageNodeGraphicManager pngm = go.GetComponent<PageNodeGraphicManager>();
         pngm.buildFromPage(page);
         pageGraphics.Add(pngm.gameObject);
+        return go;
     }
 }
