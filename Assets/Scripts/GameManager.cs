@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour {
 
         GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
         bg.name = "bg1";
-        bg.GetComponent<PageElementEventTrigger>().AddConnection(page2, null, PageElementEventTrigger.Action.Change);
+        
         page1.addPageElement(bg);
 
         
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour {
         GameObject pg1Button = GameObject.Instantiate(button, canvas.transform);
         pg1Button.name = "pg1button";
         pg1Button.GetComponentInChildren<Text>().text = "Page3";
-        pg1Button.GetComponent<PageElementEventTrigger>().AddConnection(page3, null, PageElementEventTrigger.Action.Change);
+       
  
         page1.addPageElement(pg1Button);
 
@@ -175,14 +175,21 @@ public class GameManager : MonoBehaviour {
         GameObject pg2Text = GameObject.Instantiate(scrollArea,canvas.transform);
         pg2Text.name = "pg2text";
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
-        pg2Text.GetComponent<PageElementEventTrigger>().AddConnection(page3, null, PageElementEventTrigger.Action.Change);
+        
         page2.addPageElement(pg2Text);
 
         GameObject pg3Text = GameObject.Instantiate(scrollArea, canvas.transform);
         pg3Text.name = "pg3Text";
         pg3Text.GetComponentInChildren<Text>().text = "Congration";
         page3.addPageElement(pg3Text);
+        
+        //Connections need to be changed. the add connection is flip flopped now and at the moment of writing doesn't yet support page swaps
+        /*
+        bg.GetComponent<PageElementEventTrigger>().AddConnection(page2, null, PageElementEventTrigger.Action.Change);
+        pg1Button.GetComponent<PageElementEventTrigger>().AddConnection(page3, null, PageElementEventTrigger.Action.Change);
+        pg2Text.GetComponent<PageElementEventTrigger>().AddConnection(page3, null, PageElementEventTrigger.Action.Change);
         pg1Button.GetComponent<PageElementEventTrigger>().AddConnection(page3, pg3Text, PageElementEventTrigger.Action.Show);
+        */
 
         intro.addPage(page1);
         intro.addPage(page2);

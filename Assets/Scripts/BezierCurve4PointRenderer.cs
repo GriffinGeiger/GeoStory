@@ -91,15 +91,14 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
 
     public void breakLink()
     {
-        //Gets key from the origin connector and removes the connection
-        originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement
-            .GetComponent<PageElementEventTrigger>().connections.Remove(originConnector.GetComponent<ManipulateNodeLines>().connectionKey);
+
         try
         {
+            receivingConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>()          //remove event
+                .removeEvent(originConnector.GetComponent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>());
             receivingConnector.GetComponent<ReceiveNodeLines>().curves.Remove(this);
         }
         catch (Exception) { }
-        originConnector.GetComponent<ManipulateNodeLines>().connectionKey = -1; //return connection key to default since connection no longer exists
         Debug.Log("Destroying");
         GameObject.Destroy(this.gameObject);
     }

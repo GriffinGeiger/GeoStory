@@ -12,6 +12,7 @@ public class ElementNodeGraphicManager : MonoBehaviour {
     public float footerHeight; //height of spacing under last selection connector and the add connector button
     public GameObject associatedElement;
     public InputField elementNameInputField;
+    public int elementIndex; //needs to change whenever nodeParts changes
 
     private void Awake()
     {

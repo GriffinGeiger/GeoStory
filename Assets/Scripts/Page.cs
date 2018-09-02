@@ -17,6 +17,7 @@ public class Page {
     public string name;
     public Vector2 nodeGraphicLocation;
     public GameManager gameManagerRef;
+
     public Page() { }
     public Page(string name,Story story)
     {
@@ -85,6 +86,7 @@ public class Page {
         elements.Remove(element);
         GameObject.Destroy(element);
     }
+
 
     //Triggers when a button is pressed on a Page. 
     //Needs only the element that the event is called from since PageElementEventTrigger stores the action and connectedPage or connectedElement

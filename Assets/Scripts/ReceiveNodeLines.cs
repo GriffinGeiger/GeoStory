@@ -63,22 +63,17 @@ public class ReceiveNodeLines : EventTrigger, IDropHandler {
         curves.Add(currentCurve);
         currentCurve.receivingConnector = gameObject;
         currentCurve.snapEndpointsToConnectors();
-        //When dropped send reference to this page or element to the origin element
 
-
-        //adds a connection to the associated element and gives reference of it to the originConnector
-        GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
+        PageElementEventTrigger originPeet =
+            currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>();
         try
-        {
-            //If there's no connectedElement (this is a page connector) then exception will be thrown sinc engm will be null
-            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
-                AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
-                GetComponentInParent<ElementNodeGraphicManager>().associatedElement, currentCurve.action);
+        { //If there's no connectedElement (this is a page connector) then exception will be thrown sinc engm will be null
+        PageElementEventTrigger thisPeet = GetComponentInParent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>();
+            thisPeet.addConnection(originPeet, currentCurve.action); //Event is taken from the original peet and the action is taken from the curve, which got it from the dropdown   
         }
         catch (Exception) {
-            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
-                AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
-                null, currentCurve.action);
+            PageElementEventTrigger thisPeet =
+            thisPeet.addConnection(originPeet, currentCurve.action);
         } //There is no associated element if this is a page connector
     }
 }

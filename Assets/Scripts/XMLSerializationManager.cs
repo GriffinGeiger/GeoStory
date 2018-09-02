@@ -52,6 +52,7 @@ public class XMLSerializationManager : MonoBehaviour {
         }
         catch (Exception) { }
     }
+    /*
     //Loops through every element in a story and gives it reference to the element/page that it is connected to
     public static void makeActionConnections(Story story)
     {
@@ -74,7 +75,8 @@ public class XMLSerializationManager : MonoBehaviour {
             }
         }
     }
-
+    */
+/*
     public static ConnectionInfo[] setElementIndexes(PageElementEventTrigger peet)
     {
         ConnectionInfo[] connections = new ConnectionInfo[peet.connections.Count];
@@ -104,6 +106,7 @@ public class XMLSerializationManager : MonoBehaviour {
         }
         return connections;
     }
+    */
 }
 
 [Serializable]
@@ -205,7 +208,7 @@ public class BackgroundData : PrefabData
     public string name;
     public RectTransformData rtd;
     public ImageData image;
-    public ConnectionInfo[] connections;
+    //public ConnectionInfo[] connections;
 
     public BackgroundData(){}
     public BackgroundData(GameObject background)
@@ -215,7 +218,7 @@ public class BackgroundData : PrefabData
         image = new ImageData(background.GetComponent<Image>());
         //Fill the connection arrays
         PageElementEventTrigger peet = background.GetComponent<PageElementEventTrigger>();
-        connections = XMLSerializationManager.setElementIndexes(peet);
+       // connections = XMLSerializationManager.setElementIndexes(peet);
     }
 
     public override GameObject toPrefab(Canvas canvas)         
@@ -225,10 +228,11 @@ public class BackgroundData : PrefabData
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
         image.copyToImage(bg.GetComponent<Image>());
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
-        foreach(ConnectionInfo connection in connections)
+       /* foreach(ConnectionInfo connection in connections)
         {
             peet.AddConnection(connection);
         }
+        */
         return bg;
     }
 }
@@ -241,7 +245,7 @@ public class ScrollAreaData : PrefabData
     //ScrollArea fields
     public RectTransformData rtd_SA;
     public ImageData image_SA;
-    public ConnectionInfo[] connections;
+   // public ConnectionInfo[] connections;
 
     //TextBox fields
     public RectTransformData rtd_TB;
@@ -300,7 +304,7 @@ public class ScrollAreaData : PrefabData
 
         //EventTrigger fields
         PageElementEventTrigger peet = scrollArea.GetComponent<PageElementEventTrigger>();
-        connections = XMLSerializationManager.setElementIndexes(peet);
+       // connections = XMLSerializationManager.setElementIndexes(peet);
 
     }
     public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
@@ -310,10 +314,11 @@ public class ScrollAreaData : PrefabData
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
         image_SA.copyToImage(sa.GetComponent<Image>());
         PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();      
-        foreach (ConnectionInfo connection in connections)
+     /*   foreach (ConnectionInfo connection in connections)
         {
             peet.AddConnection(connection);
         }
+        */
 
         GameObject tb = sa.transform.GetChild(0).gameObject;
         rtd_TB.copyToRectTransform(tb.GetComponent<RectTransform>());
@@ -354,7 +359,7 @@ public class ButtonData : PrefabData
     public ImageData image;
     public EventTriggerData etd;
     public TextData text;
-    public ConnectionInfo[] connections;
+    //public ConnectionInfo[] connections;
 
     public ButtonData() { }
     public ButtonData(GameObject button)
@@ -365,7 +370,7 @@ public class ButtonData : PrefabData
         etd = new EventTriggerData(button.GetComponent<EventTrigger>());
         text = new TextData(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        connections = XMLSerializationManager.setElementIndexes(peet);
+       // connections = XMLSerializationManager.setElementIndexes(peet);
     }
     public override GameObject toPrefab(Canvas canvas)
     {
@@ -376,10 +381,11 @@ public class ButtonData : PrefabData
         etd.copyToEventTrigger(button.GetComponent<EventTrigger>());
         text.copyToText(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        foreach (ConnectionInfo connection in connections)
+       /* foreach (ConnectionInfo connection in connections)
         {
             peet.AddConnection(connection);
         }
+        */
         return button;
     }
 }

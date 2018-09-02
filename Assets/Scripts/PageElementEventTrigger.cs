@@ -7,8 +7,19 @@ using UnityEngine.EventSystems;
 //This class will eventually handle any events that will cause a page change, element appearance/disappearance, or any other action from a pageElement
 public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
 
-    public enum Action { None, Change, Show, Hide , ToggleVisibility, Edit};
-    public Dictionary<int, ConnectionInfo> connections = new Dictionary<int, ConnectionInfo>();
+    public delegate void PerformAction(PerformAction actionEvent);
+    //outward events
+    public event PerformAction actionEvent;
+    /*public event PerformAction changeEvent;
+    public event PerformAction showEvent;
+    public event PerformAction hideEvent;
+    public event PerformAction toggleVisibilityEvent;
+    public event PerformAction editEvent;*/
+
+    //received events
+    public Dictionary<PerformAction, Action> actions; //Stores the event and the action associated with it
+
+    public enum Action { None, Change, Show, Hide, ToggleVisibility, Edit };
     public Page pageRef;
     public bool buttonsActive;
 
@@ -16,6 +27,21 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
     {
         if (buttonsActive)
         {
+            if (actionEvent != null)
+            {
+                actionEvent(actionEvent);
+            }
+            /*  if (changeEvent != null)
+                  changeEvent(Action.Change);
+              if (showEvent != null)
+                  showEvent(Action.Show);
+              if (hideEvent != null)
+                  hideEvent(Action.Hide);
+              if (toggleVisibilityEvent != null)
+                  toggleVisibilityEvent(Action.ToggleVisibility);
+              if (editEvent != null)
+                  editEvent(Action.Edit);*/
+            /*
             for (int i = 0; i < connections.Count; i++)
             {
                 Action action = connections[i].action;
@@ -45,61 +71,68 @@ public class PageElementEventTrigger : EventTrigger, IPointerClickHandler {
                 {
                     pageRef.gameManagerRef.changeMode(GameManager.Mode.EditPage, connections[i].connectedPage);
                 }
-            }
+                
+            } */
         }
     }
-
-    //Returns the int key for this connection
-    public int AddConnection(Page page, GameObject element, Action action)
+    // //////////////////////////////////////////EventSystem stuff///////////////////////////////////////////////////
+    private void subscribeToEvent(PerformAction actionEvent)
     {
-        ConnectionInfo connection = new ConnectionInfo(page, element, action);
-        int newKey = getNewKey();
-        connection.connectionKey = newKey;
-        connections.Add(newKey,connection);
-        return newKey;
+        actionEvent += executeAction;
     }
-    //adds connection and gives new key
-    public int AddConnection(ConnectionInfo connection)
+    private void unsubscribeToEvent(PerformAction actionEvent)
     {
-        int newKey = getNewKey();
-        connection.connectionKey = newKey;
-        connections.Add(newKey, connection);
-        return newKey;
+        actionEvent -= executeAction;
     }
-
-    //Returns the lowest value key not used by the connection dictionary
-    private int getNewKey()
+    public void addConnection(PageElementEventTrigger originPeet, Action action) //adds event and action to the dictionary
     {
-        int newKey = 0;
-        while(connections.ContainsKey(newKey) )
+        actions.Add(originPeet.actionEvent, action);
+    }
+    public void removeConnection(PageElementEventTrigger originPeet)
+    {
+        actions.Remove(originPeet.actionEvent);
+    }
+    void OnEnable()
+    {
+        foreach(PerformAction actionEvent in actions.Keys)
         {
-            newKey++;
+            subscribeToEvent(actionEvent);
         }
-        return newKey;
     }
-
-}
-
-[System.Serializable]
-public class ConnectionInfo
-{
-    [XmlIgnore]
-    public Page connectedPage;  //The page the action will change to
-    public string connectedPageName;    //this is needed in deserialization 
-    [XmlIgnore]
-    public GameObject connectedElement; //The element that the action will switch to or activate (Will be null if the connected node is a Page)
-    public int connectedElementIndex;//this is needed in deserialization. Default value is -1
-    public PageElementEventTrigger.Action action;
-    public int connectionKey;
-
-    public ConnectionInfo() { }
-
-    public ConnectionInfo(Page page, GameObject element, PageElementEventTrigger.Action action)
+    void OnDisable()
     {
-        connectedPage = page;
-        if(page != null)
-            connectedPageName = page.getName();
-        connectedElement = element;
-        this.action = action;
+        foreach (PerformAction actionEvent in actions.Keys)
+        {
+            if(actions[actionEvent] != Action.Hide || actions[actionEvent] != Action.Show || actions[actionEvent] != Action.ToggleVisibility) //visibility events need to be able to be changed when not active
+                unsubscribeToEvent(actionEvent);
+        }
     }
+    //execute the action. Target is this element. The event is needed to get the action out of the dictionary
+    public void executeAction(PerformAction actionEvent)
+    {
+        switch (actions[actionEvent])
+        {
+            case Action.None:
+                break;
+            case Action.Change:
+                pageRef.storyRef.changePage(pageRef);
+                break;
+            case Action.Show:
+                break;
+            case Action.Hide:
+                break;
+            case Action.ToggleVisibility:
+                break;
+            case Action.Edit:
+                pageRef.gameManagerRef.changeMode(GameManager.Mode.EditPage, pageRef);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+   // //////////////////////////////////////////////////////////////////////////////////////////////
+
 }
+
