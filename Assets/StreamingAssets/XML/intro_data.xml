@@ -72,8 +72,8 @@
               <y>0</y>
             </anchoredPosition>
             <anchorMax>
-              <x>0.750333369</x>
-              <y>0.159502268</y>
+              <x>0.5930022</x>
+              <y>0.261437982</y>
             </anchorMax>
             <anchorMin>
               <x>0.236000016</x>
@@ -151,8 +151,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>-193.4545</x>
-        <y>135.923737</y>
+        <x>-171.036392</x>
+        <y>182.634216</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -753,7 +753,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>1.00000679</y>
+              <y>1.00000477</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -761,7 +761,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>1.00000679</verticalNormalizedPosition>
+            <verticalNormalizedPosition>1.00000477</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -846,7 +846,7 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235055</size>
+            <size>0.116235048</size>
             <value>1</value>
           </sb_SB>
           <rtd_SlA>
@@ -929,7 +929,7 @@
           <rtd_T>
             <anchoredPosition>
               <x>-40.125</x>
-              <y>-2977.79</y>
+              <y>-2977.77832</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -941,11 +941,11 @@
             </anchorMin>
             <offsetMax>
               <x>-104.799988</x>
-              <y>-0.0400390625</y>
+              <y>-0.0283203125</y>
             </offsetMax>
             <offsetMin>
               <x>24.5499878</x>
-              <y>-5955.54</y>
+              <y>-5955.52832</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
