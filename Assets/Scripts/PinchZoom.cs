@@ -13,18 +13,21 @@ public class PinchZoom : MonoBehaviour
         float scrollWheelTest = Input.GetAxis("Mouse ScrollWheel");
         if (Input.touchCount == 2)
         {
+            Debug.Log("pinching");
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchZero.deltaPosition;
 
+            
             float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-
+            Debug.Log("deltaMag" + deltaMagnitudeDiff);
+            Debug.Log("LocalScale changing by: " + new Vector3(deltaMagnitudeDiff * zoomSpeed, deltaMagnitudeDiff * zoomSpeed, 0));
             t.localScale += new Vector3(deltaMagnitudeDiff * zoomSpeed, deltaMagnitudeDiff * zoomSpeed, 0);
+
             //Make it so that theres constraints to how far you can zoom in or out
         }
         else if (!Mathf.Approximately(scrollWheelTest,0.0f))

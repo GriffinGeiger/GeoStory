@@ -39,7 +39,6 @@
             </sizeDelta>
           </rtd>
           <image>
-            <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -47,7 +46,7 @@
             <fillMethod>Radial360</fillMethod>
             <fillOrigin>0</fillOrigin>
             <preserveAspect>false</preserveAspect>
-            <type>Simple</type>
+            <type>Sliced</type>
             <color>
               <r>1</r>
               <g>1</g>
@@ -72,8 +71,8 @@
               <y>0</y>
             </anchoredPosition>
             <anchorMax>
-              <x>0.5930022</x>
-              <y>0.261437982</y>
+              <x>0.750333369</x>
+              <y>0.159502268</y>
             </anchorMax>
             <anchorMin>
               <x>0.236000016</x>
@@ -132,7 +131,7 @@
             <resizeTextMaxSize>100</resizeTextMaxSize>
             <resizeTextMinSize>0</resizeTextMinSize>
             <supportRichText>true</supportRichText>
-            <text>page3</text>
+            <text>Page3</text>
           </text>
           <connections>
             <ConnectionInfo>
@@ -151,8 +150,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>-171.036392</x>
-        <y>182.634216</y>
+        <x>-348.823669</x>
+        <y>155.730865</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -279,14 +278,7 @@
             <supportRichText>true</supportRichText>
             <text>Nothing to press here</text>
           </text>
-          <connections>
-            <ConnectionInfo>
-              <connectedPageName>page 4</connectedPageName>
-              <connectedElementIndex>-1</connectedElementIndex>
-              <action>Change</action>
-              <connectionKey>0</connectionKey>
-            </ConnectionInfo>
-          </connections>
+          <connections />
         </PrefabData>
         <PrefabData xsi:type="ScrollAreaData">
           <name>pg2text</name>
@@ -382,7 +374,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.992004</y>
+              <y>1</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -390,7 +382,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.992004</verticalNormalizedPosition>
+            <verticalNormalizedPosition>1</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -450,11 +442,11 @@
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>0.9929334</y>
+                <y>1</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.8766983</y>
+                <y>0.8837649</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -476,7 +468,7 @@
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
             <size>0.116235055</size>
-            <value>0.992004</value>
+            <value>1</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -515,11 +507,11 @@
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>0.9929334</y>
+              <y>1</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.8766983</y>
+              <y>0.8837649</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -558,7 +550,7 @@
           <rtd_T>
             <anchoredPosition>
               <x>-40.125</x>
-              <y>-2930.12964</y>
+              <y>-2977.74976</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -570,11 +562,11 @@
             </anchorMin>
             <offsetMax>
               <x>-104.799988</x>
-              <y>47.62036</y>
+              <y>0.000244140625</y>
             </offsetMax>
             <offsetMin>
               <x>24.5499878</x>
-              <y>-5907.88</y>
+              <y>-5955.5</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -601,8 +593,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>149.215347</x>
-        <y>603.736755</y>
+        <x>153.874283</x>
+        <y>587.665161</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -753,7 +745,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>1.00000477</y>
+              <y>0.9722544</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -761,7 +753,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>1.00000477</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.9722544</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -821,11 +813,11 @@
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>1</y>
+                <y>0.975479364</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.8837649</y>
+                <y>0.8592443</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -846,8 +838,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235048</size>
-            <value>1</value>
+            <size>0.116235055</size>
+            <value>0.9722544</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -886,11 +878,11 @@
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>1</y>
+              <y>0.975479364</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.8837649</y>
+              <y>0.8592443</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -929,7 +921,7 @@
           <rtd_T>
             <anchoredPosition>
               <x>-40.125</x>
-              <y>-2977.77832</y>
+              <y>-2812.51074</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -941,11 +933,11 @@
             </anchorMin>
             <offsetMax>
               <x>-104.799988</x>
-              <y>-0.0283203125</y>
+              <y>165.239258</y>
             </offsetMax>
             <offsetMin>
               <x>24.5499878</x>
-              <y>-5955.52832</y>
+              <y>-5790.26074</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -972,8 +964,8 @@
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>484.8739</x>
-        <y>133.6495</y>
+        <x>454.611176</x>
+        <y>137.121964</y>
       </nodeGraphicLocation>
     </PageData>
     <PageData>
@@ -1012,7 +1004,6 @@
             </sizeDelta>
           </rtd>
           <image>
-            <sourceImagePath>Assets/Images/low-poly-iphone-6-wallpaper.jpg</sourceImagePath>
             <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
             <fillAmount>1</fillAmount>
             <fillCenter>true</fillCenter>
@@ -1038,12 +1029,12 @@
               <y>0</y>
             </anchoredPosition>
             <anchorMax>
-              <x>0.7546549</x>
-              <y>0.218061686</y>
+              <x>0.8066667</x>
+              <y>0.3125937</y>
             </anchorMax>
             <anchorMin>
-              <x>0.236000016</x>
-              <y>0.0717511252</y>
+              <x>0.206666663</x>
+              <y>0.0982009247</y>
             </anchorMin>
             <offsetMax>
               <x>0</x>
@@ -1098,21 +1089,86 @@
             <resizeTextMaxSize>100</resizeTextMaxSize>
             <resizeTextMinSize>0</resizeTextMinSize>
             <supportRichText>true</supportRichText>
-            <text>Back to page 1</text>
+            <text>Button</text>
           </text>
-          <connections>
-            <ConnectionInfo>
-              <connectedPageName>introPage1</connectedPageName>
-              <connectedElementIndex>-1</connectedElementIndex>
-              <action>Change</action>
-              <connectionKey>0</connectionKey>
-            </ConnectionInfo>
-          </connections>
+          <connections />
+        </PrefabData>
+        <PrefabData xsi:type="ButtonData">
+          <name>Button(Clone)</name>
+          <rtd>
+            <anchoredPosition>
+              <x>0</x>
+              <y>0</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>0.8093333</x>
+              <y>0.722638667</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0.229333326</x>
+              <y>0.452023983</y>
+            </anchorMin>
+            <offsetMax>
+              <x>0</x>
+              <y>0</y>
+            </offsetMax>
+            <offsetMin>
+              <x>0</x>
+              <y>0</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0</y>
+            </sizeDelta>
+          </rtd>
+          <image>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <etd>
+            <triggers>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
+            </triggers>
+          </etd>
+          <text>
+            <alignByGeometry>false</alignByGeometry>
+            <alignment>MiddleCenter</alignment>
+            <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
+            <fontSize>55</fontSize>
+            <fontStyle>Normal</fontStyle>
+            <lineSpacing>1</lineSpacing>
+            <resizeTextForBestFit>false</resizeTextForBestFit>
+            <resizeTextMaxSize>100</resizeTextMaxSize>
+            <resizeTextMinSize>0</resizeTextMinSize>
+            <supportRichText>true</supportRichText>
+            <text />
+          </text>
+          <connections />
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
-        <x>959.36676</x>
-        <y>25.223238</y>
+        <x>857.8923</x>
+        <y>-35.26213</y>
       </nodeGraphicLocation>
     </PageData>
   </pages>

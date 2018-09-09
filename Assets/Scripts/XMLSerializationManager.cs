@@ -461,7 +461,8 @@ public class ImageData : ComponentData
     public ImageData() { }
     public ImageData(Image image)
     {
-        sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
+        if(image.sprite != null)
+            sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
         //Debug.Log("Path of image:" + sourceImagePath);
 
         alphaHitTestMinimumThreshold = image.alphaHitTestMinimumThreshold;
