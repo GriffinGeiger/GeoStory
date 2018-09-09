@@ -19,13 +19,13 @@ public class PinchZoom : MonoBehaviour
 
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchZero.deltaPosition;
+            Debug.Log("touchZero pos : " + touchZero.position + "touchzero prev pos: " + touchZeroPrevPos + 
+                " \n touchOne pos : " + touchOne.position + "touchOne prev pos: " + touchOnePrevPos);
 
-            
             float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-            Debug.Log("deltaMag" + deltaMagnitudeDiff);
-            Debug.Log("LocalScale changing by: " + new Vector3(deltaMagnitudeDiff * zoomSpeed, deltaMagnitudeDiff * zoomSpeed, 0));
+            Debug.Log("PrevTouchDeltaMag:" + prevTouchDeltaMag + " touchDeltaMag: " + touchDeltaMag + "DeltaMagDiff" + deltaMagnitudeDiff);
             t.localScale += new Vector3(deltaMagnitudeDiff * zoomSpeed, deltaMagnitudeDiff * zoomSpeed, 0);
 
             //Make it so that theres constraints to how far you can zoom in or out
