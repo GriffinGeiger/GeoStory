@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
     public int vertexCount = 12;
     public float pointExtendRatio = .1f;
     public GameObject originConnector;
-    public GameObject receivingConncector;
+    public GameObject receivingConnector;
     public PageElementEventTrigger.Action action; //The action this line represents
 
     void Update()
@@ -76,14 +77,57 @@ public class BezierCurve4PointRenderer : MonoBehaviour {
         point4.anchoredPosition = end;
     }
 
-    //If only one endpoint needs to change while the other must remain unchanged specify the point then 0 for start and 1 for end
-    public void setEndpoints(Vector3 point, int i)
+    public void snapEndpointsToConnectors()
     {
-        if (i == 0)
-            setEndpoints(point, point4.anchoredPosition);
-        else if (i == 1)
-            setEndpoints(point1.anchoredPosition, point);
+        //Find the position of endpoints in scrollWindowSpace then set the endpoints
+        Vector3 originPointInScrollWindowSpace = transform.InverseTransformPoint(originConnector.transform.TransformPoint(originConnector.transform.position));
+        Vector3 receivingPointInScrollWindowSpace;
+        if (receivingConnector != null)
+            receivingPointInScrollWindowSpace = transform.InverseTransformPoint(receivingConnector.transform.TransformPoint(receivingConnector.transform.position));
         else
-            Debug.LogError("setEndpoints only accepts 0 or 1 as the second argument. Received: " + i);
+            receivingPointInScrollWindowSpace = transform.InverseTransformPoint(point4.transform.position);
+        setEndpoints(originPointInScrollWindowSpace, receivingPointInScrollWindowSpace);
+    }
+
+    public void breakLink()
+    {
+        Debug.Log("Breaking Link");
+        //Gets key from the origin connector and removes the connection
+        originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement
+            .GetComponent<PageElementEventTrigger>().connections.Remove(originConnector.GetComponent<ManipulateNodeLines>().connectionKey);
+        try
+        {
+            receivingConnector.GetComponent<ReceiveNodeLines>().curves.Remove(this);
+        }
+        catch (Exception) { }
+        originConnector.GetComponent<ManipulateNodeLines>().connectionKey = -1; //return connection key to default since connection no longer exists
+        Debug.Log("Destroying");
+        GameObject.Destroy(this.gameObject);
+    }
+
+    //Sets the action field and changes the color of the line
+    public void setAction(PageElementEventTrigger.Action action)
+    {
+        //Set line color to coincide with the function it is providing. (find AssociatedElementRef so it searches sibling components and only the parent has AER) 
+        this.action = action;
+        LineRenderer line = this.GetComponent<LineRenderer>();
+        switch (this.action)
+        {
+            case PageElementEventTrigger.Action.Change:
+                line.startColor = new Color(0.7253471f, 0.9433962f, 0.9433962f);
+                line.endColor = new Color(0.2569865f, 0.75472f, 0.6981435f);
+                break;
+            case PageElementEventTrigger.Action.Show:
+                line.startColor = new Color(.74f, .98f, .69f);
+                line.endColor = new Color(.20f, .67f, .04f);
+                break;
+            case PageElementEventTrigger.Action.Hide:
+                line.startColor = new Color(0.9811321f, 0.6895692f, 0.6895692f);
+                line.endColor = new Color(0.7921569f, 0, 0);
+                break;
+            case PageElementEventTrigger.Action.None:
+                Debug.LogError("Line was drawn but has no action");
+                break;
+        }
     }
 }

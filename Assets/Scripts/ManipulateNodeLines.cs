@@ -16,8 +16,8 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public float fastScrollSpeed;
     Vector3 pointerPosition;
     public bool dragging;
+    public int connectionKey;
 
-    //Decided to not parent curves under connector it belongs to, instead it will store references to both nodes its connection
     public Transform contentWindow;
 
     void Awake()
@@ -28,6 +28,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
         fastScrollSpeed = .05f;
         contentWindow = GetComponentInParent<PinchZoom>().t;  //The pinch zoom script holds reference to the rectTransform
         dragging = false;
+        connectionKey = -1; //default value so that if no connection is made then 
     }
     void Update()
     {
@@ -74,38 +75,16 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
     public new void OnBeginDrag(PointerEventData data)
     {
         //clear any references to next page or next element since previous curve is replaced so the link has been broken
-        PageElementEventTrigger peet = GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
-        peet.connectedElement = null;
-        peet.connectedPage = null;
-        try
-        {
-            curve.receivingConncector.GetComponent<ReceiveNodeLines>().curves.Remove(curve);
-        }
-        catch (Exception) { /*This is expected to throw exceptions if curve doesn't exist or doesnt have a receiving connector */}
-        //SIDE NOTE: peet.action will need to be set when the dropdown by when clicked is changed. Dropdown can also be limited to not allow change to page if line is already connected to pageReceiverNode
-        if(curve == null)
-            curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab"), contentWindow).GetComponent<BezierCurve4PointRenderer>();
-        //Set line color to coincide with the function it is providing. (find AssociatedElementRef so it searches sibling components and only the parent has AER) 
-        curve.action = GetComponentInParent<AssociatedElementReference>().GetComponentInChildren<DropdownSelectionToAction>().getDropdownSelection();
-        LineRenderer line = curve.GetComponent<LineRenderer>();
-        switch(curve.action)
-        {
-            case PageElementEventTrigger.Action.Change:
-                line.startColor = new Color(0.7253471f, 0.9433962f, 0.9433962f);
-                line.endColor = new Color(0.2569865f, 0.75472f, 0.6981435f);
-                break;
-            case PageElementEventTrigger.Action.Show:
-                line.startColor = new Color(.74f, .98f, .69f);
-                line.endColor = new Color(.20f, .67f, .04f);
-                break;
-            case PageElementEventTrigger.Action.Hide:
-                line.startColor = new Color(0.9811321f, 0.6895692f, 0.6895692f);
-                line.endColor = new Color(0.7921569f, 0, 0);
-                break;
-            case PageElementEventTrigger.Action.None:
-                Debug.LogError("Line was drawn but has no action");
-                break;
-        }
+        PageElementEventTrigger peet = GetComponentInParent<ElementNodeGraphicManager>().associatedElement.GetComponent<PageElementEventTrigger>();
+
+        //peet.AddConnection(null, null, PageElementEventTrigger.Action.None); //shouldn't need this with current implementation
+        if(curve != null)
+            curve.breakLink();
+        curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
+            , contentWindow).GetComponent<BezierCurve4PointRenderer>();
+        
+        curve.setAction(GetComponentInParent<SelectionConnectorManager>().getDropdownSelection());
+
         curve.originConnector = gameObject; //Give reference to this connector's game object to the curve
         lastDraggedCurve = curve.gameObject;
         dragging = true;

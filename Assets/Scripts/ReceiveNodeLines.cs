@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,33 +7,78 @@ using UnityEngine.EventSystems;
 public class ReceiveNodeLines : EventTrigger, IDropHandler {
 
     public List<BezierCurve4PointRenderer> curves;
+    private BezierCurve4PointRenderer currentCurve;
+    public enum ConnectionReceiverType{Page, Element}
+    public ConnectionReceiverType connectionReceiverType;
+    void Awake()
+    {
+        if (GetComponentInParent<ElementNodeGraphicManager>() != null) //Page connectors are children of pageGraphic not elementGraphic
+            connectionReceiverType = ConnectionReceiverType.Element;
+        else
+            connectionReceiverType = ConnectionReceiverType.Page;
+    }
     public new void OnDrop(PointerEventData data)
     {
-        Debug.Log("Dropped");
-        BezierCurve4PointRenderer currentCurve = ManipulateNodeLines.lastDraggedCurve.GetComponent<BezierCurve4PointRenderer>();
-        curves.Add(currentCurve);
-        Vector3 connectionPointInScrollWindowSpace = currentCurve.transform.InverseTransformPoint(transform.TransformPoint(transform.position));
-        currentCurve.setEndpoints(connectionPointInScrollWindowSpace,1);
-        currentCurve.receivingConncector = gameObject;
+        currentCurve = ManipulateNodeLines.lastDraggedCurve.GetComponent<BezierCurve4PointRenderer>();
+        Debug.Log("Action: " + currentCurve.action + "Receiver Type" + connectionReceiverType);
+        if(currentCurve.action == PageElementEventTrigger.Action.Change)
+        {
+            //Check if theres already a Change connection since each page element can only have one change
+            foreach(ConnectionInfo connection in currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().
+                associatedElement.GetComponent<PageElementEventTrigger>().connections.Values)
+            {
+                if(connection.action == PageElementEventTrigger.Action.Change)
+                {
+                    Debug.Log("Already has a change connection, cannot have more than one per page element");
+                    currentCurve.breakLink();
+                    return;
+                }
+            }
 
+            if (connectionReceiverType == ConnectionReceiverType.Element)
+            {
+                Debug.Log("Wrong receiver type, please connect to the page receiver");
+                //Give the user some kind of feedback
+                currentCurve.breakLink();
+            }
+            else
+                giveConnectionReferences();
+        }
+        else
+        {
+            if (connectionReceiverType == ConnectionReceiverType.Page)
+            {
+                Debug.Log("Wrong Receiver type, please connect to the element receiver");
+                //give user feedback
+                currentCurve.breakLink();
+            }
+            else
+                giveConnectionReferences();
+        }
+        
+    }
+
+    private void giveConnectionReferences()
+    {
+        curves.Add(currentCurve);
+        currentCurve.receivingConnector = gameObject;
+        currentCurve.snapEndpointsToConnectors();
         //When dropped send reference to this page or element to the origin element
-        PrefabInfo.PrefabType prefabType = GetComponent<PrefabInfo>().prefabType;
-        if (prefabType == PrefabInfo.PrefabType.NodeConnectorReceiver)
+
+
+        //adds a connection to the associated element and gives reference of it to the originConnector
+        GameObject associatedElement = currentCurve.originConnector.GetComponentInParent<ElementNodeGraphicManager>().associatedElement;
+        try
         {
-            //Sets the connectedElement in the pageElementEventTrigger of the element where the nodeLine was dragged from to this associated element
-            PageElementEventTrigger peet = currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>();
-            peet.connectedPage = GetComponentInParent<PageNodeGraphicManager>().page;
-            peet.connectedElement = GetComponentInParent<AssociatedElementReference>().associatedElement;
-            //set action
-            peet.action = currentCurve.action; //assign action when dropping rather than when pulling so it is only assigned if dropped on a valid connector
-            Debug.Log("Reference to the next element has been given to pageElementEventTrigger");
+            //If there's no connectedElement (this is a page connector) then exception will be thrown sinc engm will be null
+            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
+                AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
+                GetComponentInParent<ElementNodeGraphicManager>().associatedElement, currentCurve.action);
         }
-        else if (prefabType == PrefabInfo.PrefabType.PageNodeConnectorReceiver)
-        {
-            //Gives reference to the page this receiver represents to the eventTrigger that will change pages
-            currentCurve.originConnector.GetComponentInParent<AssociatedElementReference>().associatedElement.GetComponent<PageElementEventTrigger>().connectedPage
-                = GetComponentInParent<PageNodeGraphicManager>().page;
-            Debug.Log("NextPage reference has been given to pageElementEventTrigger");
-        }
+        catch (Exception) {
+            currentCurve.originConnector.GetComponent<ManipulateNodeLines>().connectionKey = associatedElement.GetComponent<PageElementEventTrigger>().
+                AddConnection(GetComponentInParent<PageNodeGraphicManager>().page,
+                null, currentCurve.action);
+        } //There is no associated element if this is a page connector
     }
 }

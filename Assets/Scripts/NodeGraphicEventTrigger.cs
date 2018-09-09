@@ -71,7 +71,7 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     public new void OnDrag(PointerEventData data)
     {
         Vector2 deltaPosition =data.position - pointerPosition;
-        Vector2 offset = deltaPosition / scrollArea.transform.localScale;
+        Vector2 offset =  deltaPosition / scrollArea.transform.localScale.x;
         transform.anchoredPosition += offset;
         moveLinesWithNodeGraphic(offset);
         pointerPosition = data.position;
@@ -79,7 +79,8 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
-        transform.GetComponent<PageNodeGraphicManager>().page.nodeGraphicLocation = transform.position;
+        Debug.Log("Setting the location: " + transform.anchoredPosition);
+        transform.GetComponent<PageNodeGraphicManager>().page.nodeGraphicLocation = transform.anchoredPosition;
     }
 
     public void moveLinesWithNodeGraphic(Vector3 offset)
@@ -87,16 +88,19 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
         ManipulateNodeLines[] nodeLines = GetComponentsInChildren<ManipulateNodeLines>();
         foreach (ManipulateNodeLines mnl in nodeLines)
         {
-            if(mnl.curve != null)
-                mnl.curve.setEndpoints(mnl.curve.point1.anchoredPosition + (Vector2) offset, 0);
+            if (mnl.curve != null)
+                mnl.curve.snapEndpointsToConnectors();
         }
 
         ReceiveNodeLines[] receivedNodeLines = GetComponentsInChildren<ReceiveNodeLines>();
 
         foreach (ReceiveNodeLines rnl in receivedNodeLines)
         {
-            foreach(BezierCurve4PointRenderer curve in rnl.curves)
-                curve.setEndpoints(curve.point4.anchoredPosition + (Vector2) offset,1);
+            foreach (BezierCurve4PointRenderer curve in rnl.curves)
+            {
+                curve.snapEndpointsToConnectors();
+            }
+                    
         }
     }
 }

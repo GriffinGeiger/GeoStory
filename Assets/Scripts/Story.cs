@@ -5,13 +5,14 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using Assets.Scripts;
 
 [Serializable()]
 public class Story : ISerializable
 {
     private Dictionary<string, Page> pages = new Dictionary<string, Page>();
     public Page currentPage;
+    public string firstPageName;
     public string name { get; set; } 
 
     
@@ -55,6 +56,7 @@ public class Story : ISerializable
 
     public Page getPage(string pageName)
     {
+        //pagenames that have copies with tags (1) are screwing this up
         return pages[pageName];
     }
 
@@ -68,6 +70,9 @@ public class Story : ISerializable
 
     public void removePage(string name)
     {
+        Page page = pages[name];
+        //remove any references to this page
+        ConnectionsLibrary.removeConnectionsTo(this, page);
         pages.Remove(name);
     }
 

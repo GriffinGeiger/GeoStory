@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Assets.Scripts;
+using UnityEditor;
 
 [Serializable()]
 public class Page {
@@ -12,28 +14,38 @@ public class Page {
     private List<GameObject> elements = new List<GameObject>();
     public Story storyRef;
     public bool isVisible;
-    private string name;
+    public string name;
     public Vector2 nodeGraphicLocation;
-
+    public GameManager gameManagerRef;
     public Page() { }
     public Page(string name,Story story)
     {
+        gameManagerRef = GameObject.FindObjectOfType<GameManager>();
         this.name = name;
         storyRef = story;
         //create default page
+
         //create options bar
         //create background
-        
+
     }	
 	
+    public void buildDefaultPage()
+    {
+        GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultBackgroundPrefabPath), gameManagerRef.canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        bg.SetActive(false);
+        bg.name = "background";
+        addPageElement(bg);
+    }
     public void setVisible(bool tf)
     {
         if (tf == true)
         {
             //loop through elements and make all elements visible
             foreach(GameObject element in elements)
-            {            
-                element.SetActive(true);
+            {     
+                if(element.GetComponent<PrefabInfo>().activeWithPage)
+                    element.SetActive(true);
             }
             isVisible = true;
         }
@@ -52,6 +64,7 @@ public class Page {
     public void addPageElement(GameObject element)
     {
         EventTrigger trigger = element.GetComponent<PageElementEventTrigger>(); //Implement eventTrigger to do button stuff.
+        ((PageElementEventTrigger) trigger).pageRef = this;
         if (trigger != null)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -66,27 +79,33 @@ public class Page {
         }
     }
 
-    public void removePageElement(GameObject element)      //Test this later
+    public void removePageElement(GameObject element)      
     {
+        ConnectionsLibrary.removeConnectionsTo(storyRef, element);
         elements.Remove(element);
+        GameObject.Destroy(element);
     }
 
     //Triggers when a button is pressed on a Page. 
     //Needs only the element that the event is called from since PageElementEventTrigger stores the action and connectedPage or connectedElement
     public void buttonActions(GameObject element)
     {
-        PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
-        if(action == PageElementEventTrigger.Action.Change)
+        for (int i = 0; i < element.GetComponent<PageElementEventTrigger>().connections.Count; i++)
         {
-            storyRef.changePage(element.GetComponent<PageElementEventTrigger>().connectedPage);
-        }
-        if(action == PageElementEventTrigger.Action.Show)
-        {
-            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(true);
-        }
-        if(action == PageElementEventTrigger.Action.Hide)
-        {
-            element.GetComponent<PageElementEventTrigger>().connectedElement.SetActive(false);
+            PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
+            PageElementEventTrigger.Action action = peet.connections[i].action;
+            if (action == PageElementEventTrigger.Action.Change)
+            {
+                storyRef.changePage(peet.connections[i].connectedPage);
+            }
+            if (action == PageElementEventTrigger.Action.Show)
+            {
+                peet.connections[i].connectedElement.GetComponent<PrefabInfo>().activeWithPage = true;
+            }
+            if (action == PageElementEventTrigger.Action.Hide)
+            {
+                peet.connections[i].connectedElement.GetComponent<PrefabInfo>().activeWithPage = false;
+            }
         }
     }
 
@@ -109,10 +128,12 @@ public class Page {
 
     public void setName(string newName)
     {
-        //if( name doesn't exist within story)
+        int i = 1;
+        while(storyRef.pageNameExists(newName))
+        {
+            newName = newName + " (" + i + ")";
+            i++;
+        }
         name = newName;
-        //remove then read to story so name updates in dictionary
-        //else throw exception telling user to change the name
-
     }
 }

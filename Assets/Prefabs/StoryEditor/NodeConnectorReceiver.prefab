@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224146735207003762}
   - component: {fileID: 222497649035317400}
-  - component: {fileID: 114770822293658944}
-  - component: {fileID: 114224601628576354}
+  - component: {fileID: 114370030257292540}
   - component: {fileID: 114891152781020712}
+  - component: {fileID: 114224601628576354}
   m_Layer: 5
   m_Name: NodeConnectorReceiver
   m_TagString: Untagged
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   curves: []
---- !u!114 &114770822293658944
+--- !u!114 &114370030257292540
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1202522482419486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -63,13 +63,14 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 5638c5a3abec44d469f074b8db1f346a, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 21300000, guid: 65e6768910b205b4c8c063322ca25939, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!114 &114891152781020712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,7 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 8
-  buttonAction: 
 --- !u!222 &222497649035317400
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -95,15 +95,15 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1202522482419486}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0005001, y: 1.0005001, z: 1.0005001}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
-  m_AnchorMin: {x: 0, y: 0.33377838}
-  m_AnchorMax: {x: 0.08010995, y: 0.70642394}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.9094097, y: 0.058858864}
+  m_AnchorMax: {x: 0.9980639, y: 0.2741038}
+  m_AnchoredPosition: {x: -2.8, y: 0.000038146973}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.49999997, y: 0.49999994}
+  m_Pivot: {x: 0.5, y: 0.5}

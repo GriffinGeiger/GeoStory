@@ -964,6 +964,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224547736909868246}
   - component: {fileID: 114932594766816826}
+  - component: {fileID: 114859551893043424}
   m_Layer: 5
   m_Name: StoryEditorScrollWindow
   m_TagString: Untagged
@@ -1699,18 +1700,18 @@ MonoBehaviour:
             storyRef:
               currentPage:
                 isVisible: 0
+                nodeGraphicLocation: {x: 0, y: 0}
             isVisible: 0
+            nodeGraphicLocation: {x: 0, y: 0}
         isVisible: 0
+        nodeGraphicLocation: {x: 0, y: 0}
     isVisible: 0
-  headerPrefab: {fileID: 1673415437484184, guid: ed35cde5299608d4b9228e04b49fd0a0,
-    type: 2}
-  actionBodyPrefab: {fileID: 1426810639336008, guid: 1b5ea275039611548a5e2a1c40067a35,
-    type: 2}
-  thumbnailActionBodyPrefab: {fileID: 1721702054583196, guid: a66aac0ad31245245966bcd84df9f6e6,
-    type: 2}
-  footerPrefab: {fileID: 1073785489752952, guid: 4d44cbf576ec8514f89c4445b6aa1a50,
-    type: 2}
+    nodeGraphicLocation: {x: 0, y: 0}
+  elementNodePrefab: {fileID: 0}
   lowestAnchorPoint: {x: 1, y: 1}
+  titleHeight: 76
+  graphicWidth: 0
+  footerHeight: 0
   nodeParts: []
 --- !u!114 &114042203261208814
 MonoBehaviour:
@@ -1724,7 +1725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 4
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114048104882180204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1749,7 +1750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 7
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114069676807068780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1789,7 +1790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 8
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114079510817519684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1889,7 +1890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 9
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114120806734926796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1914,7 +1915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 3
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114130032770340324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2074,7 +2075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 3
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114161911414549186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2087,7 +2088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 8
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114165075549264970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2178,6 +2179,7 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
+  connectionKey: 0
   contentWindow: {fileID: 0}
 --- !u!114 &114180246526756700
 MonoBehaviour:
@@ -2360,7 +2362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 7
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114226290257018428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2426,7 +2428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 9
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114242740382476400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2472,6 +2474,7 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
+  connectionKey: 0
   contentWindow: {fileID: 0}
 --- !u!114 &114259983358146420
 MonoBehaviour:
@@ -3158,6 +3161,7 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
+  connectionKey: 0
   contentWindow: {fileID: 0}
 --- !u!114 &114440742017020496
 MonoBehaviour:
@@ -3303,7 +3307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 4
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114475600684202772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3388,7 +3392,8 @@ MonoBehaviour:
   vertexCount: 12
   pointExtendRatio: 0.3
   originConnector: {fileID: 0}
-  receivingConncector: {fileID: 0}
+  receivingConnector: {fileID: 0}
+  action: 0
 --- !u!114 &114526876807816378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3469,7 +3474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 5
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114566865993020698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3488,6 +3493,7 @@ MonoBehaviour:
   scrollSpeed: 0
   fastScrollSpeed: 0
   dragging: 0
+  connectionKey: 0
   contentWindow: {fileID: 0}
 --- !u!114 &114568059053838712
 MonoBehaviour:
@@ -3573,7 +3579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 5
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114578651436387740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3655,7 +3661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 6
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114588690704056238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3806,7 +3812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 7
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114648792408297248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4031,18 +4037,18 @@ MonoBehaviour:
             storyRef:
               currentPage:
                 isVisible: 0
+                nodeGraphicLocation: {x: 0, y: 0}
             isVisible: 0
+            nodeGraphicLocation: {x: 0, y: 0}
         isVisible: 0
+        nodeGraphicLocation: {x: 0, y: 0}
     isVisible: 0
-  headerPrefab: {fileID: 1673415437484184, guid: ed35cde5299608d4b9228e04b49fd0a0,
-    type: 2}
-  actionBodyPrefab: {fileID: 1426810639336008, guid: 1b5ea275039611548a5e2a1c40067a35,
-    type: 2}
-  thumbnailActionBodyPrefab: {fileID: 1721702054583196, guid: a66aac0ad31245245966bcd84df9f6e6,
-    type: 2}
-  footerPrefab: {fileID: 1073785489752952, guid: 4d44cbf576ec8514f89c4445b6aa1a50,
-    type: 2}
+    nodeGraphicLocation: {x: 0, y: 0}
+  elementNodePrefab: {fileID: 0}
   lowestAnchorPoint: {x: 1, y: 1}
+  titleHeight: 76
+  graphicWidth: 0
+  footerHeight: 0
   nodeParts: []
 --- !u!114 &114736583060951724
 MonoBehaviour:
@@ -4243,7 +4249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 7
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114765771833849372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4348,7 +4354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 6
-  buttonAction: 0
+  activeWithPage: 1
 --- !u!114 &114812280263779856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4503,6 +4509,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114859551893043424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1589697890602714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 067fcc95fa7745840bd8b45e1ac63823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gm: {fileID: 0}
+  pageGraphics: []
 --- !u!114 &114867922221381800
 MonoBehaviour:
   m_ObjectHideFlags: 1

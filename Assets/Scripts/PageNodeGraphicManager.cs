@@ -3,131 +3,200 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
-
+using System;
 
 public class PageNodeGraphicManager : MonoBehaviour {
 
     public Page page; //the page this graphic is associated with
-    public GameObject headerPrefab;
-    public GameObject actionBodyPrefab; //Prefab to use if this node will have an action associated with it and no picture
-    public GameObject thumbnailActionBodyPrefab; //Prefab to use if this node has an action and a picture associated with it
-    public GameObject footerPrefab;
-    public Vector2 lowestAnchorPoint = new Vector2(1,1); //the lowest anchor point from previous node part that the next anchor point will latch onto
+    public GameObject elementNodePrefab;
+    public Vector2 lowestAnchorPoint;
+    public float titleHeight = 76f; //the offset between the top of the node graphic and the bottom of the title card
+    public float graphicWidth;
+    public float footerHeight;
     public List<GameObject> nodeParts;
+    public InputField titleInputField;
+    private RectTransform contentWindow;
+
     public void Awake()
     {
-        headerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeHeader.prefab");
-        actionBodyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeBody.prefab");
-        thumbnailActionBodyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeBodyImage.prefab");
-        footerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/StoryEditor/NodeFooter.prefab");
+        elementNodePrefab = (GameObject) AssetDatabase.LoadAssetAtPath("Assets/Prefabs/StoryEditor/ElementNode.prefab", typeof(GameObject));
+        titleHeight = 76f;
+        footerHeight = 40f;
+        graphicWidth = 275f;
+        contentWindow = GetComponentInParent<PinchZoom>().GetComponent<RectTransform>();
+        titleInputField = GetComponentInChildren<InputField>();
+        titleInputField.onEndEdit.AddListener(delegate {
+            string oldName = page.getName();
+            string name = titleInputField.text;
+            if (name.Trim().Length == 0)
+            {
+                Debug.Log("Name not entered, not reassigning");
+                titleInputField.text = page.getName();
+                return;
+            }
+            this.name = "NodeGraphic_" + name;
+            if (page.name != name)   //if the page name is the same as it was previously, setting it again would treat it as a copy
+                page.setName(name);
+            else return; //page name didn't change so nothing needs to be done
+            //all connections related to old name need to be changed to new name
+            foreach(PageElementEventTrigger peet in Resources.FindObjectsOfTypeAll<PageElementEventTrigger>())
+            {
+                foreach(ConnectionInfo connection in peet.connections.Values)
+                {
+                    if (connection.connectedPageName.Equals(oldName))
+                    {
+                        connection.connectedPageName = name;
+                    }
+                }
+            }
+
+        });
     }
-    public void addBodyPanels(Page content)
+    public void buildFromPage(Page content)
     {
         page = content;
         nodeParts = new List<GameObject>();
-        GameObject header = GameObject.Instantiate(headerPrefab, this.transform);
-        header.GetComponentInChildren<Text>().text = content.getName();
-        nodeParts.Add(header);
-        float heightOfRect = header.GetComponent<RectTransform>().rect.height; //This will set the height of the rect that contains the body panels. Every height of every panel part will add to this
-        float widthOfRect = header.GetComponent<RectTransform>().rect.width;
-        
+       // float heightOfRect = titleHeight + footerHeight; //Starts at height of title since that will always be the minimum height of title
         foreach (GameObject element in content.getElements())
         {
-             PrefabInfo.PrefabType prefabType = element.GetComponent<PrefabInfo>().prefabType;
-             GameObject body;
-             if (prefabType == PrefabInfo.PrefabType.BackgroundImage)
-             {
-                 body = GameObject.Instantiate(thumbnailActionBodyPrefab, this.transform);
-                 body.GetComponentInChildren<RawImage>().texture = element.GetComponent<RawImage>().texture;
-                 
-                 Debug.Log("If wrong image shows up then the problem is in PageNodeGraphicManager");
-             }
-             else if (prefabType == PrefabInfo.PrefabType.ScrollArea || prefabType == PrefabInfo.PrefabType.Button)
-             {
-                 body = GameObject.Instantiate(actionBodyPrefab, this.transform);
-             }
-             else
-             {
-                 throw new System.ArgumentException("Prefab type does not match known prefabs");
-             }
-
-             body.GetComponent<AssociatedElementReference>().associatedElement = element;
-             RectTransform transform = body.GetComponent<RectTransform>();
-             heightOfRect += transform.rect.height;
-             nodeParts.Add(body);
-             body.GetComponentsInChildren<Text>()[1].text = element.name;
-            //Determine the current buttonAction and change the dropdown to reflect that
-            PageElementEventTrigger.Action action = element.GetComponent<PageElementEventTrigger>().action;
-
-            Dropdown dropdown = body.GetComponent<Dropdown>();
-            if (dropdown != null)
+            GameObject body = GameObject.Instantiate(elementNodePrefab, this.transform);
+            body.GetComponentInChildren<InputField>().text = element.name;
+            body.name = "ElementNode_" + element.name;
+            try
             {
-                if (action == PageElementEventTrigger.Action.Change)
-                    dropdown.captionText.text = "Change to page";
-                else if (action == PageElementEventTrigger.Action.Show)
-                    dropdown.captionText.text = "Show element";
-                else if (action == PageElementEventTrigger.Action.Hide)
-                    dropdown.captionText.text = "Hide element";
+                body.GetComponentInChildren<Image>().sprite = element.GetComponent<Image>().sprite;
             }
-         }
-         
-        GameObject footer = GameObject.Instantiate(footerPrefab, this.transform);
-        heightOfRect += footer.GetComponent<RectTransform>().rect.height;
-        this.GetComponent<RectTransform>().sizeDelta = new Vector2(widthOfRect, heightOfRect);
-        nodeParts.Add(footer);
-        this.GetComponent<RectTransform>().anchoredPosition = page.nodeGraphicLocation;
-        //moveAnchors(footer.GetComponent<RectTransform>(), lowestAnchorPoint);
+            catch (Exception) { }//in case this element doesn't have a sprite
+            body.GetComponent<ElementNodeGraphicManager>().associatedElement = element;
 
-        foreach(GameObject go in nodeParts)
+
+            //add dropdowns and set them to reflect their actions
+            int numberOfDropdowns = element.GetComponent<PageElementEventTrigger>().connections.Count;
+            ElementNodeGraphicManager engm = body.GetComponent<ElementNodeGraphicManager>();
+            engm.addSelectionConnectors(numberOfDropdowns);
+            for (int i = 0; i < numberOfDropdowns; i++)
+            {
+                ConnectionInfo connection = element.GetComponent<PageElementEventTrigger>().connections[i];
+                PageElementEventTrigger.Action action =connection.action;
+                Dropdown dropdown = engm.selectionConnectors[i].GetComponentInChildren<Dropdown>();
+                if (dropdown != null)
+                {
+                    if (action == PageElementEventTrigger.Action.Change)
+                        dropdown.value = 0;
+                    else if (action == PageElementEventTrigger.Action.Show)
+                    {
+                        dropdown.value = 1;
+                    }
+                    else if (action == PageElementEventTrigger.Action.Hide)
+                        dropdown.value = 2;
+                }
+                else Debug.Log("No dropdown found in selection connector");
+
+                //set the connection key in ManipulateNodeLines for this selection connector
+                dropdown.GetComponentInParent<SelectionConnectorManager>().GetComponentInChildren<ManipulateNodeLines>()
+                    .connectionKey = connection.connectionKey;
+            }
+            nodeParts.Add(body);
+        }
+        drawElementNodes();
+
+        GetComponentInChildren<InputField>().text = page.getName(); //set title of node graphic to page name
+        name = "NodeGraphic_" + page.getName();
+        this.GetComponent<RectTransform>().anchoredPosition = content.nodeGraphicLocation;
+    }
+
+    /* Places the elements on top of one another in the parentRect with the top of the stack at the offsetFromTop
+     * The elements' anchors will be set up so that all 4 are in the top corners so that the elements will scale with width of the parent while height is fixed
+     * 
+     */
+    public static void stackUIElements(GameObject[] elements, RectTransform parentRect, float offsetFromTop)
+    {
+        float heightOfRect = parentRect.rect.height;
+        float percentHeightOfNextAnchors = 1 - (offsetFromTop / heightOfRect); //finds the percentage of the rect of where the first element goes
+        foreach (GameObject go in elements)
         {
-            //get the percentage of the rect that this part will take up and set that as the deltaAnchor height
-            RectTransform rt = go.GetComponent<RectTransform>();
-            float heightOfPart = rt.rect.height;
-            float fractionOfRect = (heightOfPart / heightOfRect);
-            rt.anchorMax = new Vector2(1, 1);
-            rt.anchorMin = new Vector2(0, 1 - fractionOfRect);
-            //moveAnchors so that this part is connected to the bottom anchor of the last nodePart 
-            moveAnchors(rt, lowestAnchorPoint);
+            RectTransform elementRectTransform = go.GetComponent<RectTransform>();
+            float percentHeightOfElement = elementRectTransform.rect.height / heightOfRect;
+            //Set anchors
+            elementRectTransform.anchorMax = new Vector2(.5f, percentHeightOfNextAnchors);
+            elementRectTransform.anchorMin = new Vector2(.5f, percentHeightOfNextAnchors);
+            percentHeightOfNextAnchors = percentHeightOfNextAnchors - percentHeightOfElement;
+            //set offsets from anchors
+            elementRectTransform.anchoredPosition = new Vector2(0, 0);
+            elementRectTransform.sizeDelta = new Vector2(parentRect.rect.width, elementRectTransform.rect.height);
         }
     }
-    //Moves the anchors while preserving size of rectangle to the new max point
-    private void moveAnchors(RectTransform transform ,Vector2 newMax)
+    public void drawConnectionCurves()
     {
-        Debug.Log("Before moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);
-        Vector2 deltaAnchor = transform.anchorMax - transform.anchorMin;
-        transform.anchorMax = newMax;
-        transform.anchorMin = transform.anchorMax - deltaAnchor;
-        transform.offsetMax = Vector2.zero;
-        transform.offsetMin = Vector2.zero;
-        lowestAnchorPoint = transform.anchorMin + new Vector2(1,0);
-        Debug.Log("After moveAnchor: Max:" + transform.anchorMax + " Min: " + transform.anchorMin + "LAP: " + lowestAnchorPoint);
-    }
-    //Takes the info currently applied in the graphic and adds it to the Page this graphic is associated with
-    public void assignChanges()
-    {
-        foreach(GameObject go in nodeParts)
+        StoryEditorManager sem = FindObjectOfType<StoryEditorManager>();
+        foreach (GameObject element in nodeParts) //for every element in this pages nodeparts
         {
-            PrefabInfo.PrefabType prefabType = go.GetComponent<PrefabInfo>().prefabType;
-            if(prefabType == PrefabInfo.PrefabType.NodeHeader)
+            ElementNodeGraphicManager engm = element.GetComponent<ElementNodeGraphicManager>();
+            int connectionKey = 0; //this will increment with every processed selection connector so that it will apply each connection to a selection connector
+            foreach (GameObject selectionConnector in engm.selectionConnectors) //for every selection connector in this element
             {
+                //get the connection
+                ConnectionInfo connection = engm.associatedElement.GetComponent<PageElementEventTrigger>().connections[connectionKey++]; 
+                BezierCurve4PointRenderer curve = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/CurveRenderer.prefab")
+                    , contentWindow).GetComponent<BezierCurve4PointRenderer>();
 
+                selectionConnector.GetComponentInChildren<ManipulateNodeLines>().curve = curve;
+                curve.originConnector = selectionConnector.GetComponentInChildren<ManipulateNodeLines>().gameObject;
+
+                foreach(GameObject graphic in sem.pageGraphics)
+                {
+                    PageNodeGraphicManager pngm = graphic.GetComponent<PageNodeGraphicManager>();
+                    if(connection.connectedPage.Equals(pngm.page))  //if the connected page matches this page
+                    {
+                        
+                        if (connection.connectedElement != null) //if its connected to an element node and not a page node
+                        {
+                            foreach (GameObject otherElement in pngm.nodeParts) //check all the elements in the origin page
+                            {
+                                if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement)) //when one matches thats the origin connector
+                                {
+                                    ReceiveNodeLines rnl = otherElement.GetComponentInChildren<ReceiveNodeLines>();
+                                    curve.receivingConnector = rnl.gameObject;
+                                    rnl.curves.Add(curve);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //The first ReceiveNodeLines should be the PageNodeConnector receiver since it his highest in hierarchy
+                            ReceiveNodeLines rnl = pngm.GetComponentInChildren<ReceiveNodeLines>();
+                            curve.receivingConnector = rnl.gameObject;
+                            rnl.curves.Add(curve);
+
+                        }
+                    }
+                }
+                curve.setAction(connection.action);
+                curve.snapEndpointsToConnectors();
             }
-            else if(prefabType == PrefabInfo.PrefabType.NodeBodyImage || prefabType == PrefabInfo.PrefabType.NodeBody || prefabType == PrefabInfo.PrefabType.NodeFooter) //if this is a Node with an associated element
+        }
+    }
+
+    public void drawElementNodes()
+    {
+        float heightOfRect = titleHeight + footerHeight;
+
+        foreach(GameObject part in nodeParts)
+        {
+            heightOfRect += part.GetComponent<RectTransform>().rect.height; //Make height of rect bigger to accommodate for each new element
+
+        }
+        RectTransform nodeGraphic_rt = GetComponent<RectTransform>();
+        nodeGraphic_rt.sizeDelta = new Vector2(graphicWidth, heightOfRect);
+        //draw the elements on the NodeGraphic
+        stackUIElements(nodeParts.ToArray(), nodeGraphic_rt, titleHeight);
+        //update the location of the lines to reconnect with the now shifted nodes
+        foreach (GameObject part in nodeParts)
+        {
+            foreach (ManipulateNodeLines mnl in part.GetComponentsInChildren<ManipulateNodeLines>())
             {
-                GameObject associatedElement = go.GetComponent<AssociatedElementReference>().associatedElement;
-                PrefabInfo.PrefabType associatedElementPrefabType = associatedElement.GetComponent<PrefabInfo>().prefabType;
-                if(associatedElementPrefabType == PrefabInfo.PrefabType.BackgroundImage)
-                {
-                    //Get info from the nodeBodyImage and fill out associated element
-                }
-                else if (associatedElementPrefabType == PrefabInfo.PrefabType.ScrollArea)
-                {
-
-                }
-                else if(associatedElementPrefabType == PrefabInfo.PrefabType.Button)
-                {
-
-                }
+                if (mnl.curve != null)
+                    mnl.curve.snapEndpointsToConnectors();
             }
         }
     }

@@ -12,6 +12,7 @@ public class XMLSerializationManager : MonoBehaviour {
  
     public static StoryData saveStory(Story story)
     {
+        Debug.Log("Saving story: " + story.name);
         StoryData storyToSerialize = new StoryData(story);
         Type[] extraTypes = { typeof(ComponentData) };
         XmlSerializer ser = new XmlSerializer(typeof(StoryData),extraTypes);
@@ -35,7 +36,6 @@ public class XMLSerializationManager : MonoBehaviour {
     {
         Type type = original.GetType();
         PropertyInfo[] properties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-        Debug.Log("FieldLength: " + properties.Length);
         foreach(PropertyInfo property in properties)
         {
             try
@@ -49,7 +49,6 @@ public class XMLSerializationManager : MonoBehaviour {
         {
             Text t = (Text)copy;
             Text orig = (Text)original;
-            Debug.Log("Text in copy component: " + t.text + " Text in original: " + orig.text);
         }
         catch (Exception) { }
     }
@@ -61,43 +60,49 @@ public class XMLSerializationManager : MonoBehaviour {
             foreach(GameObject element in page.getElements())
             {
                 PageElementEventTrigger peet = element.GetComponent<PageElementEventTrigger>();
-                if(peet.connectedPageName != null && !peet.connectedPageName.Equals(""))
+                for (int i = 0; i < peet.connections.Count; i++)
                 {
-                    Debug.Log("connectedPageName: " + peet.connectedPageName + " from " + page + " " + element);
-                    peet.connectedPage = story.getPage(peet.connectedPageName);
-                    if(peet.connectedElementIndex != -1)
+                    if (peet.connections[i].connectedPageName != null && !peet.connections[i].connectedPageName.Equals("")) //if there is a connected page
                     {
-                        peet.connectedElement = page.getElements()[peet.connectedElementIndex];
+                        peet.connections[i].connectedPage = story.getPage(peet.connections[i].connectedPageName);//set the connected page
+                        if (peet.connections[i].connectedElementIndex != -1)
+                        {
+                            peet.connections[i].connectedElement = peet.connections[i].connectedPage.getElements()[peet.connections[i].connectedElementIndex]; //set the connected element
+                        }
                     }
                 }
             }
         }
     }
-    //gets the pageName and index from a peet and returns them in struct format
-    public struct connectedValues { public string connectedPageName; public int connectedElementIndex; } 
-    public static  connectedValues getConnectedValues(PageElementEventTrigger peet)
+
+    public static ConnectionInfo[] setElementIndexes(PageElementEventTrigger peet)
     {
-        connectedValues values = new connectedValues();
-        values.connectedElementIndex = -1; //-1 should be default value 
-        Page connectedPage = peet.connectedPage;
-        if (connectedPage != null)
+        ConnectionInfo[] connections = new ConnectionInfo[peet.connections.Count];
+        peet.connections.Values.CopyTo(connections,0);
+
+        for (int i = 0; i < connections.Length; i++)
         {
-            values.connectedPageName = connectedPage.getName();
-        }
-        if (peet.connectedElement != null)
-        {
-            GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
-            for (int i = 0; i < connectedPageElements.Length; i++)
+            connections[i].connectedElementIndex = -1; //-1 should be default value 
+            Page connectedPage = peet.connections[i].connectedPage;
+            if (connectedPage == null) continue;
+
+            GameObject currentElement = peet.connections[i].connectedElement;
+            if (currentElement != null)
             {
-                if (connectedPageElements[i].Equals(peet.connectedElement))
+                //Debug.Log("Current element is not null: " + currentElement);
+                GameObject[] connectedPageElements = connectedPage.getElements(); //loop through the elements in this list to find the index that corresponds with the connectedElement
+                for (int j = 0; j < connectedPageElements.Length; j++)
                 {
-                    values.connectedElementIndex = i;
-                    break;
+                   // Debug.Log("looping through elements in connected page: " + connectedPageElements[j]);
+                    if (connectedPageElements[j].Equals(currentElement))
+                    {
+                        connections[i].connectedElementIndex = j;
+                        break;
+                    }
                 }
             }
-            Debug.LogError("There should be a connectedElement but the element did not match anything in elements array");
         }
-        return values;
+        return connections;
     }
 }
 
@@ -105,12 +110,14 @@ public class XMLSerializationManager : MonoBehaviour {
 public class StoryData
 {
     public string name;
+    public string firstPageName;
     public List<PageData> pages = new List<PageData>();
     public StoryData() { }
     public StoryData(Story story)
     {
         Page[] pageArray = story.getPages();
         name = story.name;
+        firstPageName = story.firstPageName;
         foreach(Page p in pageArray)
         {
             pages.Add(new PageData(p));
@@ -121,7 +128,7 @@ public class StoryData
     {
         Story story = new Story();
         story.name = name;
-        //currentPage?
+        story.firstPageName = firstPageName;
 
         foreach(PageData pd in pages)
         {
@@ -197,43 +204,31 @@ public class BackgroundData : PrefabData
 {
     public string name;
     public RectTransformData rtd;
-    public RawImageData rawImage;
-    public PageElementEventTrigger.Action action;
-    public string connectedPageName; //Need to figure out how to serialize and deserialize the page and element connections
-    public int connectedElementIndex; //Index of element in the elements List on the connected page
+    public ImageData image;
+    public ConnectionInfo[] connections;
 
     public BackgroundData(){}
     public BackgroundData(GameObject background)
     {
         name = background.name;
         rtd = new RectTransformData(background.GetComponent<RectTransform>());
-        rawImage = new RawImageData(background.GetComponent<RawImage>());
+        image = new ImageData(background.GetComponent<Image>());
+        //Fill the connection arrays
         PageElementEventTrigger peet = background.GetComponent<PageElementEventTrigger>();
-        action = peet.action;
-        Debug.Log("Action when filling backData" + peet.action);
-
-        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
-        connectedPageName = values.connectedPageName;
-        connectedElementIndex = values.connectedElementIndex;
-
+        connections = XMLSerializationManager.setElementIndexes(peet);
     }
 
-    /*Side note about rectTransforms: I want anchors to be set at the corners of the rectTransform so all scaling is percentages of the screen size
-     * This means the rectTransform scale must be (1,1,1) and offset min and max are (0,0)
-     * 
-     * Side side note: when the player edits a rect transform they will be dragging the anchor points and the corners of the transform will be dragged to them,
-     * not the other way around
-     */
     public override GameObject toPrefab(Canvas canvas)         
     {
         GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);
         bg.name = name;
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
-        rawImage.copyToRawImage(bg.GetComponent<RawImage>());
+        image.copyToImage(bg.GetComponent<Image>());
         PageElementEventTrigger peet = bg.GetComponent<PageElementEventTrigger>();
-        peet.connectedPageName = connectedPageName;
-        peet.connectedElementIndex = connectedElementIndex;
-        peet.action = action;
+        foreach(ConnectionInfo connection in connections)
+        {
+            peet.AddConnection(connection);
+        }
         return bg;
     }
 }
@@ -246,9 +241,7 @@ public class ScrollAreaData : PrefabData
     //ScrollArea fields
     public RectTransformData rtd_SA;
     public ImageData image_SA;
-    public PageElementEventTrigger.Action action;
-    string connectedPageName;
-    int connectedElementIndex;
+    public ConnectionInfo[] connections;
 
     //TextBox fields
     public RectTransformData rtd_TB;
@@ -279,7 +272,6 @@ public class ScrollAreaData : PrefabData
         //SA fields
         rtd_SA = new RectTransformData(scrollArea.GetComponent<RectTransform>());
         image_SA = new ImageData(scrollArea.GetComponent<Image>());
-        action = scrollArea.GetComponent<PageElementEventTrigger>().action;
 
         //TB fields
         GameObject textBox = scrollArea.transform.GetChild(0).gameObject;
@@ -308,23 +300,20 @@ public class ScrollAreaData : PrefabData
 
         //EventTrigger fields
         PageElementEventTrigger peet = scrollArea.GetComponent<PageElementEventTrigger>();
-        action = peet.action;
-        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
-        connectedPageName = values.connectedPageName;
-        connectedElementIndex = values.connectedElementIndex;
+        connections = XMLSerializationManager.setElementIndexes(peet);
 
     }
     public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
     {
-        Debug.Log("Canvas: " + canvas);
         GameObject sa = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/ScrollArea.prefab"), canvas.transform);
         sa.name = name;
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
         image_SA.copyToImage(sa.GetComponent<Image>());
-        PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();
-        peet.connectedPageName = connectedPageName;
-        peet.connectedElementIndex = connectedElementIndex;
-        peet.action = action;
+        PageElementEventTrigger peet = sa.GetComponent<PageElementEventTrigger>();      
+        foreach (ConnectionInfo connection in connections)
+        {
+            peet.AddConnection(connection);
+        }
 
         GameObject tb = sa.transform.GetChild(0).gameObject;
         rtd_TB.copyToRectTransform(tb.GetComponent<RectTransform>());
@@ -342,7 +331,6 @@ public class ScrollAreaData : PrefabData
         GameObject h = sla.transform.GetChild(0).gameObject;
         rtd_H.copyToRectTransform(h.GetComponent<RectTransform>());
         image_H.copyToImage(h.GetComponent<Image>());
-        Debug.Log("tb: " + tb);
         GameObject t = tb.transform.GetChild(1).gameObject; //should be getchild(1)
         rtd_T.copyToRectTransform(t.GetComponent<RectTransform>());
         text_T.copyToText(t.GetComponent<Text>());
@@ -365,10 +353,8 @@ public class ButtonData : PrefabData
     public RectTransformData rtd;
     public ImageData image;
     public EventTriggerData etd;
-    public PageElementEventTrigger.Action action;
     public TextData text;
-    public string connectedPageName;
-    public int connectedElementIndex;
+    public ConnectionInfo[] connections;
 
     public ButtonData() { }
     public ButtonData(GameObject button)
@@ -379,10 +365,7 @@ public class ButtonData : PrefabData
         etd = new EventTriggerData(button.GetComponent<EventTrigger>());
         text = new TextData(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        XMLSerializationManager.connectedValues values = XMLSerializationManager.getConnectedValues(peet);
-        connectedPageName = values.connectedPageName;
-        connectedElementIndex = values.connectedElementIndex;
-        action = peet.action;
+        connections = XMLSerializationManager.setElementIndexes(peet);
     }
     public override GameObject toPrefab(Canvas canvas)
     {
@@ -393,9 +376,10 @@ public class ButtonData : PrefabData
         etd.copyToEventTrigger(button.GetComponent<EventTrigger>());
         text.copyToText(button.GetComponentInChildren<Text>());
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
-        peet.connectedPageName = connectedPageName;
-        peet.connectedElementIndex = connectedElementIndex;
-        peet.action = action;
+        foreach (ConnectionInfo connection in connections)
+        {
+            peet.AddConnection(connection);
+        }
         return button;
     }
 }
@@ -478,7 +462,7 @@ public class ImageData : ComponentData
     public ImageData(Image image)
     {
         sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
-        Debug.Log("Path of image:" + sourceImagePath);
+        //Debug.Log("Path of image:" + sourceImagePath);
 
         alphaHitTestMinimumThreshold = image.alphaHitTestMinimumThreshold;
         fillAmount = image.fillAmount;
@@ -527,7 +511,7 @@ public class RawImageData : ComponentData
     public RawImageData(RawImage image)
     {
         sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.texture);
-        Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
+       // Debug.Log("SourceImagePath of RawImage: " + sourceImagePath);
         uvRect = image.uvRect;
     }
 
@@ -669,7 +653,7 @@ public class TextData : ComponentData
     {
         alignByGeometry = text.alignByGeometry;
         alignment = text.alignment;
-        Debug.Log("FontPath: " + UnityEditor.AssetDatabase.GetAssetPath(text.font));
+        //Debug.Log("FontPath: " + UnityEditor.AssetDatabase.GetAssetPath(text.font));
         fontPath = UnityEditor.AssetDatabase.GetAssetPath(text.font);
         fontSize = text.fontSize;
         fontStyle = text.fontStyle;

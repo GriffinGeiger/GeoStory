@@ -14,7 +14,7 @@ public class BezierCurve4PointRendererEditor : Editor {
         RectTransform endPoint = curve.point4;
         if(GUILayout.Button("Update location"))
         {
-            curve.setEndpoints(startPoint.anchoredPosition, endPoint.anchoredPosition);
+            curve.snapEndpointsToConnectors();
         }
     }
 }
