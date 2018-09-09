@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts;
-using Assets.Scripts;
 
 [Serializable()]
 public class Story : ISerializable

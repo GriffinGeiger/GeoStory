@@ -64,10 +64,10 @@ public class XMLSerializationManager : MonoBehaviour {
                 {
                     if (peet.connections[i].connectedPageName != null && !peet.connections[i].connectedPageName.Equals("")) //if there is a connected page
                     {
-                        peet.connections[i].connectedPage = story.getPage(peet.connections[i].connectedPageName);
+                        peet.connections[i].connectedPage = story.getPage(peet.connections[i].connectedPageName);//set the connected page
                         if (peet.connections[i].connectedElementIndex != -1)
                         {
-                            peet.connections[i].connectedElement = peet.connections[i].connectedPage.getElements()[peet.connections[i].connectedElementIndex];
+                            peet.connections[i].connectedElement = peet.connections[i].connectedPage.getElements()[peet.connections[i].connectedElementIndex]; //set the connected element
                         }
                     }
                 }
@@ -461,7 +461,8 @@ public class ImageData : ComponentData
     public ImageData() { }
     public ImageData(Image image)
     {
-        sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
+        if(image.sprite != null)
+            sourceImagePath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
         //Debug.Log("Path of image:" + sourceImagePath);
 
         alphaHitTestMinimumThreshold = image.alphaHitTestMinimumThreshold;
