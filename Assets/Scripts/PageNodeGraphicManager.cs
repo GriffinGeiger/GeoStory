@@ -153,12 +153,10 @@ public class PageNodeGraphicManager : MonoBehaviour {
                         {
                             foreach (GameObject otherElement in pngm.nodeParts) //check all the elements in the origin page
                             {
-                                Debug.Log("associatedElement:" + otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement);
                                 if (connection.connectedElement.Equals(otherElement.GetComponent<ElementNodeGraphicManager>().associatedElement)) //when one matches thats the origin connector
                                 {
                                     ReceiveNodeLines rnl = otherElement.GetComponentInChildren<ReceiveNodeLines>();
                                     curve.receivingConnector = rnl.gameObject;
-                                    Debug.Log("ReceivingConnector" + curve.receivingConnector);
                                     rnl.curves.Add(curve);
                                 }
                             }
