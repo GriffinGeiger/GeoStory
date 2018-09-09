@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   rt: {fileID: 0}
-  editingFunction: 1
+  editingFunction: 0
 --- !u!114 &114167630005652002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Delegates: []
   delegates: []
   rt: {fileID: 0}
-  editingFunction: 2
+  editingFunction: 0
 --- !u!114 &114296808665713338
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -382,7 +382,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>1</y>
+              <y>0.99999994</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -390,7 +390,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>1</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -454,7 +454,7 @@
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.8837649</y>
+                <y>0.883647</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -475,8 +475,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235055</size>
-            <value>1</value>
+            <size>0.11635296</size>
+            <value>0.99999994</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -519,7 +519,7 @@
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.8837649</y>
+              <y>0.883647</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -753,7 +753,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>1</y>
+              <y>0.99999994</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -761,7 +761,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>1</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -825,7 +825,7 @@
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.8837649</y>
+                <y>0.883647</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -846,8 +846,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235055</size>
-            <value>1</value>
+            <size>0.11635296</size>
+            <value>0.99999994</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -890,7 +890,7 @@
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.8837649</y>
+              <y>0.883647</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -1038,8 +1038,8 @@
               <y>0</y>
             </anchoredPosition>
             <anchorMax>
-              <x>0.7546549</x>
-              <y>0.218061686</y>
+              <x>0.7394382</x>
+              <y>0.322896272</y>
             </anchorMax>
             <anchorMin>
               <x>0.236000016</x>
@@ -1108,6 +1108,78 @@
               <connectionKey>0</connectionKey>
             </ConnectionInfo>
           </connections>
+        </PrefabData>
+        <PrefabData xsi:type="ButtonData">
+          <name>Button(Clone)</name>
+          <rtd>
+            <anchoredPosition>
+              <x>0</x>
+              <y>0</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>0.236000016</x>
+              <y>0.450097859</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0.236000016</x>
+              <y>0.0717511252</y>
+            </anchorMin>
+            <offsetMax>
+              <x>0</x>
+              <y>0</y>
+            </offsetMax>
+            <offsetMin>
+              <x>0</x>
+              <y>0</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0</y>
+            </sizeDelta>
+          </rtd>
+          <image>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <etd>
+            <triggers>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
+            </triggers>
+          </etd>
+          <text>
+            <alignByGeometry>false</alignByGeometry>
+            <alignment>MiddleCenter</alignment>
+            <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
+            <fontSize>55</fontSize>
+            <fontStyle>Normal</fontStyle>
+            <lineSpacing>1</lineSpacing>
+            <resizeTextForBestFit>false</resizeTextForBestFit>
+            <resizeTextMaxSize>100</resizeTextMaxSize>
+            <resizeTextMinSize>0</resizeTextMinSize>
+            <supportRichText>true</supportRichText>
+            <text />
+          </text>
+          <connections />
         </PrefabData>
       </pfd>
       <nodeGraphicLocation>
