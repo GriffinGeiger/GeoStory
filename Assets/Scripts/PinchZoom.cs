@@ -18,7 +18,7 @@ public class PinchZoom : MonoBehaviour
             Touch touchOne = Input.GetTouch(1);
 
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-            Vector2 touchOnePrevPos = touchOne.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
             Debug.Log("touchZero pos : " + touchZero.position + "touchzero prev pos: " + touchZeroPrevPos + 
                 " \n touchOne pos : " + touchOne.position + "touchOne prev pos: " + touchOnePrevPos);
 
@@ -29,6 +29,14 @@ public class PinchZoom : MonoBehaviour
             t.localScale += new Vector3(deltaMagnitudeDiff * zoomSpeed, deltaMagnitudeDiff * zoomSpeed, 0);
 
             //Make it so that theres constraints to how far you can zoom in or out
+            if (t.localScale.y < maxZoomOut)
+            {
+                t.localScale = new Vector3(maxZoomOut, maxZoomOut, 0);
+            }
+            else if (t.localScale.x > maxZoomIn)
+            {
+                t.localScale = new Vector3(maxZoomIn, maxZoomIn, 0);
+            }
         }
         else if (!Mathf.Approximately(scrollWheelTest,0.0f))
         {

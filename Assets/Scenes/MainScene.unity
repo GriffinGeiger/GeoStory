@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9febb811b67324bac7e38bf7c74ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomSpeed: 0.5
+  zoomSpeed: 0.001
   t: {fileID: 218990976}
   maxZoomIn: 4
   maxZoomOut: 0.1
@@ -1990,6 +1990,11 @@ Prefab:
       propertyPath: editingFunction
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224910087922447344, guid: e506ae931aecc8143ad4be6a86f217e6,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -40.125008
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114385561741353392, guid: e506ae931aecc8143ad4be6a86f217e6, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e506ae931aecc8143ad4be6a86f217e6, type: 2}
@@ -2242,7 +2247,7 @@ MonoBehaviour:
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
-  m_Elasticity: 0.1
+  m_Elasticity: 0.001
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
