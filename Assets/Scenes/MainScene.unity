@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9febb811b67324bac7e38bf7c74ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomSpeed: 0.001
+  zoomSpeed: -0.001
   t: {fileID: 218990976}
   maxZoomIn: 4
   maxZoomOut: 0.1
@@ -2188,8 +2188,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2009155097}
-  - component: {fileID: 2009155099}
   - component: {fileID: 2009155098}
+  - component: {fileID: 2009155099}
   m_Layer: 5
   m_Name: StoryEditorScrollWindow
   m_TagString: Untagged
@@ -2234,20 +2234,19 @@ MonoBehaviour:
 --- !u!114 &2009155099
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114932594766816826, guid: beb56b91f2c8ec64684d06250726f16c,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2009155096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fb6d90d3087f9ba40914e5755b0b677f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 218990976}
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
-  m_Elasticity: 0.001
+  m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1

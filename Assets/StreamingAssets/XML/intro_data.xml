@@ -375,7 +375,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.301882</y>
+              <y>0.99999994</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -383,7 +383,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.301882</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -443,11 +443,11 @@
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>0.383110166</y>
+                <y>1</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.26675722</y>
+                <y>0.883647</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -469,7 +469,7 @@
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
             <size>0.11635296</size>
-            <value>0.301882</value>
+            <value>0.99999994</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -508,11 +508,11 @@
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>0.383110166</y>
+              <y>1</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.26675722</y>
+              <y>0.883647</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -551,7 +551,7 @@
           <rtd_T>
             <anchoredPosition>
               <x>-40.125</x>
-              <y>1179.8916</y>
+              <y>-2977.74976</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -563,11 +563,11 @@
             </anchorMin>
             <offsetMax>
               <x>-104.799988</x>
-              <y>4157.6416</y>
+              <y>0.000244140625</y>
             </offsetMax>
             <offsetMin>
               <x>24.5499878</x>
-              <y>-1797.8584</y>
+              <y>-5955.5</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
