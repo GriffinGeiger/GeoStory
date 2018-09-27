@@ -443,11 +443,11 @@
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>0.9884822</y>
+                <y>0.988480568</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.8721292</y>
+                <y>0.8722455</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -468,7 +468,7 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.11635296</size>
+            <size>0.116235055</size>
             <value>0.9869655</value>
           </sb_SB>
           <rtd_SlA>
@@ -508,11 +508,11 @@
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>0.9884822</y>
+              <y>0.988480568</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.8721292</y>
+              <y>0.8722455</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -746,7 +746,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.99999994</y>
+              <y>1</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -754,7 +754,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
+            <verticalNormalizedPosition>1</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -818,7 +818,7 @@
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.883647</y>
+                <y>0.8837649</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -839,8 +839,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.11635296</size>
-            <value>0.99999994</value>
+            <size>0.116235055</size>
+            <value>1</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -883,7 +883,7 @@
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.883647</y>
+              <y>0.8837649</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>

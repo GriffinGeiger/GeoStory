@@ -69,7 +69,7 @@ public class ManipulateNodeLines : EventTrigger, IBeginDragHandler ,IDragHandler
             //The curve's anchoredPositions are in the local space of the scroll content window so these points must be translated to world space then scroll content space
             Vector3 connectionPointInScrollWindowSpace = curve.transform.InverseTransformPoint(transform.TransformPoint(transform.position));
             Vector3 receivingPointInScrollWindowSpace = curve.transform.InverseTransformPoint(cam.ScreenToWorldPoint(pointerPosition + addedPosition));
-            curve.setEndpoints(connectionPointInScrollWindowSpace, receivingPointInScrollWindowSpace ); //Check
+            curve.setEndpoints(connectionPointInScrollWindowSpace, receivingPointInScrollWindowSpace ); 
         }
     }
     public new void OnBeginDrag(PointerEventData data)
