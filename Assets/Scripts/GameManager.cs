@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour {
 
         GameObject pg3Text = GameObject.Instantiate(scrollArea, canvas.transform);
         pg3Text.name = "pg3Text";
-        pg3Text.GetComponentInChildren<Text>().text = "Congration";
+        pg3Text.GetComponentInChildren<Text>().text = "Click button to go to page 3";
         page3.addPageElement(pg3Text);
         pg1Button.GetComponent<PageElementEventTrigger>().AddConnection(page3, pg3Text, PageElementEventTrigger.Action.Show);
 
