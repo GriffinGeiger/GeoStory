@@ -36,12 +36,15 @@ public class MultiTouchScrollRect : ScrollRect, IDragHandler
         else if(Input.touchCount> 1)
         {
             //When beginning to drag the point on the content window will be synced to the calculated pinch point (halfway between the fingers). This sets the content point
-            if(!alreadyPinching)
+           // if(!alreadyPinching)
             { 
                 Debug.Log("Calculating windowContentZoomPoint");
                 windowContentZoomPoint_scrollContent = contentTransform.InverseTransformPoint(cam.ScreenToWorldPoint(Vector3.Lerp(Input.GetTouch(0).position, Input.GetTouch(1).position, .5f))); //calculated point in the scroll Content space
+                windowContentZoomPoint_scrollContent -= contentTransform.rect.min; //get point based on a system with (0,0) in the bottom left corner rather than in the center
                 Debug.Log("WindowPoint " + windowContentZoomPoint_scrollContent + "size : " + new Vector2(contentTransform.rect.width, contentTransform.rect.height));
-                contentTransform.pivot = windowContentZoomPoint_scrollContent / new Vector2(contentTransform.rect.width,contentTransform.rect.height);
+                contentTransform.pivot = windowContentZoomPoint_scrollContent / new Vector2(contentTransform.rect.width,contentTransform.rect.width);
+                Debug.Log("contentTransform.pivot: " + contentTransform.pivot);
+                
             }
 
           /*  //Every frame during dragging the scroll content will be moved by the offset between screenZoomPoint and windowContentZoomPoint so any scaling that shifts where the window is relative to the caluculated pinch point is corrected
