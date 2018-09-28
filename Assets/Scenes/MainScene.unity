@@ -1993,12 +1993,12 @@ Prefab:
     - target: {fileID: 224910087922447344, guid: e506ae931aecc8143ad4be6a86f217e6,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -40.125008
+      value: -40.125
       objectReference: {fileID: 0}
     - target: {fileID: 224311617256306212, guid: e506ae931aecc8143ad4be6a86f217e6,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 2.7001038
+      value: 2.7001343
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114385561741353392, guid: e506ae931aecc8143ad4be6a86f217e6, type: 2}
@@ -2244,7 +2244,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2009155096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb6d90d3087f9ba40914e5755b0b677f, type: 3}
+  m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 218990976}
@@ -2252,7 +2252,7 @@ MonoBehaviour:
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
-  m_Inertia: 0
+  m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 0}
