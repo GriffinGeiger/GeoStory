@@ -28,6 +28,11 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     {
         if (dragging)
         {
+            if (Input.touchCount > 1)
+            {
+                this.OnPointerUp(null);
+                return;
+            }
             Vector3 addedPosition = new Vector3(0,0,0);
             if (pointerPosition.x >= .8f * cam.pixelWidth)
             {
@@ -70,16 +75,18 @@ public class NodeGraphicEventTrigger : EventTrigger, IBeginDragHandler, IDragHan
     }
     public new void OnDrag(PointerEventData data)
     {
-        Vector2 deltaPosition =data.position - pointerPosition;
-        Vector2 offset =  deltaPosition / scrollArea.transform.localScale.x;
-        transform.anchoredPosition += offset;
-        moveLinesWithNodeGraphic(offset);
-        pointerPosition = data.position;
+        if (dragging)
+        {
+            Vector2 deltaPosition = data.position - pointerPosition;
+            Vector2 offset = deltaPosition / scrollArea.transform.localScale.x;
+            transform.anchoredPosition += offset;
+            moveLinesWithNodeGraphic(offset);
+            pointerPosition = data.position;
+        }
     }
     public new void OnPointerUp(PointerEventData data)
     {
         dragging = false;
-        Debug.Log("Setting the location: " + transform.anchoredPosition);
         transform.GetComponent<PageNodeGraphicManager>().page.nodeGraphicLocation = transform.anchoredPosition;
     }
 

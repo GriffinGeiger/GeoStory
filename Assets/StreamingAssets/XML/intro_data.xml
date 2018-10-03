@@ -375,7 +375,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.754495442</y>
+              <y>0.7544954</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -383,7 +383,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.754495442</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.7544954</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -443,11 +443,11 @@
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>0.783031642</y>
+                <y>0.7830606</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.666796565</y>
+                <y>0.666707635</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -468,8 +468,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235048</size>
-            <value>0.754495442</value>
+            <size>0.116352968</size>
+            <value>0.7544954</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -508,11 +508,11 @@
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>0.783031642</y>
+              <y>0.7830606</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.666796565</y>
+              <y>0.666707635</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -746,7 +746,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>1</y>
+              <y>0.99999994</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -754,7 +754,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>1</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -818,7 +818,7 @@
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.8837649</y>
+                <y>0.883647</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -839,8 +839,8 @@
             </handleRect>
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
-            <size>0.116235055</size>
-            <value>1</value>
+            <size>0.11635296</size>
+            <value>0.99999994</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -883,7 +883,7 @@
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.8837649</y>
+              <y>0.883647</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
