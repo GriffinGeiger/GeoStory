@@ -113,7 +113,6 @@ public class GameManager : MonoBehaviour {
             switch (info.prefabType)
             {
                 case PrefabInfo.PrefabType.ScrollArea:
-                    break;
                 case PrefabInfo.PrefabType.Button:
                     InputField input = element.GetComponentInChildren<InputField>();
                     if (tf)

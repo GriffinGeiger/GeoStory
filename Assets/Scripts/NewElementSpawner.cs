@@ -22,9 +22,7 @@ public class NewElementSpawner : MonoBehaviour {
             {
                 case 0: // text button
                     Debug.Log("Adding new button");
-                    GameObject buttonPrefab = 
-                    GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultButtonPrefabPath), canvas.transform);
-                    gm.currentStory.currentPage.addPageElement(buttonPrefab);
+                    GameObject buttonPrefab = instantiateButtonPrefab();
                     break;
                 case 1: // image
                    // Debug.Log("Image prefab not made yet");
@@ -36,6 +34,8 @@ public class NewElementSpawner : MonoBehaviour {
                     GameObject scrollAreaPrefab =
                     GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultScrollAreaPrefabPath), canvas.transform);
                     gm.currentStory.currentPage.addPageElement(scrollAreaPrefab);
+                    scrollAreaPrefab.SetActive(true);
+                    scrollAreaPrefab.GetComponentInChildren<InputField>().gameObject.SetActive(true);
                     break;
                 default:
                     break;
@@ -43,5 +43,40 @@ public class NewElementSpawner : MonoBehaviour {
             dropdown.value = 3; //default value 
         }
         );
+    }
+    //mode is what mode you're opening the object in
+    GameObject instantiateButtonPrefab(GameManager.Mode mode)
+    {
+        GameObject buttonPrefab = 
+        GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultButtonPrefabPath), canvas.transform);
+        gm.currentStory.currentPage.addPageElement(buttonPrefab);
+
+        //set up input field for mobile input 
+        InputField inputField = buttonPrefab.GetComponentInChildren<InputField>();
+        inputField.keyboardType = TouchScreenKeyboardType.Default;
+
+        switch (mode)
+        {
+            case GameManager.Mode.Play:
+                buttonPrefab.SetActive(true);
+                inputField.enabled = false;
+                buttonPrefab.GetComponentInChildren<EditingHandlesManager>().gameObject.SetActive(false);
+                break;
+            case GameManager.Mode.EditStory:
+                buttonPrefab.SetActive(false);
+                inputField.enabled = false;
+                buttonPrefab.GetComponentInChildren<EditingHandlesManager>().gameObject.SetActive(false);
+                break;
+            case GameManager.Mode.EditPage:
+                buttonPrefab.SetActive(true);
+                inputField.enabled = true;
+                buttonPrefab.GetComponentInChildren<EditingHandlesManager>().gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
+        buttonPrefab.SetActive(true);
+        //buttonPrefab.GetComponentInChildren<InputField>().enabled = true;
+        return buttonPrefab;
     }
 }
