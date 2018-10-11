@@ -48,7 +48,7 @@ public class GameManagerEditor : Editor
         GUILayout.Label("XML Management");
         if (GUILayout.Button("Load IntroStory from XML"))
         {
-            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", gm.canvas);
+            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
             gm.currentStory.setCurrentPage("introPage1");
         }
         if (GUILayout.Button("Save Story to XML"))
@@ -59,7 +59,7 @@ public class GameManagerEditor : Editor
         GUILayout.Label("StoryEditor Management");
         if(GUILayout.Button("Build PageNodeGraphics from testStory"))
         {
-            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", gm.canvas);
+            gm.currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
             gm.currentStory.setCurrentPage("introPage1");
             gm.currentStory.currentPage.setVisible(false);
             FindObjectOfType<StoryEditorManager>().buildStoryEditorGraphics(gm.currentStory);           

@@ -146,7 +146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1623675363533098
 GameObject:
   m_ObjectHideFlags: 1
@@ -430,7 +430,7 @@ MonoBehaviour:
     name: 
     nodeGraphicLocation: {x: 0, y: 0}
     gameManagerRef: {fileID: 0}
-  buttonsActive: 0
+  buttonsActive: 1
 --- !u!114 &114469773161734618
 MonoBehaviour:
   m_ObjectHideFlags: 1

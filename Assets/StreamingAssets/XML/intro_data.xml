@@ -119,6 +119,10 @@
                 <eventID>PointerClick</eventID>
                 <callback />
               </Entry>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
             </triggers>
           </etd>
           <text>
@@ -264,6 +268,10 @@
                 <eventID>PointerClick</eventID>
                 <callback />
               </Entry>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
             </triggers>
           </etd>
           <text>
@@ -375,7 +383,7 @@
             <movementType>Elastic</movementType>
             <normalizedPosition>
               <x>1</x>
-              <y>0.99999994</y>
+              <y>0.650941</y>
             </normalizedPosition>
             <scrollSensitivity>1</scrollSensitivity>
             <velocity>
@@ -383,7 +391,7 @@
               <y>0</y>
             </velocity>
             <vertical>true</vertical>
-            <verticalNormalizedPosition>0.99999994</verticalNormalizedPosition>
+            <verticalNormalizedPosition>0.650941</verticalNormalizedPosition>
             <verticalScrollbarSpacing>0</verticalScrollbarSpacing>
             <verticalScrollbarVisibility>Permanent</verticalScrollbarVisibility>
           </srd_TB>
@@ -443,11 +451,11 @@
               </anchoredPosition>
               <anchorMax>
                 <x>1</x>
-                <y>1</y>
+                <y>0.6915551</y>
               </anchorMax>
               <anchorMin>
                 <x>0</x>
-                <y>0.883647</y>
+                <y>0.5752021</y>
               </anchorMin>
               <offsetMax>
                 <x>9.1</x>
@@ -469,7 +477,7 @@
             <numberOfSteps>0</numberOfSteps>
             <onValueChanged />
             <size>0.11635296</size>
-            <value>0.99999994</value>
+            <value>0.650941</value>
           </sb_SB>
           <rtd_SlA>
             <anchoredPosition>
@@ -508,11 +516,11 @@
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
-              <y>1</y>
+              <y>0.6915551</y>
             </anchorMax>
             <anchorMin>
               <x>0</x>
-              <y>0.883647</y>
+              <y>0.5752021</y>
             </anchorMin>
             <offsetMax>
               <x>9.1</x>
@@ -550,8 +558,8 @@
           </image_H>
           <rtd_T>
             <anchoredPosition>
-              <x>-40.1250076</x>
-              <y>-2977.74976</y>
+              <x>-40.125</x>
+              <y>-898.928955</y>
             </anchoredPosition>
             <anchorMax>
               <x>1</x>
@@ -562,12 +570,12 @@
               <y>0</y>
             </anchorMin>
             <offsetMax>
-              <x>-104.799995</x>
-              <y>0.000244140625</y>
+              <x>-104.799988</x>
+              <y>2078.821</y>
             </offsetMax>
             <offsetMin>
-              <x>24.54998</x>
-              <y>-5955.5</y>
+              <x>24.5499878</x>
+              <y>-3876.679</y>
             </offsetMin>
             <pivot>
               <x>0.5</x>
@@ -1078,6 +1086,10 @@
                 <eventID>PointerClick</eventID>
                 <callback />
               </Entry>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
             </triggers>
           </etd>
           <text>
@@ -1092,6 +1104,82 @@
             <resizeTextMinSize>0</resizeTextMinSize>
             <supportRichText>true</supportRichText>
             <text>Button</text>
+          </text>
+          <connections />
+        </PrefabData>
+        <PrefabData xsi:type="ButtonData">
+          <name>Button(Clone)</name>
+          <rtd>
+            <anchoredPosition>
+              <x>0</x>
+              <y>0</y>
+            </anchoredPosition>
+            <anchorMax>
+              <x>0.7150479</x>
+              <y>0.4148728</y>
+            </anchorMax>
+            <anchorMin>
+              <x>0.209821433</x>
+              <y>0.287671238</y>
+            </anchorMin>
+            <offsetMax>
+              <x>0</x>
+              <y>0</y>
+            </offsetMax>
+            <offsetMin>
+              <x>0</x>
+              <y>0</y>
+            </offsetMin>
+            <pivot>
+              <x>0.5</x>
+              <y>0.5</y>
+            </pivot>
+            <sizeDelta>
+              <x>0</x>
+              <y>0</y>
+            </sizeDelta>
+          </rtd>
+          <image>
+            <sourceImagePath>Assets/Images/DefaultUISprite.png</sourceImagePath>
+            <alphaHitTestMinimumThreshold>0</alphaHitTestMinimumThreshold>
+            <fillAmount>1</fillAmount>
+            <fillCenter>true</fillCenter>
+            <fillClockwise>true</fillClockwise>
+            <fillMethod>Radial360</fillMethod>
+            <fillOrigin>0</fillOrigin>
+            <preserveAspect>false</preserveAspect>
+            <type>Sliced</type>
+            <color>
+              <r>1</r>
+              <g>1</g>
+              <b>1</b>
+              <a>1</a>
+            </color>
+          </image>
+          <etd>
+            <triggers>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
+              <Entry>
+                <eventID>PointerClick</eventID>
+                <callback />
+              </Entry>
+            </triggers>
+          </etd>
+          <text>
+            <alignByGeometry>false</alignByGeometry>
+            <alignment>MiddleCenter</alignment>
+            <fontPath>Assets/Fonts/jesaya free.ttf</fontPath>
+            <fontSize>55</fontSize>
+            <fontStyle>Normal</fontStyle>
+            <lineSpacing>1</lineSpacing>
+            <resizeTextForBestFit>false</resizeTextForBestFit>
+            <resizeTextMaxSize>100</resizeTextMaxSize>
+            <resizeTextMinSize>0</resizeTextMinSize>
+            <supportRichText>true</supportRichText>
+            <text>Buttn</text>
           </text>
           <connections />
         </PrefabData>

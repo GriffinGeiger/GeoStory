@@ -32,7 +32,7 @@ public class Page {
 	
     public void buildDefaultPage()
     {
-        GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultBackgroundPrefabPath), gameManagerRef.canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        GameObject bg = NewElementSpawner.instantiateImagePrefab(GameManager.Mode.EditPage, true);      //Make sure you instantiate with canvas as parent or transform values will go off page
         bg.SetActive(false);
         bg.name = "background";
         addPageElement(bg);

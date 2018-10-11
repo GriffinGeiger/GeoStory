@@ -22,13 +22,13 @@ public class XMLSerializationManager : MonoBehaviour {
         return storyToSerialize;
     }
 
-    public static Story loadStory(string xmlPath,Canvas canvas)  
+    public static Story loadStory(string xmlPath)  
     {
         Stream reader = new FileStream(xmlPath, FileMode.Open);
         XmlSerializer ser = new XmlSerializer(typeof(StoryData));
         StoryData sd = (StoryData) ser.Deserialize(reader);
         reader.Close();
-        Story story = sd.toStory(canvas);
+        Story story = sd.toStory();
         makeActionConnections(story);
         return story;
     }
@@ -124,7 +124,7 @@ public class StoryData
         }
     }
 
-    public Story toStory(Canvas canvas)
+    public Story toStory()
     {
         Story story = new Story();
         story.name = name;
@@ -132,7 +132,7 @@ public class StoryData
 
         foreach(PageData pd in pages)
         {
-            story.addPage(pd.toPage(canvas,story)); //creates a new Page and adds it to list of pages
+            story.addPage(pd.toPage(story)); //creates a new Page and adds it to list of pages
         }
 
         return story;
@@ -169,14 +169,14 @@ public class PageData
             }
         }
     }
-    public Page toPage(Canvas canvas,Story story)
+    public Page toPage(Story story)
     {
         Page page = new Page(name,story);
         page.nodeGraphicLocation = nodeGraphicLocation;
         //fill page
         foreach(PrefabData data in pfd)
         {
-            GameObject element = data.toPrefab(canvas);
+            GameObject element = data.toPrefab();
             page.addPageElement(element);
 
         }
@@ -196,7 +196,7 @@ public abstract class PrefabData
     {
 
     }
-    public abstract GameObject toPrefab(Canvas canvas);
+    public abstract GameObject toPrefab();
 }
 
 [Serializable]
@@ -218,9 +218,9 @@ public class BackgroundData : PrefabData
         connections = XMLSerializationManager.setElementIndexes(peet);
     }
 
-    public override GameObject toPrefab(Canvas canvas)         
+    public override GameObject toPrefab()         
     {
-        GameObject bg = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/BackgroundImage.prefab"), canvas.transform);
+        GameObject bg = NewElementSpawner.instantiateImagePrefab(GameManager.Mode.EditStory, true);
         bg.name = name;
         rtd.copyToRectTransform(bg.GetComponent<RectTransform>());
         image.copyToImage(bg.GetComponent<Image>());
@@ -303,9 +303,9 @@ public class ScrollAreaData : PrefabData
         connections = XMLSerializationManager.setElementIndexes(peet);
 
     }
-    public override GameObject toPrefab(Canvas canvas)         //Decide if I need to return something based on how I add to element list in page
+    public override GameObject toPrefab()         //Decide if I need to return something based on how I add to element list in page
     {
-        GameObject sa = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/ScrollArea.prefab"), canvas.transform);
+        GameObject sa = NewElementSpawner.instantiateScrollAreaPrefab(GameManager.Mode.EditStory);
         sa.name = name;
         rtd_SA.copyToRectTransform(sa.GetComponent<RectTransform>());
         image_SA.copyToImage(sa.GetComponent<Image>());
@@ -367,9 +367,9 @@ public class ButtonData : PrefabData
         PageElementEventTrigger peet = button.GetComponent<PageElementEventTrigger>();
         connections = XMLSerializationManager.setElementIndexes(peet);
     }
-    public override GameObject toPrefab(Canvas canvas)
+    public override GameObject toPrefab()
     {
-        GameObject button = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageElements/Button.prefab"), canvas.transform);
+        GameObject button = NewElementSpawner.instantiateButtonPrefab(GameManager.Mode.EditStory);
         button.name = name;
         rtd.copyToRectTransform(button.GetComponent<RectTransform>());
         image.copyToImage(button.GetComponent<Image>());

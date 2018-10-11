@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     
     
     public Story currentStory;
-    public Canvas canvas;
+    public static Canvas canvas;
 
 
     public RectTransform testTransform; //Delete this when done with testing
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
+        canvas = FindObjectOfType<Canvas>();
         if(!created)
         {
             DontDestroyOnLoad(this.gameObject);
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour {
     }
     void Start ()
     {
-        currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml", canvas);
+        currentStory = XMLSerializationManager.loadStory("Assets/StreamingAssets/XML/intro_data.xml");
         storyEditorToolbar = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/StoryEditor/StoryEditorToolbar.prefab"), canvas.transform);
         pageEditorToolbar = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/PageEditor/PageEditorToolbar.prefab"), canvas.transform);
         currentStory.currentPage = currentStory.getPage(currentStory.firstPageName);
@@ -133,9 +134,6 @@ public class GameManager : MonoBehaviour {
     }
     public Story buildIntro()
     {
-        GameObject scrollArea = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultScrollAreaPrefabPath),canvas.transform);
-        GameObject background = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultBackgroundPrefabPath), canvas.transform);
-        GameObject button =     GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GameManager.defaultButtonPrefabPath), canvas.transform);
 
         Story intro = new Story();
         intro.name = "intro";
@@ -145,39 +143,39 @@ public class GameManager : MonoBehaviour {
         Page page3 = new Page("introPage3", intro);
         intro.firstPageName = "introPage1";
 
-        GameObject bg = GameObject.Instantiate(background,canvas.transform);        //Make sure you instantiate with canvas as parent or transform values will go off page
+        GameObject bg = NewElementSpawner.instantiateImagePrefab(currentMode, true);        //Make sure you instantiate with canvas as parent or transform values will go off page
         bg.name = "bg1";
         bg.GetComponent<PageElementEventTrigger>().AddConnection(page2, null, PageElementEventTrigger.Action.Change);
         page1.addPageElement(bg);
 
         
-        GameObject bg2 = GameObject.Instantiate(background,canvas.transform);
+        GameObject bg2 = NewElementSpawner.instantiateImagePrefab(currentMode, true);
         bg2.name = "bg2";
         page2.addPageElement(bg2);
 
-        GameObject bg3 = GameObject.Instantiate(background, canvas.transform);
+        GameObject bg3 = NewElementSpawner.instantiateImagePrefab(currentMode, true);
         bg3.name = "bg3";
         page3.addPageElement(bg3);
 
-        GameObject pg1Button = GameObject.Instantiate(button, canvas.transform);
+        GameObject pg1Button = NewElementSpawner.instantiateButtonPrefab(currentMode);
         pg1Button.name = "pg1button";
         pg1Button.GetComponentInChildren<Text>().text = "Page3";
         pg1Button.GetComponent<PageElementEventTrigger>().AddConnection(page3, null, PageElementEventTrigger.Action.Change);
  
         page1.addPageElement(pg1Button);
 
-        GameObject pg2Button = GameObject.Instantiate(button, canvas.transform);
+        GameObject pg2Button = NewElementSpawner.instantiateButtonPrefab(currentMode);
         pg2Button.name = "pg2Button";
         pg2Button.GetComponentInChildren<Text>().text = "Nothing to press here";
         page2.addPageElement(pg2Button);
 
-        GameObject pg2Text = GameObject.Instantiate(scrollArea,canvas.transform);
+        GameObject pg2Text = NewElementSpawner.instantiateScrollAreaPrefab(currentMode);
         pg2Text.name = "pg2text";
         pg2Text.GetComponentInChildren<Text>().text = "Welcome to Geostory";
         pg2Text.GetComponent<PageElementEventTrigger>().AddConnection(page3, null, PageElementEventTrigger.Action.Change);
         page2.addPageElement(pg2Text);
 
-        GameObject pg3Text = GameObject.Instantiate(scrollArea, canvas.transform);
+        GameObject pg3Text = NewElementSpawner.instantiateButtonPrefab(currentMode);
         pg3Text.name = "pg3Text";
         pg3Text.GetComponentInChildren<Text>().text = "Click button to go to page 3";
         page3.addPageElement(pg3Text);
